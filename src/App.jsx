@@ -99,14 +99,19 @@ function deletarTransacao(id) {
 
                 <ul>
                   {transacoes.map((t, index) => (
-                    <li key={index}>
+                    <li
+                        key={index}
+                        className={t.tipo === "ENTRADA" ? "transaction income" : "transaction expense"}
+                    >
                       <div>
                         <strong>{t.descricao}</strong>
                         <span>{t.tipo}</span>
                       </div>
 
                       <p>R$ {t.valor}</p>
-                      <button onClick={() => deletarTransacao(t.id)}>
+                      <button
+                        className="delete-button"
+                        onClick={() => deletarTransacao(t.id)}>
                         Excluir
                       </button>
                     </li>
