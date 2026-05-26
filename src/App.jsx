@@ -54,6 +54,23 @@ function deletarTransacao(id) {
         carregarDados()
     }, [])
 
+const totalEntradas = transacoes
+    .filter((t) => t.tipo === "ENTRADA")
+    .reduce((total, t) => total + Number(t.valor), 0)
+
+const totalSaidas = transacoes
+    .filter((t) => t.tipo === "SAIDA")
+    .reduce((total, t) => total + Number(t.valor), 0)
+
+const dadosGrafico = [
+    { name: "Entradas", value: totalEntradas },
+    { name: "Saídas", value: totalSaidas }
+]
+
+const cores = ["#22c55e", "ef4444"]
+
+console.log(dadosGrafico)
+
     return (
         <div className="page">
             <main className="dashboard">
@@ -63,9 +80,26 @@ function deletarTransacao(id) {
               </header>
 
               <section className="balance-card">
-                <span>Saldo atual</span>
-                <strong>R$ {saldo}</strong>
+                  <span>Saldo atual</span>
+                  <strong>R$ {saldo}</strong>
               </section>
+
+              <section className="chart-card">
+                  <h2>Resumo financeiro</h2>
+
+                  <div className="summary-row">
+                      <div className="summary-box income-box">
+                          <span>Entradas</span>
+                          <strong>R$ {totalEntradas}</strong>
+                      </div>
+
+                      <div className="summary-box expense-box">
+                          <span>Saídas</span>
+                          <strong>R$ {totalSaidas}</strong>
+                      </div>
+                  </div>
+              </section>
+
 
               <section className="form-card">
                 <h2>Nova transação</h2>
@@ -120,6 +154,9 @@ function deletarTransacao(id) {
               </section>
             </main>
           </div>
+
+
         )
 }
 export default App
+
