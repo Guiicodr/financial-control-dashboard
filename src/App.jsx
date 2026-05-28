@@ -51,6 +51,12 @@ function deletarTransacao(id) {
    })
      .then(() => carregarDados())
  }
+function calcularLarguraBarra(valor) {
+    if (totalEntradas == 0){
+        return "0%"
+        }
+    return `${(valor / totalEntradas) * 100}%`
+}
 
     useEffect(() => {
         carregarDados()
@@ -64,6 +70,14 @@ const totalSaidas = transacoes
     .filter((t) => t.tipo === "SAIDA")
     .reduce((total, t) => total + Number(t.valor), 0)
 
+function calcularCategoria(nomeCategoria) {
+    return transacoes
+    .filter((t) => t.tipo === "SAIDA")
+    .filter((t) => t.categoria === nomeCategoria)
+    .reduce((total, t) => total + Number(t.valor), 0)
+    }
+
+
 const dadosGrafico = [
     { name: "Entradas", value: totalEntradas },
     { name: "Saídas", value: totalSaidas }
@@ -72,6 +86,14 @@ const dadosGrafico = [
 const cores = ["#22c55e", "ef4444"]
 
 console.log(dadosGrafico)
+
+const maiorGastoCategoria = Math.max(
+    calcularCategoria("ALIMENTACAO"),
+    calcularCategoria("LAZER"),
+    calcularCategoria("TRANSPORTE"),
+    calcularCategoria("ESTUDOS"),
+    calcularCategoria("OUTROS")
+)
 
     return (
         <div className="page">
@@ -163,8 +185,49 @@ console.log(dadosGrafico)
                   ))}
                 </ul>
               </section>
+            <section className="categories-card">
+                          <h2>Consumo</h2>
+
+                          <div className="consumo">
+
+                              <div className="consumo-header">
+                                  <span>ALIMENTAÇÃO</span>
+                                  <p>R$ {calcularCategoria("ALIMENTACAO")}</p>
+                              </div>
+
+                              <div className="bar">
+                                  <div
+                                      className="bar-fill"
+                                      style={{
+                                          width: calcularLarguraBarra(
+                                              calcularCategoria("ALIMENTACAO")
+                                          )
+                                      }}
+                                  ></div>
+                              </div>
+
+                          </div>
+                          <div className="consumo">
+                              LAZER
+                              <p>R$ {calcularCategoria("LAZER")}</p>
+                          </div>
+                          <div className="consumo">
+                              TRANSPORTE
+                              <p>R$ {calcularCategoria("TRANSPORTE")}</p>
+                          </div>
+                          <div className="consumo">
+                              ESTUDOS
+                              <p>R$ {calcularCategoria("ESTUDOS")}</p>
+                          </div>
+
+                          <div className="consumo">
+                              OUTROS
+                              <p>R$ {calcularCategoria("OUTROS")}</p>
+                          </div>
+                      </section>
             </main>
           </div>
+
 
 
         )
