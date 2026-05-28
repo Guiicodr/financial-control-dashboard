@@ -8,6 +8,7 @@ function App(){
     const [descricao, setDescricao] = useState("")
     const [valor, setValor] = useState("")
     const [tipo, setTipo] = useState("ENTRADA")
+    const [categoria, setCategoria] = useState("ALIMENTACAO")
 
 function adicionarTransacoes(event) {
     event.preventDefault()
@@ -16,7 +17,8 @@ function adicionarTransacoes(event) {
         descricao: descricao,
         valor: Number(valor),
         tipo: tipo,
-        data: new Date().toISOString().split("T")[0]
+        data: new Date().toISOString().split("T")[0],
+        categoria: categoria
         }
     fetch("http://localhost:8080/transacoes",{
         method: "POST",
@@ -124,6 +126,15 @@ console.log(dadosGrafico)
                     <option value="SAIDA">Saída</option>
                   </select>
 
+                  <select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
+                      <option value="ALIMENTACAO">ALIMENTACAO</option>
+                      <option value="TRANSPORTE">TRANSPORTE</option>
+                      <option value="LAZER">LAZER</option>
+                      <option value="ESTUDOS">ESTUDOS</option>
+                      <option value="SALARIO">SALARIO</option>
+                      <option value="OUTROS">OUTROS</option>
+                  </select>
+
                   <button type="submit">Adicionar</button>
                 </form>
               </section>
@@ -139,7 +150,7 @@ console.log(dadosGrafico)
                     >
                       <div>
                         <strong>{t.descricao}</strong>
-                        <span>{t.tipo}</span>
+                        <span>{t.tipo} • {t.categoria}</span>
                       </div>
 
                       <p>R$ {t.valor}</p>
