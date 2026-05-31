@@ -63,6 +63,29 @@ function calcularLarguraBarra(valor) {
         carregarDados()
     }, [])
 
+function calcularCategoria(nomeCategoria) {
+    return transacoes
+    .filter((t) => t.tipo === "SAIDA")
+    .filter((t) => t.categoria === nomeCategoria)
+    .reduce((total, t) => total + Number(t.valor), 0)
+    }
+
+function gerarDiagnosticoFinanceiro() {
+  if (totalEntradas === 0) {
+    return "Cadastre uma entrada para visualizar seu diagnóstico financeiro."
+  }
+
+  if (percentualConsumo <= 50) {
+    return "Sua situação financeira está saudável. Você está consumindo menos da metade da sua renda."
+  }
+
+  if (percentualConsumo <= 80) {
+    return "Atenção: seus gastos já representam uma parte considerável da sua renda."
+  }
+
+  return "Alerta: seus gastos estão muito próximos da sua renda total."
+}
+
 const totalEntradas = transacoes
     .filter((t) => t.tipo === "ENTRADA")
     .reduce((total, t) => total + Number(t.valor), 0)
@@ -71,12 +94,7 @@ const totalSaidas = transacoes
     .filter((t) => t.tipo === "SAIDA")
     .reduce((total, t) => total + Number(t.valor), 0)
 
-function calcularCategoria(nomeCategoria) {
-    return transacoes
-    .filter((t) => t.tipo === "SAIDA")
-    .filter((t) => t.categoria === nomeCategoria)
-    .reduce((total, t) => total + Number(t.valor), 0)
-    }
+
 
 
 const dadosGrafico = [
@@ -113,12 +131,17 @@ const categoriasFormulario = [
   { label: "Outros", value: "OUTROS" }
 ]
 
+const percentualConsumo = totalEntradas === 0
+    ? 0
+    :(totalSaidas / totalEntradas) * 100
+
     return (
       <div className="page">
         <main className="dashboard">
           <header className="header">
-            <h1>Controle Financeiro</h1>
-            <p>Gerencie suas entradas, saídas e saldo atual.</p>
+            <span className="eyebrow">Assistente Financeiro</span>
+            <h1>Financial Dashboard</h1>
+            <p>Acompanhe sua renda, seus gastos e sua evolução financeira.</p>
           </header>
 
           <nav className="nav-tabs">
@@ -133,9 +156,31 @@ const categoriasFormulario = [
 
           {telaAtual === "dashboard" && (
             <>
-              <section className="balance-card">
-                <span>Saldo atual</span>
-                <strong>R$ {saldo}</strong>
+              <section className="insight-card">
+                <h2>Diagnóstico financeiro</h2>
+                <p>{gerarDiagnosticoFinanceiro()}</p>
+              </section>
+
+              <section className="overview-grid">
+                <div className="overview-card income-overview">
+                  <span>Renda total</span>
+                  <strong> R$ {totalEntradas}</strong>
+                </div>
+
+                <div className="overview-card expense-overview">
+                  <span>Gastos totais</span>
+                  <strong> R$ {totalSaidas}</strong>
+                </div>
+
+                <div className="overview-card balance-overview">
+                  <span>Saldo mensal</span>
+                  <strong> R$ {saldo}</strong>
+                </div>
+
+                <div className="overview-card percent-overview">
+                  <span>Consumo da renda </span>
+                  <strong>{percentualConsumo.toFixed(1)}%</strong>
+                </div>
               </section>
 
               <section className="chart-card">
