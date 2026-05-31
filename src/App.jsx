@@ -9,6 +9,7 @@ function App(){
     const [valor, setValor] = useState("")
     const [tipo, setTipo] = useState("ENTRADA")
     const [categoria, setCategoria] = useState("ALIMENTACAO")
+    const [telaAtual, setTelaAtual] = useState("dashboard")
 
 function adicionarTransacoes(event) {
     event.preventDefault()
@@ -95,36 +96,92 @@ const maiorGastoCategoria = Math.max(
     calcularCategoria("OUTROS")
 )
 
-    return (
-        <div className="page">
-            <main className="dashboard">
-              <header className="header">
-                <h1>Controle Financeiro</h1>
-                <p>Gerencie suas entradas, saídas e saldo atual.</p>
-              </header>
+const categoriasConsumo = [
+  { label: "ALIMENTAÇÃO", value: "ALIMENTACAO" },
+  { label: "LAZER", value: "LAZER" },
+  { label: "TRANSPORTE", value: "TRANSPORTE" },
+  { label: "ESTUDOS", value: "ESTUDOS" },
+  { label: "OUTROS", value: "OUTROS" }
+]
 
+const categoriasFormulario = [
+  { label: "Alimentação", value: "ALIMENTACAO" },
+  { label: "Transporte", value: "TRANSPORTE" },
+  { label: "Lazer", value: "LAZER" },
+  { label: "Estudos", value: "ESTUDOS" },
+  { label: "Salário", value: "SALARIO" },
+  { label: "Outros", value: "OUTROS" }
+]
+
+    return (
+      <div className="page">
+        <main className="dashboard">
+          <header className="header">
+            <h1>Controle Financeiro</h1>
+            <p>Gerencie suas entradas, saídas e saldo atual.</p>
+          </header>
+
+          <nav className="nav-tabs">
+            <button onClick={() => setTelaAtual("dashboard")}>
+              Dashboard
+            </button>
+
+            <button onClick={() => setTelaAtual("transacoes")}>
+              Transações
+            </button>
+          </nav>
+
+          {telaAtual === "dashboard" && (
+            <>
               <section className="balance-card">
-                  <span>Saldo atual</span>
-                  <strong>R$ {saldo}</strong>
+                <span>Saldo atual</span>
+                <strong>R$ {saldo}</strong>
               </section>
 
               <section className="chart-card">
-                  <h2>Resumo financeiro</h2>
+                <h2>Resumo financeiro</h2>
 
-                  <div className="summary-row">
-                      <div className="summary-box income-box">
-                          <span>Entradas</span>
-                          <strong>R$ {totalEntradas}</strong>
-                      </div>
-
-                      <div className="summary-box expense-box">
-                          <span>Saídas</span>
-                          <strong>R$ {totalSaidas}</strong>
-                      </div>
+                <div className="summary-row">
+                  <div className="summary-box income-box">
+                    <span>Entradas</span>
+                    <strong>R$ {totalEntradas}</strong>
                   </div>
+
+                  <div className="summary-box expense-box">
+                    <span>Saídas</span>
+                    <strong>R$ {totalSaidas}</strong>
+                  </div>
+                </div>
               </section>
 
+              <section className="categories-card">
+                <h2>Consumo</h2>
 
+                {categoriasConsumo.map((categoriaItem) => (
+                  <div className="consumo" key={categoriaItem.value}>
+                    <div className="consumo-header">
+                      <span>{categoriaItem.label}</span>
+                      <p>R$ {calcularCategoria(categoriaItem.value)}</p>
+                    </div>
+
+                    <div className="bar">
+                      <div
+                        className="bar-fill"
+                        style={{
+                          width: calcularLarguraBarra(
+                            calcularCategoria(categoriaItem.value)
+                          )
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </section>
+            </>
+          )}
+
+          {telaAtual === "transacoes" && (
+            <>
               <section className="form-card">
                 <h2>Nova transação</h2>
 
@@ -148,13 +205,15 @@ const maiorGastoCategoria = Math.max(
                     <option value="SAIDA">Saída</option>
                   </select>
 
-                  <select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
-                      <option value="ALIMENTACAO">ALIMENTACAO</option>
-                      <option value="TRANSPORTE">TRANSPORTE</option>
-                      <option value="LAZER">LAZER</option>
-                      <option value="ESTUDOS">ESTUDOS</option>
-                      <option value="SALARIO">SALARIO</option>
-                      <option value="OUTROS">OUTROS</option>
+                  <select
+                    value={categoria}
+                    onChange={(e) => setCategoria(e.target.value)}
+                  >
+                    {categoriasFormulario.map((categoriaItem) => (
+                      <option key={categoriaItem.value} value={categoriaItem.value}>
+                        {categoriaItem.label}
+                      </option>
+                    ))}
                   </select>
 
                   <button type="submit">Adicionar</button>
@@ -165,128 +224,39 @@ const maiorGastoCategoria = Math.max(
                 <h2>Transações</h2>
 
                 <ul>
-                  {transacoes.map((t, index) => (
+                  {transacoes.map((t) => (
                     <li
-                        key={index}
-                        className={t.tipo === "ENTRADA" ? "transaction income" : "transaction expense"}
+                      key={t.id}
+                      className={
+                        t.tipo === "ENTRADA"
+                          ? "transaction income"
+                          : "transaction expense"
+                      }
                     >
                       <div>
                         <strong>{t.descricao}</strong>
-                        <span>{t.tipo} • {t.categoria}</span>
+                        <span>
+                          {t.tipo} • {t.categoria}
+                        </span>
                       </div>
 
                       <p>R$ {t.valor}</p>
+
                       <button
                         className="delete-button"
-                        onClick={() => deletarTransacao(t.id)}>
+                        onClick={() => deletarTransacao(t.id)}
+                      >
                         Excluir
                       </button>
                     </li>
                   ))}
                 </ul>
               </section>
-            <section className="categories-card">
-                          <h2>Consumo</h2>
-
-                          <div className="consumo">
-                              <div className="consumo-header">
-                                  <span>ALIMENTAÇÃO</span>
-                                  <p>R$ {calcularCategoria("ALIMENTACAO")}</p>
-                              </div>
-
-                              <div className="bar">
-                                  <div
-                                      className="bar-fill"
-                                      style={{
-                                          width: calcularLarguraBarra(
-                                              calcularCategoria("ALIMENTACAO")
-                                          )
-                                      }}
-                                  ></div>
-                              </div>
-                          </div>
-
-                          <div className="consumo">
-                              <div className="consumo-header">
-                                  <span>LAZER</span>
-                                  <p>R$ {calcularCategoria("LAZER")}</p>
-                              </div>
-
-                              <div className="bar">
-                                  <div
-                                      className="bar-fill"
-                                      style={{
-                                          width: calcularLarguraBarra(
-                                              calcularCategoria("LAZER")
-                                          )
-                                      }}
-                                  ></div>
-                              </div>
-                          </div>
-
-                          <div className="consumo">
-                              <div className="consumo-header">
-                                  <span>TRANSPORTE</span>
-                                  <p>R$ {calcularCategoria("TRANSPORTE")}</p>
-                              </div>
-
-                              <div className="bar">
-                                  <div
-                                      className="bar-fill"
-                                      style={{
-                                          width: calcularLarguraBarra(
-                                              calcularCategoria("TRANSPORTE")
-                                          )
-                                      }}
-                                  ></div>
-                              </div>
-                          </div>
-
-                          <div className="consumo">
-                              <div className="consumo-header">
-                                  <span>ESTUDOS</span>
-                                  <p>R$ {calcularCategoria("ESTUDOS")}</p>
-                              </div>
-
-                              <div className="bar">
-                                  <div
-                                      className="bar-fill"
-                                      style={{
-                                          width: calcularLarguraBarra(
-                                              calcularCategoria("ESTUDOS")
-                                              )
-                                          }}
-                                      ></div>
-                                  </div>
-                              </div>
-
-
-                          <div className="consumo">
-                              <div className="consumo-header">
-                                  <span>OUTROS</span>
-                                  <p>R$ {calcularCategoria("OUTROS")}</p>
-                              </div>
-
-                              <div className="bar">
-                                  <div
-                                      className="bar-fill"
-                                      style={{
-                                          width: calcularLarguraBarra(
-                                              calcularCategoria("OUTROS")
-                                          )
-                                      }}
-                                  ></div>
-                              </div>
-                          </div>
-                </section>
-
-              </main>
-
-          </div>
-
-
-
-        )
+            </>
+          )}
+        </main>
+      </div>
+    )
 }
 export default App
 
