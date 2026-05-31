@@ -10,6 +10,12 @@ function App(){
     const [tipo, setTipo] = useState("ENTRADA")
     const [categoria, setCategoria] = useState("ALIMENTACAO")
     const [telaAtual, setTelaAtual] = useState("dashboard")
+    const [objetivos, setObjetivos] = useState([])
+    const [nomeObjetivo, setNomeObjetivo] = useState("")
+    const [valorAlvo, setValorAlvo] = useState("")
+    const [valorAtual, setValorAtual] = useState("")
+    const [prazo, setPrazo] = useState("")
+    const [tipoObjetivo, setTipoObjetivo] = useState("COMPRA")
 
 function adicionarTransacoes(event) {
     event.preventDefault()
@@ -34,9 +40,9 @@ function adicionarTransacoes(event) {
             setDescricao("")
             setValor("")
             setTipo("ENTRADA")
-
         })
     }
+
 function carregarDados(){
     fetch("http://localhost:8080/transacoes/saldo")
         .then(response => response.json())
@@ -46,21 +52,25 @@ function carregarDados(){
         .then(response => response.json())
         .then(data => setTransacoes(data))
         }
+
 function deletarTransacao(id) {
    fetch(`http://localhost:8080/transacoes/${id}`, {
      method: "DELETE"
    })
      .then(() => carregarDados())
  }
-function calcularLarguraBarra(valor) {
-    if (totalEntradas == 0){
-        return "0%"
-        }
-    return `${(valor / totalEntradas) * 100}%`
+
+function calcularProgressoObjetivo(valorAtual, valorAlvo) {
+  if (valorAlvo === 0) {
+    return 0
+  }
+
+  return (valorAtual / valorAlvo) * 100
 }
 
     useEffect(() => {
-        carregarDados()
+      carregarDados()
+      carregarObjetivos()
     }, [])
 
 function calcularCategoria(nomeCategoria) {
@@ -69,6 +79,12 @@ function calcularCategoria(nomeCategoria) {
     .filter((t) => t.categoria === nomeCategoria)
     .reduce((total, t) => total + Number(t.valor), 0)
     }
+
+function carregarObjetivos() {
+  fetch("http://localhost:8080/objetivos")
+    .then(response => response.json())
+    .then(data => setObjetivos(data))
+}
 
 const totalEntradas = transacoes
     .filter((t) => t.tipo === "ENTRADA")
@@ -114,6 +130,42 @@ function gerarDiagnosticoFinanceiro() {
   }
 }
 
+function adicionarObjetivo(event) {
+  event.preventDefault()
+
+  const novoObjetivo = {
+    nome: nomeObjetivo,
+    valorAlvo: Number(valorAlvo),
+    valorAtual: Number(valorAtual),
+    prazo: prazo,
+    tipo: tipoObjetivo
+  }
+
+  fetch("http://localhost:8080/objetivos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(novoObjetivo)
+  })
+    .then(() => {
+      carregarObjetivos()
+
+      setNomeObjetivo("")
+      setValorAlvo("")
+      setValorAtual("")
+      setPrazo("")
+      setTipoObjetivo("COMPRA")
+    })
+}
+
+function deletarObjetivo(id) {
+  fetch(`http://localhost:8080/objetivos/${id}`, {
+    method: "DELETE"
+  })
+    .then(() => carregarObjetivos())
+}
+
 const diagnosticoFinanceiro = gerarDiagnosticoFinanceiro()
 
 const cores = ["#22c55e", "ef4444"]
@@ -135,8 +187,6 @@ const categoriasFormulario = [
   { label: "Outros", value: "OUTROS" }
 ]
 
-
-
     return (
       <div className="page">
         <main className="dashboard">
@@ -153,6 +203,10 @@ const categoriasFormulario = [
 
             <button onClick={() => setTelaAtual("transacoes")}>
               Transações
+            </button>
+
+            <button onClick={() => setTelaAtual("objetivos")}>
+              Objetivos
             </button>
           </nav>
 
@@ -212,16 +266,6 @@ const categoriasFormulario = [
                       <p>R$ {calcularCategoria(categoriaItem.value)}</p>
                     </div>
 
-                    <div className="bar">
-                      <div
-                        className="bar-fill"
-                        style={{
-                          width: calcularLarguraBarra(
-                            calcularCategoria(categoriaItem.value)
-                          )
-                        }}
-                      ></div>
-                    </div>
                   </div>
                 ))}
               </section>
@@ -302,8 +346,98 @@ const categoriasFormulario = [
               </section>
             </>
           )}
-        </main>
-      </div>
+      {telaAtual === "objetivos" && (
+        <>
+          <section className="form-card">
+            <h2>Novo objetivo</h2>
+
+            <form onSubmit={adicionarObjetivo}>
+              <input
+                type="text"
+                placeholder="Nome do objetivo"
+                value={nomeObjetivo}
+                onChange={(e) => setNomeObjetivo(e.target.value)}
+              />
+
+              <input
+                type="number"
+                placeholder="Valor alvo"
+                value={valorAlvo}
+                onChange={(e) => setValorAlvo(e.target.value)}
+              />
+
+              <input
+                type="number"
+                placeholder="Valor atual"
+                value={valorAtual}
+                onChange={(e) => setValorAtual(e.target.value)}
+              />
+
+              <input
+                type="date"
+                value={prazo}
+                onChange={(e) => setPrazo(e.target.value)}
+              />
+
+              <select
+                value={tipoObjetivo}
+                onChange={(e) => setTipoObjetivo(e.target.value)}
+              >
+                <option value="COMPRA">Compra</option>
+                <option value="ECONOMIA">Economia</option>
+                <option value="INVESTIMENTO">Investimento</option>
+                <option value="RESERVA">Reserva</option>
+              </select>
+
+              <button type="submit">Adicionar objetivo</button>
+            </form>
+          </section>
+
+          <section className="transactions-card">
+            <h2>Objetivos</h2>
+
+            <ul>
+              {objetivos.map((objetivo) => (
+                <li key={objetivo.id}>
+                  <div>
+                    <strong>{objetivo.nome}</strong>
+                    <span>
+                      {objetivo.tipo} • Prazo: {objetivo.prazo}
+                    </span>
+                  </div>
+
+                  <p>
+                    R$ {objetivo.valorAtual} / R$ {objetivo.valorAlvo}
+                  </p>
+                  <span>
+                    {calcularProgressoObjetivo(objetivo.valorAtual, objetivo.valorAlvo).toFixed(1)}% concluído
+                  </span>
+
+                  <div className="bar">
+                    <div
+                      className="bar-fill"
+                      style={{
+                        width: `${calcularProgressoObjetivo(
+                          objetivo.valorAtual,
+                          objetivo.valorAlvo
+                        )}%`
+                      }}
+                    ></div>
+                  </div>
+                  <button
+                    className="delete-button"
+                    onClick={() => deletarObjetivo(objetivo.id)}
+                  >
+                    Excluir
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      )}
+  </main>
+  </div>
     )
 }
 export default App
