@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
 import "./App.css"
+import Dashboard from "./components/Dashboard"
+import Transactions from "./components/Transactions"
+import Goals from "./components/Goals"
 
 function App(){
 
@@ -197,6 +200,7 @@ const categoriasFormulario = [
           </header>
 
           <nav className="nav-tabs">
+
             <button onClick={() => setTelaAtual("dashboard")}>
               Dashboard
             </button>
@@ -208,234 +212,57 @@ const categoriasFormulario = [
             <button onClick={() => setTelaAtual("objetivos")}>
               Objetivos
             </button>
+
           </nav>
 
           {telaAtual === "dashboard" && (
-            <>
-
-              <section className="overview-grid">
-                <div className="overview-card income-overview">
-                  <span>Renda total</span>
-                  <strong>R$ {totalEntradas}</strong>
-                </div>
-
-                <div className="overview-card expense-overview">
-                  <span>Gastos totais</span>
-                  <strong>R$ {totalSaidas}</strong>
-                </div>
-
-                <div className="overview-card balance-overview">
-                  <span>Saldo mensal</span>
-                  <strong>R$ {saldo}</strong>
-                </div>
-
-                <div className="overview-card percent-overview">
-                  <span>Consumo da renda</span>
-                  <strong>{percentualConsumo.toFixed(1)}%</strong>
-                </div>
-              </section>
-
-              <section className={`insight-card ${diagnosticoFinanceiro.status}`}>
-                <h2>{diagnosticoFinanceiro.titulo}</h2>
-                <p>{diagnosticoFinanceiro.mensagem}</p>
-              </section>
-
-              <section className="chart-card">
-                <h2>Resumo financeiro</h2>
-
-                <div className="summary-row">
-                  <div className="summary-box income-box">
-                    <span>Entradas</span>
-                    <strong>R$ {totalEntradas}</strong>
-                  </div>
-
-                  <div className="summary-box expense-box">
-                    <span>Saídas</span>
-                    <strong>R$ {totalSaidas}</strong>
-                  </div>
-                </div>
-              </section>
-
-              <section className="categories-card">
-                <h2>Consumo</h2>
-
-                {categoriasConsumo.map((categoriaItem) => (
-                  <div className="consumo" key={categoriaItem.value}>
-                    <div className="consumo-header">
-                      <span>{categoriaItem.label}</span>
-                      <p>R$ {calcularCategoria(categoriaItem.value)}</p>
-                    </div>
-
-                  </div>
-                ))}
-              </section>
-            </>
+            <Dashboard
+              saldo={saldo}
+              totalEntradas={totalEntradas}
+              totalSaidas={totalSaidas}
+              percentualConsumo={percentualConsumo}
+              diagnosticoFinanceiro={diagnosticoFinanceiro}
+              categoriasConsumo={categoriasConsumo}
+              calcularCategoria={calcularCategoria}
+            />
           )}
 
           {telaAtual === "transacoes" && (
-            <>
-              <section className="form-card">
-                <h2>Nova transação</h2>
-
-                <form onSubmit={adicionarTransacoes}>
-                  <input
-                    type="text"
-                    placeholder="Descrição"
-                    value={descricao}
-                    onChange={(e) => setDescricao(e.target.value)}
-                  />
-
-                  <input
-                    type="number"
-                    placeholder="Valor"
-                    value={valor}
-                    onChange={(e) => setValor(e.target.value)}
-                  />
-
-                  <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-                    <option value="ENTRADA">Entrada</option>
-                    <option value="SAIDA">Saída</option>
-                  </select>
-
-                  <select
-                    value={categoria}
-                    onChange={(e) => setCategoria(e.target.value)}
-                  >
-                    {categoriasFormulario.map((categoriaItem) => (
-                      <option key={categoriaItem.value} value={categoriaItem.value}>
-                        {categoriaItem.label}
-                      </option>
-                    ))}
-                  </select>
-
-                  <button type="submit">Adicionar</button>
-                </form>
-              </section>
-
-              <section className="transactions-card">
-                <h2>Transações</h2>
-
-                <ul>
-                  {transacoes.map((t) => (
-                    <li
-                      key={t.id}
-                      className={
-                        t.tipo === "ENTRADA"
-                          ? "transaction income"
-                          : "transaction expense"
-                      }
-                    >
-                      <div>
-                        <strong>{t.descricao}</strong>
-                        <span>
-                          {t.tipo} • {t.categoria}
-                        </span>
-                      </div>
-
-                      <p>R$ {t.valor}</p>
-
-                      <button
-                        className="delete-button"
-                        onClick={() => deletarTransacao(t.id)}
-                      >
-                        Excluir
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            </>
+            <Transactions
+              descricao={descricao}
+              setDescricao={setDescricao}
+              valor={valor}
+              setValor={setValor}
+              tipo={tipo}
+              setTipo={setTipo}
+              categoria={categoria}
+              setCategoria={setCategoria}
+              categoriasFormulario={categoriasFormulario}
+              transacoes={transacoes}
+              adicionarTransacoes={adicionarTransacoes}
+              deletarTransacao={deletarTransacao}
+            />
           )}
+
       {telaAtual === "objetivos" && (
-        <>
-          <section className="form-card">
-            <h2>Novo objetivo</h2>
-
-            <form onSubmit={adicionarObjetivo}>
-              <input
-                type="text"
-                placeholder="Nome do objetivo"
-                value={nomeObjetivo}
-                onChange={(e) => setNomeObjetivo(e.target.value)}
-              />
-
-              <input
-                type="number"
-                placeholder="Valor alvo"
-                value={valorAlvo}
-                onChange={(e) => setValorAlvo(e.target.value)}
-              />
-
-              <input
-                type="number"
-                placeholder="Valor atual"
-                value={valorAtual}
-                onChange={(e) => setValorAtual(e.target.value)}
-              />
-
-              <input
-                type="date"
-                value={prazo}
-                onChange={(e) => setPrazo(e.target.value)}
-              />
-
-              <select
-                value={tipoObjetivo}
-                onChange={(e) => setTipoObjetivo(e.target.value)}
-              >
-                <option value="COMPRA">Compra</option>
-                <option value="ECONOMIA">Economia</option>
-                <option value="INVESTIMENTO">Investimento</option>
-                <option value="RESERVA">Reserva</option>
-              </select>
-
-              <button type="submit">Adicionar objetivo</button>
-            </form>
-          </section>
-
-          <section className="transactions-card">
-            <h2>Objetivos</h2>
-
-            <ul>
-              {objetivos.map((objetivo) => (
-                <li key={objetivo.id}>
-                  <div>
-                    <strong>{objetivo.nome}</strong>
-                    <span>
-                      {objetivo.tipo} • Prazo: {objetivo.prazo}
-                    </span>
-                  </div>
-
-                  <p>
-                    R$ {objetivo.valorAtual} / R$ {objetivo.valorAlvo}
-                  </p>
-                  <span>
-                    {calcularProgressoObjetivo(objetivo.valorAtual, objetivo.valorAlvo).toFixed(1)}% concluído
-                  </span>
-
-                  <div className="bar">
-                    <div
-                      className="bar-fill"
-                      style={{
-                        width: `${calcularProgressoObjetivo(
-                          objetivo.valorAtual,
-                          objetivo.valorAlvo
-                        )}%`
-                      }}
-                    ></div>
-                  </div>
-                  <button
-                    className="delete-button"
-                    onClick={() => deletarObjetivo(objetivo.id)}
-                  >
-                    Excluir
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </>
+        <Goals
+          objetivos={objetivos}
+          nomeObjetivo={nomeObjetivo}
+          setNomeObjetivo={setNomeObjetivo}
+          valorAlvo={valorAlvo}
+          setValorAlvo={setValorAlvo}
+          valorAtual={valorAtual}
+          setValorAtual={setValorAtual}
+          prazo={prazo}
+          setPrazo={setPrazo}
+          tipoObjetivo={tipoObjetivo}
+          setTipoObjetivo={setTipoObjetivo}
+          adicionarObjetivo={adicionarObjetivo}
+          deletarObjetivo={deletarObjetivo}
+          calcularProgressoObjetivo={calcularProgressoObjetivo}
+        />
       )}
+
   </main>
   </div>
     )
