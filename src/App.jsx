@@ -189,7 +189,6 @@ const maiorGastoCategoria = Math.max(
                           <h2>Consumo</h2>
 
                           <div className="consumo">
-
                               <div className="consumo-header">
                                   <span>ALIMENTAÇÃO</span>
                                   <p>R$ {calcularCategoria("ALIMENTACAO")}</p>
@@ -205,27 +204,84 @@ const maiorGastoCategoria = Math.max(
                                       }}
                                   ></div>
                               </div>
-
-                          </div>
-                          <div className="consumo">
-                              LAZER
-                              <p>R$ {calcularCategoria("LAZER")}</p>
-                          </div>
-                          <div className="consumo">
-                              TRANSPORTE
-                              <p>R$ {calcularCategoria("TRANSPORTE")}</p>
-                          </div>
-                          <div className="consumo">
-                              ESTUDOS
-                              <p>R$ {calcularCategoria("ESTUDOS")}</p>
                           </div>
 
                           <div className="consumo">
-                              OUTROS
-                              <p>R$ {calcularCategoria("OUTROS")}</p>
+                              <div className="consumo-header">
+                                  <span>LAZER</span>
+                                  <p>R$ {calcularCategoria("LAZER")}</p>
+                              </div>
+
+                              <div className="bar">
+                                  <div
+                                      className="bar-fill"
+                                      style={{
+                                          width: calcularLarguraBarra(
+                                              calcularCategoria("LAZER")
+                                          )
+                                      }}
+                                  ></div>
+                              </div>
                           </div>
-                      </section>
-            </main>
+
+                          <div className="consumo">
+                              <div className="consumo-header">
+                                  <span>TRANSPORTE</span>
+                                  <p>R$ {calcularCategoria("TRANSPORTE")}</p>
+                              </div>
+
+                              <div className="bar">
+                                  <div
+                                      className="bar-fill"
+                                      style={{
+                                          width: calcularLarguraBarra(
+                                              calcularCategoria("TRANSPORTE")
+                                          )
+                                      }}
+                                  ></div>
+                              </div>
+                          </div>
+
+                          <div className="consumo">
+                              <div className="consumo-header">
+                                  <span>ESTUDOS</span>
+                                  <p>R$ {calcularCategoria("ESTUDOS")}</p>
+                              </div>
+
+                              <div className="bar">
+                                  <div
+                                      className="bar-fill"
+                                      style={{
+                                          width: calcularLarguraBarra(
+                                              calcularCategoria("ESTUDOS")
+                                              )
+                                          }}
+                                      ></div>
+                                  </div>
+                              </div>
+
+
+                          <div className="consumo">
+                              <div className="consumo-header">
+                                  <span>OUTROS</span>
+                                  <p>R$ {calcularCategoria("OUTROS")}</p>
+                              </div>
+
+                              <div className="bar">
+                                  <div
+                                      className="bar-fill"
+                                      style={{
+                                          width: calcularLarguraBarra(
+                                              calcularCategoria("OUTROS")
+                                          )
+                                      }}
+                                  ></div>
+                              </div>
+                          </div>
+                </section>
+
+              </main>
+
           </div>
 
 
