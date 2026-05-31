@@ -70,22 +70,6 @@ function calcularCategoria(nomeCategoria) {
     .reduce((total, t) => total + Number(t.valor), 0)
     }
 
-function gerarDiagnosticoFinanceiro() {
-  if (totalEntradas === 0) {
-    return "Cadastre uma entrada para visualizar seu diagnóstico financeiro."
-  }
-
-  if (percentualConsumo <= 50) {
-    return "Sua situação financeira está saudável. Você está consumindo menos da metade da sua renda."
-  }
-
-  if (percentualConsumo <= 80) {
-    return "Atenção: seus gastos já representam uma parte considerável da sua renda."
-  }
-
-  return "Alerta: seus gastos estão muito próximos da sua renda total."
-}
-
 const totalEntradas = transacoes
     .filter((t) => t.tipo === "ENTRADA")
     .reduce((total, t) => total + Number(t.valor), 0)
@@ -94,25 +78,45 @@ const totalSaidas = transacoes
     .filter((t) => t.tipo === "SAIDA")
     .reduce((total, t) => total + Number(t.valor), 0)
 
+const percentualConsumo = totalEntradas === 0
+    ? 0
+    :(totalSaidas / totalEntradas) * 100
 
+function gerarDiagnosticoFinanceiro() {
+  if (totalEntradas === 0) {
+    return {
+      titulo: "Sem dados suficientes",
+      mensagem: "Cadastre uma entrada para visualizar seu diagnóstico financeiro.",
+      status: "neutral"
+    }
+  }
 
+  if (percentualConsumo <= 50) {
+    return {
+      titulo: "Situação saudável",
+      mensagem: "Você está consumindo menos da metade da sua renda.",
+      status: "healthy"
+    }
+  }
 
-const dadosGrafico = [
-    { name: "Entradas", value: totalEntradas },
-    { name: "Saídas", value: totalSaidas }
-]
+  if (percentualConsumo <= 80) {
+    return {
+      titulo: "Atenção aos gastos",
+      mensagem: "Seus gastos já representam uma parte considerável da sua renda.",
+      status: "warning"
+    }
+  }
+
+  return {
+    titulo: "Alerta financeiro",
+    mensagem: "Seus gastos estão muito próximos da sua renda total.",
+    status: "danger"
+  }
+}
+
+const diagnosticoFinanceiro = gerarDiagnosticoFinanceiro()
 
 const cores = ["#22c55e", "ef4444"]
-
-console.log(dadosGrafico)
-
-const maiorGastoCategoria = Math.max(
-    calcularCategoria("ALIMENTACAO"),
-    calcularCategoria("LAZER"),
-    calcularCategoria("TRANSPORTE"),
-    calcularCategoria("ESTUDOS"),
-    calcularCategoria("OUTROS")
-)
 
 const categoriasConsumo = [
   { label: "ALIMENTAÇÃO", value: "ALIMENTACAO" },
@@ -131,9 +135,7 @@ const categoriasFormulario = [
   { label: "Outros", value: "OUTROS" }
 ]
 
-const percentualConsumo = totalEntradas === 0
-    ? 0
-    :(totalSaidas / totalEntradas) * 100
+
 
     return (
       <div className="page">
@@ -156,31 +158,32 @@ const percentualConsumo = totalEntradas === 0
 
           {telaAtual === "dashboard" && (
             <>
-              <section className="insight-card">
-                <h2>Diagnóstico financeiro</h2>
-                <p>{gerarDiagnosticoFinanceiro()}</p>
-              </section>
 
               <section className="overview-grid">
                 <div className="overview-card income-overview">
                   <span>Renda total</span>
-                  <strong> R$ {totalEntradas}</strong>
+                  <strong>R$ {totalEntradas}</strong>
                 </div>
 
                 <div className="overview-card expense-overview">
                   <span>Gastos totais</span>
-                  <strong> R$ {totalSaidas}</strong>
+                  <strong>R$ {totalSaidas}</strong>
                 </div>
 
                 <div className="overview-card balance-overview">
                   <span>Saldo mensal</span>
-                  <strong> R$ {saldo}</strong>
+                  <strong>R$ {saldo}</strong>
                 </div>
 
                 <div className="overview-card percent-overview">
-                  <span>Consumo da renda </span>
+                  <span>Consumo da renda</span>
                   <strong>{percentualConsumo.toFixed(1)}%</strong>
                 </div>
+              </section>
+
+              <section className={`insight-card ${diagnosticoFinanceiro.status}`}>
+                <h2>{diagnosticoFinanceiro.titulo}</h2>
+                <p>{diagnosticoFinanceiro.mensagem}</p>
               </section>
 
               <section className="chart-card">

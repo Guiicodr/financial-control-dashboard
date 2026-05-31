@@ -295,3 +295,19 @@ input[type=number] {
     color: #d1d1d1;
     line-height: 1.5;
 }
+
+.insight-card.neutral {
+    border-left: 4px solid #94a3b8;
+}
+
+.insight-card.healthy {
+    border-left: 4px solid #22c55e;
+}
+
+.insight-card.warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.insight-card.danger {
+    border-left: 4px solid #ef4444;
+}
