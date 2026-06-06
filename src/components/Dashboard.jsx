@@ -5,65 +5,172 @@ function Dashboard({
   percentualConsumo,
   diagnosticoFinanceiro,
   categoriasConsumo,
-  calcularCategoria
+  calcularCategoria,
+  objetivos,
+  calcularProgressoObjetivo,
+  abrirObjetivos
 }) {
+
+  const categoryIcons = {
+    ALIMENTACAO: "🍔",
+    LAZER: "🎮",
+    TRANSPORTE: "🚗",
+    ESTUDOS: "📚",
+    OUTROS: "📦"
+  }
+
+  const valoresCategorias = categoriasConsumo.map((categoria) =>
+    calcularCategoria(categoria.value)
+  )
+
+  const maiorValorCategoria = Math.max(
+    ...valoresCategorias,
+    1
+  )
+
   return (
     <>
       <section className="overview-grid">
         <div className="overview-card income-overview">
-          <span>Renda total</span>
+          <span>Income</span>
           <strong>R$ {totalEntradas}</strong>
         </div>
 
         <div className="overview-card expense-overview">
-          <span>Gastos totais</span>
+          <span>Expenses</span>
           <strong>R$ {totalSaidas}</strong>
         </div>
 
         <div className="overview-card balance-overview">
-          <span>Saldo mensal</span>
+          <span>Balance</span>
           <strong>R$ {saldo}</strong>
         </div>
 
         <div className="overview-card percent-overview">
-          <span>Consumo da renda</span>
+          <span>Income Usage</span>
           <strong>{percentualConsumo.toFixed(1)}%</strong>
         </div>
       </section>
 
-      <section className={`insight-card ${diagnosticoFinanceiro.status}`}>
+      <section
+        className={`insight-card ${diagnosticoFinanceiro.status}`}
+      >
         <h2>{diagnosticoFinanceiro.titulo}</h2>
         <p>{diagnosticoFinanceiro.mensagem}</p>
       </section>
 
-      <section className="chart-card">
-        <h2>Resumo financeiro</h2>
+      <div className="dashboard-grid">
 
-        <div className="summary-row">
-          <div className="summary-box income-box">
-            <span>Entradas</span>
-            <strong>R$ {totalEntradas}</strong>
+        <section className="categories-card">
+          <h2>Consumption</h2>
+
+          {categoriasConsumo.map((categoria) => {
+            const valor = calcularCategoria(
+              categoria.value
+            )
+
+            const percentual =
+              (valor / maiorValorCategoria) * 100
+
+            return (
+              <div
+                key={categoria.value}
+                className="category-item"
+              >
+                <div className="category-header">
+
+                  <span>
+                    {categoryIcons[categoria.value]}{" "}
+                    {categoria.label}
+                  </span>
+
+                  <strong>
+                    R$ {valor}
+                  </strong>
+
+                </div>
+
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{
+                      width: `${percentual}%`
+                    }}
+                  />
+                </div>
+
+              </div>
+            )
+          })}
+        </section>
+
+        <section className="goals-card">
+
+          <div className="goals-header">
+            <h2>🎯 Goals</h2>
+
+            {objetivos.length > 0 && (
+              <span className="notification-dot"></span>
+            )}
           </div>
 
-          <div className="summary-box expense-box">
-            <span>Saídas</span>
-            <strong>R$ {totalSaidas}</strong>
-          </div>
-        </div>
-      </section>
+          {objetivos.length === 0 ? (
+            <div className="empty-goals">
+              <p>No goals registered yet.</p>
 
-      <section className="categories-card">
-        <h2>Consumo</h2>
-
-        {categoriasConsumo.map((categoriaItem) => (
-          <div className="consumo" key={categoriaItem.value}>
-            <div className="consumo-header">
-              <span>{categoriaItem.label}</span>
-              <p>R$ {calcularCategoria(categoriaItem.value)}</p>
+              <button
+                className="goal-action-btn"
+                onClick={abrirObjetivos}
+              >
+                + New Goal
+              </button>
             </div>
-          </div>
-        ))}
-      </section>
+          ) : (
+            objetivos
+              .slice(0, 3)
+              .map((objetivo) => {
+
+                const progresso =
+                  calcularProgressoObjetivo(
+                    objetivo.valorAtual,
+                    objetivo.valorAlvo
+                  )
+
+                return (
+                  <div
+                    key={objetivo.id}
+                    className="goal-preview"
+                  >
+
+                    <strong>
+                      {objetivo.nome}
+                    </strong>
+
+                    <span className="goal-values">
+                      R$ {objetivo.valorAtual} / R$ {objetivo.valorAlvo}
+                    </span>
+
+                    <div className="progress-bar">
+                      <div
+                        className="progress-fill"
+                        style={{
+                          width: `${progresso}%`
+                        }}
+                      />
+                    </div>
+
+                    <span>
+                      {progresso.toFixed(0)}%
+                    </span>
+
+                  </div>
+                )
+              })
+          )}
+
+        </section>
+
+      </div>
     </>
   )
 }

@@ -1,3 +1,6 @@
+import { MdDashboard } from "react-icons/md"
+import { FaMoneyBillWave } from "react-icons/fa"
+import { FaBullseye } from "react-icons/fa"
 import { useEffect, useState } from "react"
 import "./App.css"
 
@@ -31,6 +34,14 @@ function App() {
   const [prazo, setPrazo] = useState("")
   const [tipoObjetivo, setTipoObjetivo] = useState("COMPRA")
 
+  const categoryIcons = {
+    ALIMENTACAO: "🍔",
+    TRANSPORTE: "🚗",
+    LAZER: "🎮",
+    ESTUDOS: "📚",
+    OUTROS: "📦"
+  }
+
   function carregarDados() {
     buscarSaldo()
       .then((data) => setSaldo(data))
@@ -47,6 +58,22 @@ function App() {
   useEffect(() => {
     carregarDados()
     carregarObjetivos()
+
+    const abrirGoals = () => {
+      setTelaAtual("objetivos")
+    }
+
+    window.addEventListener(
+      "openGoals",
+      abrirGoals
+    )
+
+    return () => {
+      window.removeEventListener(
+        "openGoals",
+        abrirGoals
+      )
+    }
   }, [])
 
   function adicionarTransacoes(event) {
@@ -135,7 +162,7 @@ function App() {
     if (totalEntradas === 0) {
       return {
         titulo: "Sem dados suficientes",
-        mensagem: "Cadastre uma entrada para visualizar seu diagnóstico financeiro.",
+        mensagem: "Cadastre sua renda para acompanhar seu relatório.",
         status: "neutral"
       }
     }
@@ -173,6 +200,12 @@ function App() {
     { label: "OUTROS", value: "OUTROS" }
   ]
 
+  const valoresCategorias = categoriasConsumo.map((categoria) =>
+    calcularCategoria(categoria.value)
+  )
+
+  const maiorValorCategoria = Math.max(...valoresCategorias, 1)
+
   const categoriasFormulario = [
     { label: "Alimentação", value: "ALIMENTACAO" },
     { label: "Transporte", value: "TRANSPORTE" },
@@ -183,27 +216,51 @@ function App() {
   ]
 
   return (
-    <div className="page">
-      <main className="dashboard">
-        <header className="header">
-          <span className="eyebrow">Assistente Financeiro</span>
-          <h1>Financial Dashboard</h1>
-          <p>Acompanhe sua renda, seus gastos e sua evolução financeira.</p>
-        </header>
+    <div className="app-layout">
+      <aside className="sidebar">
+        <div className="brand">
+          <h2>Finanly</h2>
+          <span>Personal Financial Assistant</span>
+        </div>
 
-        <nav className="nav-tabs">
-          <button onClick={() => setTelaAtual("dashboard")}>
+        <nav className="sidebar-nav">
+          <button
+            className={telaAtual === "dashboard" ? "active" : ""}
+            onClick={() => setTelaAtual("dashboard")}
+          >
+            <MdDashboard />
             Dashboard
           </button>
 
-          <button onClick={() => setTelaAtual("transacoes")}>
-            Transações
+          <button
+            className={telaAtual === "transacoes" ? "active" : ""}
+            onClick={() => setTelaAtual("transacoes")}
+          >
+            <FaMoneyBillWave />
+            Transactions
           </button>
 
-          <button onClick={() => setTelaAtual("objetivos")}>
-            Objetivos
+          <button
+            className={telaAtual === "objetivos" ? "active" : ""}
+            onClick={() => setTelaAtual("objetivos")}
+          >
+            <FaBullseye />
+            Goals
           </button>
         </nav>
+        <div className="user-card">
+          <div className="avatar">G</div>
+
+          <div>
+            <strong>Guilherme</strong>
+            <span>Developer</span>
+          </div>
+        </div>
+      </aside>
+
+      <main className="main-content">
+        <header className="header">
+        </header>
 
         {telaAtual === "dashboard" && (
           <Dashboard
@@ -214,6 +271,9 @@ function App() {
             diagnosticoFinanceiro={diagnosticoFinanceiro}
             categoriasConsumo={categoriasConsumo}
             calcularCategoria={calcularCategoria}
+            objetivos={objetivos}
+            calcularProgressoObjetivo={calcularProgressoObjetivo}
+            abrirObjetivos={() => setTelaAtual("objetivos")}
           />
         )}
 
