@@ -1,0 +1,140 @@
+.income-page {
+    padding: 35px;
+    color: white;
+}
+
+.income-page h1 {
+    font-size: 32px;
+    margin-bottom: 6px;
+}
+
+.income-page p {
+    color: #94a3b8;
+}
+
+.income-form {
+    margin-top: 30px;
+
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.income-form input {
+    flex: 1;
+
+    min-width: 220px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    border: 1px solid #2d3748;
+
+    background: #1f2937;
+
+    color: white;
+
+    outline: none;
+}
+
+.income-form input:focus {
+    border-color: #3b82f6;
+}
+
+.income-form button {
+    padding: 14px 22px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: linear-gradient(90deg,#3b82f6,#22c55e);
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.income-form button:hover {
+    transform: translateY(-2px);
+}
+
+.income-list {
+    margin-top: 35px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.income-item {
+
+    background: #1a2035;
+
+    border: 1px solid #2a3045;
+
+    border-radius: 16px;
+
+    padding: 18px 22px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    transition: .2s;
+}
+
+.income-item:hover{
+
+    transform: translateY(-2px);
+
+    border-color:#3b82f6;
+
+}
+
+.income-item strong{
+
+    font-size:17px;
+
+}
+
+.income-item p{
+
+    margin-top:6px;
+
+    color:#94a3b8;
+
+}
+
+.income-item button{
+
+    background:#ef4444;
+
+    border:none;
+
+    color:white;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.income-item button:hover{
+
+    background:#dc2626;
+
+}

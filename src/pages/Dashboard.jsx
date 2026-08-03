@@ -1,3 +1,14 @@
+import BalanceCard from "../components/ui/BalanceCard";
+import FinancialChart from "../components/ui/FinancialChart";
+import StatCard from "../components/ui/StatCard";
+import {
+    FaArrowTrendUp,
+    FaArrowTrendDown,
+    FaWallet,
+    FaChartPie
+} from "react-icons/fa6"
+import "../styles/pages/Dashboard.css";
+
 function Dashboard({
   saldo,
   totalEntradas,
@@ -30,26 +41,68 @@ function Dashboard({
 
   return (
     <>
+
+      <section className="dashboard-hero">
+
+          <div>
+
+              <h1>
+
+                  Good afternoon, Guilherme 👋
+
+              </h1>
+
+              <p>
+
+                  Here's your financial overview today.
+
+              </p>
+
+          </div>
+
+      </section>
+
+      <BalanceCard saldo={saldo} />
+
+      <FinancialChart />
+
       <section className="overview-grid">
-        <div className="overview-card income-overview">
-          <span>Income</span>
-          <strong>R$ {totalEntradas}</strong>
-        </div>
+        <StatCard
+            title="Income"
+            value={totalEntradas}
+            prefix="R$ "
+            icon={<FaArrowTrendUp />}
+            variant="success"
+            subtitle="Recurring income"
+        />
 
-        <div className="overview-card expense-overview">
-          <span>Expenses</span>
-          <strong>R$ {totalSaidas}</strong>
-        </div>
+        <StatCard
+            title="Expenses"
+            value={totalSaidas}
+            prefix="R$ "
+            icon={<FaArrowTrendDown />}
+            variant="danger"
+            subtitle="Monthly expenses"
+        />
 
-        <div className="overview-card balance-overview">
-          <span>Balance</span>
-          <strong>R$ {saldo}</strong>
-        </div>
+        <StatCard
+            title="Balance"
+            value={saldo}
+            prefix="R$ "
+            icon={<FaWallet />}
+            variant="primary"
+            subtitle="Available balance"
+        />
 
-        <div className="overview-card percent-overview">
-          <span>Income Usage</span>
-          <strong>{percentualConsumo.toFixed(1)}%</strong>
-        </div>
+        <StatCard
+            title="Income Usage"
+            value={percentualConsumo.toFixed(1)}
+            suffix="%"
+            icon={<FaChartPie />}
+            variant="warning"
+            subtitle="Current month"
+        />
+
       </section>
 
       <section

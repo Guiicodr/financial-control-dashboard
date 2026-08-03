@@ -1,0 +1,77 @@
+.btn{
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:13px 20px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-hover);
+
+}
+
+.btn-success{
+
+    background:var(--success);
+
+    color:white;
+
+}
+
+.btn-danger{
+
+    background:var(--danger);
+
+    color:white;
+
+}
+
+.btn-secondary{
+
+    background:var(--bg-card-hover);
+
+    color:var(--text-primary);
+
+}
+
+.btn-ghost{
+
+    background:transparent;
+
+    color:var(--text-secondary);
+
+}
+
+.btn-ghost:hover{
+
+    color:white;
+
+    background:rgba(255,255,255,.05);
+
+}

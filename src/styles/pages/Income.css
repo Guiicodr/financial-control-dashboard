@@ -1,0 +1,317 @@
+.income-page{
+
+    animation:fadeUp .4s ease;
+
+}
+
+.page-header{
+
+    margin-bottom:28px;
+
+}
+
+.page-header h1{
+
+    font-size:38px;
+
+    color:var(--text-primary);
+
+    margin-bottom:6px;
+
+}
+
+.page-header p{
+
+    color:var(--text-secondary);
+
+}
+
+/* FORM */
+
+.income-form-card{
+
+    background:#151C28;
+
+    border:1px solid #293347;
+
+    border-radius:22px;
+
+    padding:24px;
+
+    margin-bottom:28px;
+
+}
+
+.income-form{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr auto;
+
+    gap:18px;
+
+}
+
+.income-form input{
+
+    background:#101722;
+
+    border:1px solid #293347;
+
+    border-radius:14px;
+
+    padding:14px 16px;
+
+    color:white;
+
+    font-size:15px;
+
+    transition:.25s;
+
+}
+
+.income-form input:focus{
+
+    outline:none;
+
+    border-color:var(--primary);
+
+}
+
+.income-form button{
+
+    border:none;
+
+    border-radius:14px;
+
+    background:var(--success);
+
+    color:white;
+
+    padding:0 24px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.income-form button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 12px 25px rgba(34,197,94,.25);
+
+}
+
+/* LISTA */
+
+.income-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.income-item{
+
+    background:#151C28;
+
+    border:1px solid #293347;
+
+    border-radius:20px;
+
+    padding:22px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    transition:.25s;
+
+}
+
+.income-item:hover{
+
+    transform:translateY(-4px);
+
+    border-color:rgba(79,140,255,.35);
+
+    box-shadow:0 20px 40px rgba(0,0,0,.30);
+
+}
+
+/* ESQUERDA */
+
+.income-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.income-icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:rgba(34,197,94,.15);
+
+    color:var(--success);
+
+    font-size:20px;
+
+}
+
+.income-left h3{
+
+    color:var(--text-primary);
+
+    margin-bottom:4px;
+
+}
+
+.income-left span{
+
+    color:var(--text-muted);
+
+    font-size:14px;
+
+}
+
+/* DIREITA */
+
+.income-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.income-right strong{
+
+    color:var(--success);
+
+    font-size:24px;
+
+}
+
+.income-right button{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:rgba(239,68,68,.15);
+
+    color:var(--danger);
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.income-right button:hover{
+
+    background:var(--danger);
+
+    color:white;
+
+}
+
+/* EMPTY */
+
+.income-empty{
+
+    background:#151C28;
+
+    border:1px dashed #293347;
+
+    border-radius:20px;
+
+    padding:50px;
+
+    text-align:center;
+
+}
+
+.income-empty svg{
+
+    font-size:42px;
+
+    color:var(--text-muted);
+
+    margin-bottom:18px;
+
+}
+
+.income-empty h3{
+
+    color:var(--text-primary);
+
+    margin-bottom:8px;
+
+}
+
+.income-empty p{
+
+    color:var(--text-muted);
+
+}
+
+/* RESPONSIVO */
+
+@media(max-width:900px){
+
+    .income-form{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .income-item{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:20px;
+
+    }
+
+    .income-right{
+
+        width:100%;
+
+        justify-content:space-between;
+
+    }
+
+}

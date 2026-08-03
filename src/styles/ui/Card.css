@@ -1,0 +1,45 @@
+import "../../styles/ui/Card.css"
+
+function Card({
+  children,
+  className = "",
+  hover = true,
+  onClick
+}) {
+  return (
+    <div
+      className={`card ${hover ? "card-hover" : ""} ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  )
+}
+
+.card {
+
+    background: var(--bg-card);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-sm);
+
+    padding: 22px;
+
+    transition: var(--transition);
+
+}
+
+.card-hover:hover {
+
+    transform: translateY(-5px);
+
+    background: var(--bg-card-hover);
+
+    box-shadow: var(--shadow-lg);
+
+}
+
+export default Card

@@ -1,0 +1,58 @@
+.chart-toolbar{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+    padding-right:20px;
+
+}
+
+.chart-toolbar button{
+
+    width:52px;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#171f2d;
+
+    color:var(--text-secondary);
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+}
+
+.chart-toolbar button:hover{
+
+    transform:translateX(4px);
+
+    color:white;
+
+}
+
+.chart-toolbar button.active{
+
+    background:var(--primary);
+
+    color:white;
+
+    box-shadow:
+        0 10px 25px rgba(79,140,255,.35);
+
+}

@@ -46,3 +46,24 @@ export function deletarObjetivoPorId(id) {
     method: "DELETE"
   })
 }
+
+export function listarRendas() {
+  return fetch(`${API_URL}/income`)
+    .then((response) => response.json())
+}
+
+export function criarRenda(renda) {
+  return fetch(`${API_URL}/income`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(renda)
+  }).then((response) => response.json())
+}
+
+export function deletarRendaPorId(id) {
+  return fetch(`${API_URL}/income/${id}`, {
+    method: "DELETE"
+  })
+}

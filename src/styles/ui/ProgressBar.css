@@ -1,0 +1,45 @@
+.progress{
+
+    width:100%;
+
+    background:rgba(255,255,255,.06);
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    border-radius:999px;
+
+    transition:width .5s ease;
+
+}
+
+.progress-fill.primary{
+
+    background:var(--primary);
+
+}
+
+.progress-fill.success{
+
+    background:var(--success);
+
+}
+
+.progress-fill.danger{
+
+    background:var(--danger);
+
+}
+
+.progress-fill.warning{
+
+    background:var(--warning);
+
+}

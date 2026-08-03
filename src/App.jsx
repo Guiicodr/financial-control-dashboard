@@ -2,11 +2,12 @@ import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
 import { useEffect, useState } from "react"
-import "./App.css"
+import "./styles/App.css"
 
-import Dashboard from "./components/Dashboard"
-import Transactions from "./components/Transactions"
-import Goals from "./components/Goals"
+import Dashboard from "./pages/Dashboard";
+import Income from "./pages/Income";
+import Goals from "./pages/Goals";
+import Transactions from "./pages/Transactions";
 
 import {
   listarTransacoes,
@@ -15,7 +16,10 @@ import {
   deletarTransacaoPorId,
   listarObjetivos,
   criarObjetivo,
-  deletarObjetivoPorId
+  deletarObjetivoPorId,
+  listarRendas,
+  criarRenda,
+  deletarRendaPorId
 } from "./services/api"
 
 function App() {
@@ -23,7 +27,6 @@ function App() {
   const [transacoes, setTransacoes] = useState([])
   const [descricao, setDescricao] = useState("")
   const [valor, setValor] = useState("")
-  const [tipo, setTipo] = useState("ENTRADA")
   const [categoria, setCategoria] = useState("ALIMENTACAO")
   const [telaAtual, setTelaAtual] = useState("dashboard")
 
@@ -33,14 +36,9 @@ function App() {
   const [valorAtual, setValorAtual] = useState("")
   const [prazo, setPrazo] = useState("")
   const [tipoObjetivo, setTipoObjetivo] = useState("COMPRA")
-
-  const categoryIcons = {
-    ALIMENTACAO: "🍔",
-    TRANSPORTE: "🚗",
-    LAZER: "🎮",
-    ESTUDOS: "📚",
-    OUTROS: "📦"
-  }
+  const [rendas, setRendas] = useState([])
+  const [descricaoRenda, setDescricaoRenda] = useState("")
+  const [valorRenda, setValorRenda] = useState("")
 
   function carregarDados() {
     buscarSaldo()
@@ -55,9 +53,16 @@ function App() {
       .then((data) => setObjetivos(data))
   }
 
+  function carregarRendas() {
+    listarRendas()
+      .then((data) => setRendas(data))
+  }
+
+
   useEffect(() => {
     carregarDados()
     carregarObjetivos()
+    carregarRendas()
 
     const abrirGoals = () => {
       setTelaAtual("objetivos")
@@ -76,27 +81,26 @@ function App() {
     }
   }, [])
 
-  function adicionarTransacoes(event) {
-    event.preventDefault()
+function adicionarTransacoes(event) {
+  event.preventDefault()
 
-    const novaTransacao = {
-      descricao: descricao,
-      valor: Number(valor),
-      tipo: tipo,
-      data: new Date().toISOString().split("T")[0],
-      categoria: categoria
-    }
-
-    criarTransacao(novaTransacao)
-      .then(() => {
-        carregarDados()
-
-        setDescricao("")
-        setValor("")
-        setTipo("ENTRADA")
-        setCategoria("ALIMENTACAO")
-      })
+  const novaTransacao = {
+    descricao,
+    valor: Number(valor),
+    tipo: "SAIDA",
+    data: new Date().toISOString().split("T")[0],
+    categoria
   }
+
+  criarTransacao(novaTransacao)
+    .then(() => {
+      carregarDados()
+
+      setDescricao("")
+      setValor("")
+      setCategoria("ALIMENTACAO")
+    })
+}
 
   function deletarTransacao(id) {
     deletarTransacaoPorId(id)
@@ -204,14 +208,11 @@ function App() {
     calcularCategoria(categoria.value)
   )
 
-  const maiorValorCategoria = Math.max(...valoresCategorias, 1)
-
   const categoriasFormulario = [
     { label: "Alimentação", value: "ALIMENTACAO" },
     { label: "Transporte", value: "TRANSPORTE" },
     { label: "Lazer", value: "LAZER" },
     { label: "Estudos", value: "ESTUDOS" },
-    { label: "Salário", value: "SALARIO" },
     { label: "Outros", value: "OUTROS" }
   ]
 
@@ -239,6 +240,15 @@ function App() {
             <FaMoneyBillWave />
             Transactions
           </button>
+
+          <button
+            className={telaAtual === "Income" ? "active" : ""}
+            onClick={() => setTelaAtual("Income")}
+          >
+            <FaMoneyBillWave />
+            Income
+          </button>
+
 
           <button
             className={telaAtual === "objetivos" ? "active" : ""}
@@ -279,18 +289,16 @@ function App() {
 
         {telaAtual === "transacoes" && (
           <Transactions
-            descricao={descricao}
-            setDescricao={setDescricao}
-            valor={valor}
-            setValor={setValor}
-            tipo={tipo}
-            setTipo={setTipo}
-            categoria={categoria}
-            setCategoria={setCategoria}
-            categoriasFormulario={categoriasFormulario}
-            transacoes={transacoes}
-            adicionarTransacoes={adicionarTransacoes}
-            deletarTransacao={deletarTransacao}
+              descricao={descricao}
+              setDescricao={setDescricao}
+              valor={valor}
+              setValor={setValor}
+              categoria={categoria}
+              setCategoria={setCategoria}
+              categoriasFormulario={categoriasFormulario}
+              transacoes={transacoes}
+              adicionarTransacoes={adicionarTransacoes}
+              deletarTransacao={deletarTransacao}
           />
         )}
 
@@ -312,9 +320,21 @@ function App() {
             calcularProgressoObjetivo={calcularProgressoObjetivo}
           />
         )}
+
+        {telaAtual === "Income" && (
+          <Income
+             rendas={rendas}
+             descricaoRenda={descricaoRenda}
+             setDescricaoRenda={setDescricaoRenda}
+             valorRenda={valorRenda}
+             setValorRenda={setValorRenda}
+             carregarRendas={carregarRendas}
+             criarRenda={criarRenda}
+             deletarRendaPorId={deletarRendaPorId}
+           />
+        )}
       </main>
     </div>
   )
 }
-
 export default App

@@ -1,0 +1,27 @@
+.dashboard-hero{
+
+    margin-bottom:56px;
+
+}
+
+.dashboard-hero h1{
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:var(--text-primary);
+
+    margin-bottom:12px; /* 👈 importante */
+
+}
+
+.dashboard-hero p{
+
+    color:var(--text-secondary);
+
+    font-size:17px;
+
+    line-height:1.5;
+
+}
