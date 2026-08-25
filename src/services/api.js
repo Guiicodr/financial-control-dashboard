@@ -1,6 +1,5 @@
 const API_URL = "http://localhost:8080";
 
-// Auxiliar para tratar respostas e evitar erro "Unexpected end of JSON input"
 async function handleResponse(response) {
   const text = await response.text();
   const data = text ? JSON.parse(text) : {};
