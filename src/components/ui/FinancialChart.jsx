@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
     ResponsiveContainer,
     LineChart,
@@ -5,188 +6,91 @@ import {
     XAxis,
     YAxis,
     Tooltip,
-    CartesianGrid
+    CartesianGrid,
+    Legend
 } from "recharts";
-
-import { useState } from "react";
-
+import { buscarGastosMensais } from "../../services/api";
 import "../../styles/components/FinancialChart.css";
 
-import ChartToolbar from "./ChartToolbar";
+function FinancialChart() {
+    const [dados, setDados] = useState([]);
 
-function FinancialChart(){
+    useEffect(() => {
+        buscarGastosMensais().then((response) => {
+            console.log("Dados do Gráfico recebidos da API:", response);
+            setDados(response || []);
+        });
+    }, []);
 
-    const [mode,setMode]=useState("categories");
-
-    const chartData = [
-        {
-            month:"Jan",
-            food:420,
-            transport:180,
-            leisure:220,
-            education:90,
-            others:120,
-            income:3200,
-            expenses:1030,
-            balance:2170
-        },
-        {
-            month:"Feb",
-            food:510,
-            transport:200,
-            leisure:170,
-            education:150,
-            others:80,
-            income:3500,
-            expenses:1110,
-            balance:2390
-        },
-        {
-            month:"Mar",
-            food:620,
-            transport:210,
-            leisure:320,
-            education:180,
-            others:130,
-            income:3800,
-            expenses:1460,
-            balance:2340
-        },
-        {
-            month:"Apr",
-            food:540,
-            transport:260,
-            leisure:200,
-            education:140,
-            others:160,
-            income:3900,
-            expenses:1300,
-            balance:2600
-        }
-    ];
-
-    return(
-
+    return (
         <section className="financial-chart">
-
             <div className="chart-header">
-
                 <div>
-
-                    <h2>Financial Analytics</h2>
-
-                    <span>
-                        Visualize your financial evolution
-                    </span>
-
+                    <h2>Monthly Expense Analysis</h2>
+                    <span>Spending by category throughout the year</span>
                 </div>
-
             </div>
 
             <div className="chart-content">
+                <ResponsiveContainer width="100%" height={260}>
+                    <LineChart data={dados}>
+                        <CartesianGrid stroke="#243041" strokeDasharray="4 4" />
+                        <XAxis dataKey="month" stroke="#8EA2C0" />
+                        <YAxis stroke="#8EA2C0" />
+                        <Tooltip
+                            contentStyle={{ backgroundColor: "#1E293B", borderColor: "#334155", color: "#FFF" }}
+                        />
+                        <Legend />
 
-                <ChartToolbar
-                    mode={mode}
-                    setMode={setMode}
-                />
+                        <Line
+                            type="monotone"
+                            dataKey={dados[0]?.Food !== undefined ? "Food" : "food"}
+                            name="Food"
+                            stroke="#3B82F6"
+                            strokeWidth={3}
+                            dot={{ fill: "#3B82F6", r: 4 }}
+                        />
 
-                <div className="chart-area">
+                        <Line
+                            type="monotone"
+                            dataKey={dados[0]?.Transport !== undefined ? "Transport" : "transport"}
+                            name="Transport"
+                            stroke="#10B981"
+                            strokeWidth={3}
+                            dot={{ fill: "#10B981", r: 4 }}
+                        />
 
-                    <ResponsiveContainer
-                        width="100%"
-                        height={380}
-                    >
+                        <Line
+                            type="monotone"
+                            dataKey={dados[0]?.Leisure !== undefined ? "Leisure" : "leisure"}
+                            name="Leisure"
+                            stroke="#F59E0B"
+                            strokeWidth={3}
+                            dot={{ fill: "#F59E0B", r: 4 }}
+                        />
 
-                        <LineChart data={chartData}>
+                        <Line
+                            type="monotone"
+                            dataKey={dados[0]?.Education !== undefined ? "Education" : "education"}
+                            name="Education"
+                            stroke="#EC4899"
+                            strokeWidth={3}
+                            dot={{ fill: "#EC4899", r: 4 }}
+                        />
 
-                            <CartesianGrid
-                                stroke="#243041"
-                                strokeDasharray="4 4"
-                            />
-
-                            <XAxis
-                                dataKey="month"
-                                stroke="#8EA2C0"
-                            />
-
-                            <YAxis
-                                stroke="#8EA2C0"
-                            />
-
-                            <Tooltip />
-
-                            {
-                                mode==="categories" && (
-                                    <>
-                                        <Line
-                                            dataKey="food"
-                                            stroke="#4F8CFF"
-                                            strokeWidth={3}
-                                        />
-
-                                        <Line
-                                            dataKey="transport"
-                                            stroke="#22C55E"
-                                            strokeWidth={3}
-                                        />
-
-                                        <Line
-                                            dataKey="leisure"
-                                            stroke="#F59E0B"
-                                            strokeWidth={3}
-                                        />
-
-                                        <Line
-                                            dataKey="education"
-                                            stroke="#EC4899"
-                                            strokeWidth={3}
-                                        />
-
-                                        <Line
-                                            dataKey="others"
-                                            stroke="#A855F7"
-                                            strokeWidth={3}
-                                        />
-                                    </>
-                                )
-                            }
-
-                            {
-                                mode==="overview" && (
-                                    <>
-                                        <Line
-                                            dataKey="income"
-                                            stroke="#22C55E"
-                                            strokeWidth={3}
-                                        />
-
-                                        <Line
-                                            dataKey="expenses"
-                                            stroke="#EF4444"
-                                            strokeWidth={3}
-                                        />
-
-                                        <Line
-                                            dataKey="balance"
-                                            stroke="#4F8CFF"
-                                            strokeWidth={3}
-                                        />
-                                    </>
-                                )
-                            }
-
-                        </LineChart>
-
-                    </ResponsiveContainer>
-
-                </div>
-
+                        <Line
+                            type="monotone"
+                            dataKey={dados[0]?.Others !== undefined ? "Others" : "others"}
+                            name="Others"
+                            stroke="#8B5CF6"
+                            strokeWidth={3}
+                            dot={{ fill: "#8B5CF6", r: 4 }}
+                        />
+                    </LineChart>
+                </ResponsiveContainer>
             </div>
-
         </section>
-
-    )
-
+    );
 }
 
 export default FinancialChart;

@@ -2,65 +2,65 @@
 @import url("./animations.css");
 @import url("./components.css");
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-html{
-    scroll-behavior:smooth;
+html {
+    scroll-behavior: smooth;
 }
 
-body{
+body {
 
-    font-family:"Inter",sans-serif;
+    font-family: "DM Sans", "Segoe UI", sans-serif;
 
-    background:var(--bg-main);
+    background: var(--bg-main);
 
-    color:var(--text-primary);
+    color: var(--text-primary);
 
-    overflow-x:hidden;
+    overflow-x: hidden;
 
 }
 
-button{
+button {
 
-    font-family:inherit;
+    font-family: inherit;
 
-    cursor:pointer;
+    cursor: pointer;
 
 }
 
 input,
-select{
+select {
 
-    font-family:inherit;
-
-}
-
-::-webkit-scrollbar{
-
-    width:8px;
+    font-family: inherit;
 
 }
 
-::-webkit-scrollbar-track{
+::-webkit-scrollbar {
 
-    background:var(--bg-main);
-
-}
-
-::-webkit-scrollbar-thumb{
-
-    background:var(--bg-card-hover);
-
-    border-radius:20px;
+    width: 8px;
 
 }
 
-::-webkit-scrollbar-thumb:hover{
+::-webkit-scrollbar-track {
 
-    background:var(--primary);
+    background: var(--bg-main);
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: var(--bg-card-hover);
+
+    border-radius: 20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: var(--primary);
 
 }

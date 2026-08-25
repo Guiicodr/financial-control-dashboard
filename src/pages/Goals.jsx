@@ -1,3 +1,5 @@
+import "../styles/pages/Goals.css";
+
 function Goals({
   objetivos,
   nomeObjetivo,
@@ -12,7 +14,8 @@ function Goals({
   setTipoObjetivo,
   adicionarObjetivo,
   deletarObjetivo,
-  calcularProgressoObjetivo
+  calcularProgressoObjetivo,
+  registrarMovimentoMeta
 }) {
   return (
     <>
@@ -85,14 +88,20 @@ function Goals({
                 ).toFixed(1)}% concluído
               </span>
 
+              <small className="goal-simulation">
+                {objetivo.prazo && new Date(objetivo.prazo) > new Date()
+                  ? `Guardar R$ ${((Math.max(0, Number(objetivo.valorAlvo) - Number(objetivo.valorAtual))) / Math.max(1, Math.ceil((new Date(objetivo.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 30)))).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}/mês até ${new Date(objetivo.prazo).toLocaleDateString("pt-BR")}`
+                  : "Prazo vencido ou não definido"}
+              </small>
+
               <div className="bar">
                 <div
                   className="bar-fill"
                   style={{
-                    width: `${calcularProgressoObjetivo(
+                    width: `${Math.min(calcularProgressoObjetivo(
                       objetivo.valorAtual,
                       objetivo.valorAlvo
-                    )}%`
+                    ), 100)}%`
                   }}
                 ></div>
               </div>
@@ -103,6 +112,10 @@ function Goals({
               >
                 Excluir
               </button>
+              <div className="goal-movement-actions">
+                <button type="button" onClick={() => registrarMovimentoMeta(objetivo.id, { valor: 100, tipo: "APORTE" })}>+ R$ 100</button>
+                <button type="button" onClick={() => registrarMovimentoMeta(objetivo.id, { valor: 100, tipo: "RESGATE" })}>- R$ 100</button>
+              </div>
             </li>
           ))}
         </ul>

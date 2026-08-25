@@ -1,69 +1,159 @@
-const API_URL = "http://localhost:8080"
+const API_URL = "http://localhost:8080";
+
+// Auxiliar para tratar respostas e evitar erro "Unexpected end of JSON input"
+async function handleResponse(response) {
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : {};
+
+  if (!response.ok) {
+    const errorMsg = data.message || data.error || `Erro (${response.status})`;
+    throw new Error(errorMsg);
+  }
+
+  return data;
+}
+
+function apiFetch(url, options = {}) {
+  const request = (token) =>
+    fetch(`${API_URL}${url}`, {
+      ...options,
+      headers: {
+        ...(options.body instanceof FormData
+          ? {}
+          : { "Content-Type": "application/json" }),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    });
+
+  const token = localStorage.getItem("accessToken");
+
+  return request(token).then(async (response) => {
+    if (response.status !== 401 || !localStorage.getItem("refreshToken")) {
+      return response;
+    }
+
+    const refreshResponse = await fetch(`${API_URL}/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        refreshToken: localStorage.getItem("refreshToken"),
+      }),
+    });
+
+    if (!refreshResponse.ok) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      window.dispatchEvent(new Event("sessionExpired"));
+      return response;
+    }
+
+    const tokens = await refreshResponse.json();
+    localStorage.setItem("accessToken", tokens.accessToken);
+    localStorage.setItem("refreshToken", tokens.refreshToken);
+
+    return request(tokens.accessToken);
+  });
+}
+
+export function autenticar(email, senha) {
+  return fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, senha }),
+  }).then(handleResponse);
+}
+
+export function registrar(email, senha) {
+  return fetch(`${API_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, senha }),
+  }).then(handleResponse);
+}
 
 export function listarTransacoes() {
-  return fetch(`${API_URL}/transacoes`)
-    .then(response => response.json())
+  return apiFetch("/transacoes").then(handleResponse);
 }
 
 export function buscarSaldo() {
-  return fetch(`${API_URL}/transacoes/saldo`)
-    .then(response => response.json())
+  return apiFetch("/transacoes/saldo").then(handleResponse);
 }
 
 export function criarTransacao(transacao) {
-  return fetch(`${API_URL}/transacoes`, {
+  return apiFetch("/transacoes", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(transacao)
-  })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(transacao),
+  }).then(handleResponse);
 }
 
 export function deletarTransacaoPorId(id) {
-  return fetch(`${API_URL}/transacoes/${id}`, {
-    method: "DELETE"
-  })
+  return apiFetch(`/transacoes/${id}`, {
+    method: "DELETE",
+  }).then(handleResponse);
 }
 
 export function listarObjetivos() {
-  return fetch(`${API_URL}/objetivos`)
-    .then(response => response.json())
+  return apiFetch("/objetivos").then(handleResponse);
 }
 
 export function criarObjetivo(objetivo) {
-  return fetch(`${API_URL}/objetivos`, {
+  return apiFetch("/objetivos", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(objetivo)
-  })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(objetivo),
+  }).then(handleResponse);
 }
 
 export function deletarObjetivoPorId(id) {
-  return fetch(`${API_URL}/objetivos/${id}`, {
-    method: "DELETE"
-  })
+  return apiFetch(`/objetivos/${id}`, {
+    method: "DELETE",
+  }).then(handleResponse);
 }
 
 export function listarRendas() {
-  return fetch(`${API_URL}/income`)
-    .then((response) => response.json())
+  return apiFetch("/income").then(handleResponse);
 }
 
 export function criarRenda(renda) {
-  return fetch(`${API_URL}/income`, {
+  return apiFetch("/income", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(renda)
-  }).then((response) => response.json())
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(renda),
+  }).then(handleResponse);
 }
 
 export function deletarRendaPorId(id) {
-  return fetch(`${API_URL}/income/${id}`, {
-    method: "DELETE"
-  })
+  return apiFetch(`/income/${id}`, {
+    method: "DELETE",
+  }).then(handleResponse);
+}
+
+export function buscarGastosMensais() {
+  return apiFetch("/transacoes/monthly").then(handleResponse);
+}
+
+export function analisarExtrato(arquivo) {
+  const formData = new FormData();
+  formData.append("arquivo", arquivo);
+  return apiFetch("/importacoes/extrato", {
+    method: "POST",
+    body: formData,
+  }).then(handleResponse);
+}
+
+export function listarNotificacoes() {
+  return apiFetch("/notificacoes").then(handleResponse);
+}
+
+export function registrarMovimentoMeta(id, movimento) {
+  return apiFetch(`/metas/movimentos/${id}`, {
+    method: "POST",
+    body: JSON.stringify(movimento),
+  }).then(handleResponse);
+}
+
+export function listarAlertasOrcamento() {
+  return apiFetch("/orcamentos/alertas").then(handleResponse);
 }

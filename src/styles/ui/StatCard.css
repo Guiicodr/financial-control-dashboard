@@ -1,4 +1,3 @@
-
 .stat-card {
 
     position: relative;
@@ -14,11 +13,9 @@
 
     border: 1px solid var(--border-color);
 
-    background: linear-gradient(
-        180deg,
-        #1A2333 0%,
-        #151C28 100%
-    );
+    background: linear-gradient(180deg,
+            #1A2333 0%,
+            #151C28 100%);
 
     animation: fadeUp .5s ease;
 
@@ -39,12 +36,10 @@
 
     pointer-events: none;
 
-    background: linear-gradient(
-        110deg,
-        transparent 0%,
-        rgba(255,255,255,.04) 50%,
-        transparent 100%
-    );
+    background: linear-gradient(110deg,
+            transparent 0%,
+            rgba(255, 255, 255, .04) 50%,
+            transparent 100%);
 
     transform: translateX(-120%);
 
@@ -130,7 +125,7 @@
 
     transform: translateY(-6px);
 
-    border-color: rgba(255,255,255,.12);
+    border-color: rgba(255, 255, 255, .12);
 
 }
 
@@ -142,7 +137,7 @@
 
 .stat-card.primary .stat-icon {
 
-    background: rgba(79,140,255,.15);
+    background: rgba(79, 140, 255, .15);
 
     color: var(--primary);
 
@@ -150,7 +145,7 @@
 
 .stat-card.success .stat-icon {
 
-    background: rgba(34,197,94,.15);
+    background: rgba(34, 197, 94, .15);
 
     color: var(--success);
 
@@ -158,7 +153,7 @@
 
 .stat-card.danger .stat-icon {
 
-    background: rgba(239,68,68,.15);
+    background: rgba(239, 68, 68, .15);
 
     color: var(--danger);
 
@@ -166,7 +161,7 @@
 
 .stat-card.warning .stat-icon {
 
-    background: rgba(245,158,11,.15);
+    background: rgba(245, 158, 11, .15);
 
     color: var(--warning);
 
@@ -176,7 +171,7 @@
 
     box-shadow:
         var(--shadow-lg),
-        0 0 30px rgba(79,140,255,.08);
+        0 0 30px rgba(79, 140, 255, .08);
 
 }
 
@@ -184,7 +179,7 @@
 
     box-shadow:
         var(--shadow-lg),
-        0 0 30px rgba(34,197,94,.08);
+        0 0 30px rgba(34, 197, 94, .08);
 
 }
 
@@ -192,7 +187,7 @@
 
     box-shadow:
         var(--shadow-lg),
-        0 0 30px rgba(239,68,68,.08);
+        0 0 30px rgba(239, 68, 68, .08);
 
 }
 
@@ -200,7 +195,7 @@
 
     box-shadow:
         var(--shadow-lg),
-        0 0 30px rgba(245,158,11,.08);
+        0 0 30px rgba(245, 158, 11, .08);
 
 }
 
@@ -222,4 +217,55 @@
 
     }
 
+}
+
+.stat-card {
+    min-height: 100px;
+    padding: 16px;
+    border: 1px solid #202226;
+    border-radius: 14px;
+    background: #131416;
+    box-shadow: none;
+}
+
+.stat-header span {
+    color: #777b80;
+    font-size: 11px;
+}
+
+.stat-card h2 {
+    margin-top: 12px;
+    color: #e8eaed;
+    font-size: 18px;
+    letter-spacing: 0;
+}
+
+.stat-subtitle {
+    padding-top: 8px;
+    color: #666a70;
+    font-size: 10px;
+}
+
+.stat-card.primary h2 {
+    color: #20c864;
+}
+
+.stat-card.danger h2 {
+    color: #f06479;
+}
+
+.stat-card.primary .stat-icon,
+.stat-card.success .stat-icon {
+    background: #19251d;
+    color: #20c864;
+}
+
+.stat-card.danger .stat-icon {
+    background: #2a181d;
+    color: #f06479;
+}
+
+.stat-card.warning .stat-icon {
+    background: #24211a;
+    color: #d9aa54;
 }

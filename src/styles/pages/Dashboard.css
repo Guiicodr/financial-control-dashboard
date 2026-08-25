@@ -12,7 +12,7 @@
 
     color:var(--text-primary);
 
-    margin-bottom:12px; /* 👈 importante */
+    margin-bottom:12px;
 
 }
 
@@ -24,4 +24,21 @@
 
     line-height:1.5;
 
+}
+
+.category-values{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.category-values small{
+    color:#94A3B8;
+    font-size:.8rem;
+}
+
+.category-status{
+    margin-top:8px;
+    font-size:.8rem;
+    font-weight:600;
 }

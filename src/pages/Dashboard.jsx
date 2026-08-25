@@ -1,18 +1,23 @@
 import BalanceCard from "../components/ui/BalanceCard";
 import FinancialChart from "../components/ui/FinancialChart";
+import IncomeExpenseChart from "../components/ui/IncomeExpenseChart";
+import MonthComparisonChart from "../components/ui/MonthComparisonChart";
+import { useEffect, useState } from "react";
+import { listarNotificacoes } from "../services/api";
 import StatCard from "../components/ui/StatCard";
 import {
-    FaArrowTrendUp,
-    FaArrowTrendDown,
-    FaWallet,
-    FaChartPie
+  FaArrowTrendUp,
+  FaArrowTrendDown,
+  FaWallet,
+  FaChartPie
 } from "react-icons/fa6"
 import "../styles/pages/Dashboard.css";
 
 function Dashboard({
   saldo,
-  totalEntradas,
+  totalRendas,
   totalSaidas,
+  transacoes,
   percentualConsumo,
   diagnosticoFinanceiro,
   categoriasConsumo,
@@ -21,89 +26,46 @@ function Dashboard({
   calcularProgressoObjetivo,
   abrirObjetivos
 }) {
-
-  const categoryIcons = {
-    ALIMENTACAO: "🍔",
-    LAZER: "🎮",
-    TRANSPORTE: "🚗",
-    ESTUDOS: "📚",
-    OUTROS: "📦"
-  }
-
-  const valoresCategorias = categoriasConsumo.map((categoria) =>
-    calcularCategoria(categoria.value)
-  )
-
-  const maiorValorCategoria = Math.max(
-    ...valoresCategorias,
-    1
-  )
+  const [notificacoes, setNotificacoes] = useState([]);
+  useEffect(() => { listarNotificacoes().then(setNotificacoes).catch(() => setNotificacoes([])); }, []);
 
   return (
     <>
 
       <section className="dashboard-hero">
 
-          <div>
+        <div>
 
-              <h1>
+          <h1>
 
-                  Good afternoon, Guilherme 👋
+            Good afternoon, Guilherme
 
-              </h1>
+          </h1>
 
-              <p>
+          <p>
 
-                  Here's your financial overview today.
+            Here's your financial overview today.
 
-              </p>
+          </p>
 
-          </div>
+        </div>
 
       </section>
 
       <BalanceCard saldo={saldo} />
 
+      <section className="overview-grid">
+        <StatCard title="Income" value={totalRendas} prefix="R$ " icon={<FaArrowTrendUp />} variant="success" subtitle="Recurring income" />
+        <StatCard title="Expenses" value={totalSaidas} prefix="R$ " icon={<FaArrowTrendDown />} variant="danger" subtitle="Monthly expenses" />
+        <StatCard title="Balance" value={saldo} prefix="R$ " icon={<FaWallet />} variant="primary" subtitle="Available balance" />
+        <StatCard title="Income Usage" value={percentualConsumo.toFixed(1)} suffix="%" icon={<FaChartPie />} variant="warning" subtitle="Current month" />
+      </section>
+
       <FinancialChart />
 
-      <section className="overview-grid">
-        <StatCard
-            title="Income"
-            value={totalEntradas}
-            prefix="R$ "
-            icon={<FaArrowTrendUp />}
-            variant="success"
-            subtitle="Recurring income"
-        />
-
-        <StatCard
-            title="Expenses"
-            value={totalSaidas}
-            prefix="R$ "
-            icon={<FaArrowTrendDown />}
-            variant="danger"
-            subtitle="Monthly expenses"
-        />
-
-        <StatCard
-            title="Balance"
-            value={saldo}
-            prefix="R$ "
-            icon={<FaWallet />}
-            variant="primary"
-            subtitle="Available balance"
-        />
-
-        <StatCard
-            title="Income Usage"
-            value={percentualConsumo.toFixed(1)}
-            suffix="%"
-            icon={<FaChartPie />}
-            variant="warning"
-            subtitle="Current month"
-        />
-
-      </section>
+      <IncomeExpenseChart totalRendas={totalRendas} totalSaidas={totalSaidas} />
+      <MonthComparisonChart transacoes={transacoes} />
+      {notificacoes.length > 0 && <section className="insight-card warning"><h2>Alerts</h2>{notificacoes.map((item, index) => <p key={`${item.tipo}-${index}`}><strong>{item.titulo}:</strong> {item.mensagem}</p>)}</section>}
 
       <section
         className={`insight-card ${diagnosticoFinanceiro.status}`}
@@ -123,7 +85,16 @@ function Dashboard({
             )
 
             const percentual =
-              (valor / maiorValorCategoria) * 100
+              totalRendas === 0
+                ? 0
+                : (valor / totalRendas) * 100
+            let cor = "#22C55E";
+
+            if (percentual >= 30) {
+              cor = "#EF4444";
+            } else if (percentual >= 15) {
+              cor = "#F59E0B";
+            }
 
             return (
               <div
@@ -132,24 +103,32 @@ function Dashboard({
               >
                 <div className="category-header">
 
-                  <span>
-                    {categoryIcons[categoria.value]}{" "}
-                    {categoria.label}
-                  </span>
+                  <span>{categoria.label}</span>
 
-                  <strong>
-                    R$ {valor}
-                  </strong>
+                  <div className="category-values">
+
+                    <strong>
+                      R$ {valor.toFixed(2)}
+                    </strong>
+
+                    <small>
+                      {percentual.toFixed(1)}%
+                    </small>
+
+                  </div>
 
                 </div>
 
                 <div className="progress-bar">
+
                   <div
                     className="progress-fill"
                     style={{
-                      width: `${percentual}%`
+                      width: `${Math.min(percentual, 100)}%`,
+                      backgroundColor: cor
                     }}
                   />
+
                 </div>
 
               </div>
@@ -198,10 +177,6 @@ function Dashboard({
                     <strong>
                       {objetivo.nome}
                     </strong>
-
-                    <span className="goal-values">
-                      R$ {objetivo.valorAtual} / R$ {objetivo.valorAlvo}
-                    </span>
 
                     <div className="progress-bar">
                       <div

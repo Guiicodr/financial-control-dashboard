@@ -1,25 +1,25 @@
 :root {
 
-  --bg-main: #0B1220;
-  --bg-sidebar: #121A2B;
-  --bg-card: #182235;
-  --bg-card-hover: #22304A;
+  --bg-main: #090a0c;
+  --bg-sidebar: #0b0c0e;
+  --bg-card: #131416;
+  --bg-card-hover: #191c1a;
 
-  --primary: #4F8CFF;
-  --primary-hover: #3B7DFF;
+  --primary: #20c864;
+  --primary-hover: #16a34a;
 
   --success: #22C55E;
   --danger: #EF4444;
-  --warning: #FACC15;
+  --warning: #f59e0b;
 
   --text-primary: #F8FAFC;
   --text-secondary: #94A3B8;
 
-  --border: rgba(255,255,255,.06);
+  --border: #202226;
 
-  --shadow-sm: 0 4px 12px rgba(0,0,0,.18);
-  --shadow-md: 0 10px 25px rgba(0,0,0,.25);
-  --shadow-lg: 0 20px 40px rgba(0,0,0,.35);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, .18);
+  --shadow-md: 0 10px 25px rgba(0, 0, 0, .25);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, .35);
 
   --radius-sm: 12px;
   --radius-md: 18px;
