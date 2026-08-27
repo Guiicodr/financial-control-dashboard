@@ -1,4 +1,5 @@
 import "../styles/pages/Goals.css";
+import { useTranslation } from "react-i18next";
 
 function Goals({
   objetivos,
@@ -17,29 +18,30 @@ function Goals({
   calcularProgressoObjetivo,
   registrarMovimentoMeta
 }) {
+  const { t, i18n } = useTranslation();
   return (
     <>
       <section className="form-card">
-        <h2>Novo objetivo</h2>
+        <h2>{t("goals.newTitle")}</h2>
 
         <form onSubmit={adicionarObjetivo}>
           <input
             type="text"
-            placeholder="Nome do objetivo"
+            placeholder={t("goals.name")}
             value={nomeObjetivo}
             onChange={(e) => setNomeObjetivo(e.target.value)}
           />
 
           <input
             type="number"
-            placeholder="Valor alvo"
+            placeholder={t("goals.target")}
             value={valorAlvo}
             onChange={(e) => setValorAlvo(e.target.value)}
           />
 
           <input
             type="number"
-            placeholder="Valor atual"
+            placeholder={t("goals.current")}
             value={valorAtual}
             onChange={(e) => setValorAtual(e.target.value)}
           />
@@ -54,18 +56,15 @@ function Goals({
             value={tipoObjetivo}
             onChange={(e) => setTipoObjetivo(e.target.value)}
           >
-            <option value="COMPRA">Compra</option>
-            <option value="ECONOMIA">Economia</option>
-            <option value="INVESTIMENTO">Investimento</option>
-            <option value="RESERVA">Reserva</option>
+            <option value="COMPRA">{t("goals.purchase")}</option><option value="ECONOMIA">{t("goals.savings")}</option><option value="INVESTIMENTO">{t("goals.investment")}</option><option value="RESERVA">{t("goals.reserve")}</option>
           </select>
 
-          <button type="submit">Adicionar objetivo</button>
+          <button type="submit">{t("goals.add")}</button>
         </form>
       </section>
 
       <section className="transactions-card">
-        <h2>Objetivos</h2>
+        <h2>{t("goals.title")}</h2>
 
         <ul>
           {objetivos.map((objetivo) => (
@@ -73,25 +72,22 @@ function Goals({
               <div>
                 <strong>{objetivo.nome}</strong>
                 <span>
-                  {objetivo.tipo} • Prazo: {objetivo.prazo}
+                  {objetivo.tipo} • {t("goals.deadline", { date: objetivo.prazo })}
                 </span>
               </div>
 
               <p>
-                R$ {objetivo.valorAtual} / R$ {objetivo.valorAlvo}
+                {new Intl.NumberFormat(i18n.language, { style: "currency", currency: "BRL" }).format(objetivo.valorAtual)} / {new Intl.NumberFormat(i18n.language, { style: "currency", currency: "BRL" }).format(objetivo.valorAlvo)}
               </p>
 
               <span>
-                {calcularProgressoObjetivo(
-                  objetivo.valorAtual,
-                  objetivo.valorAlvo
-                ).toFixed(1)}% concluído
+                {t("goals.complete", { percent: calcularProgressoObjetivo(objetivo.valorAtual, objetivo.valorAlvo).toFixed(1) })}
               </span>
 
               <small className="goal-simulation">
                 {objetivo.prazo && new Date(objetivo.prazo) > new Date()
-                  ? `Guardar R$ ${((Math.max(0, Number(objetivo.valorAlvo) - Number(objetivo.valorAtual))) / Math.max(1, Math.ceil((new Date(objetivo.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 30)))).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}/mês até ${new Date(objetivo.prazo).toLocaleDateString("pt-BR")}`
-                  : "Prazo vencido ou não definido"}
+                  ? t("goals.saveMonthly", { amount: new Intl.NumberFormat(i18n.language, { style: "currency", currency: "BRL" }).format((Math.max(0, Number(objetivo.valorAlvo) - Number(objetivo.valorAtual))) / Math.max(1, Math.ceil((new Date(objetivo.prazo) - new Date()) / (1000 * 60 * 60 * 24 * 30)))), date: new Date(objetivo.prazo).toLocaleDateString(i18n.language) })
+                  : t("goals.expired")}
               </small>
 
               <div className="bar">
@@ -110,11 +106,10 @@ function Goals({
                 className="delete-button"
                 onClick={() => deletarObjetivo(objetivo.id)}
               >
-                Excluir
+                {t("goals.delete")}
               </button>
               <div className="goal-movement-actions">
-                <button type="button" onClick={() => registrarMovimentoMeta(objetivo.id, { valor: 100, tipo: "APORTE" })}>+ R$ 100</button>
-                <button type="button" onClick={() => registrarMovimentoMeta(objetivo.id, { valor: 100, tipo: "RESGATE" })}>- R$ 100</button>
+                <button type="button" onClick={() => registrarMovimentoMeta(objetivo.id, { valor: 100, tipo: "APORTE" })}>{t("goals.deposit")}</button><button type="button" onClick={() => registrarMovimentoMeta(objetivo.id, { valor: 100, tipo: "RESGATE" })}>{t("goals.withdraw")}</button>
               </div>
             </li>
           ))}

@@ -1,7 +1,9 @@
 import "../../styles/components/BalanceCard.css";
 import { FaWallet } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 function BalanceCard({ saldo }) {
+    const { t, i18n } = useTranslation();
 
     return (
 
@@ -10,11 +12,11 @@ function BalanceCard({ saldo }) {
             <div className="balance-info">
 
                 <span className="balance-title">
-                    Available Balance
+                    {t("balanceCard.title")}
                 </span>
 
                 <h1>
-                    R$ {saldo}
+                    {new Intl.NumberFormat(i18n.language, { style: "currency", currency: "BRL" }).format(Number(saldo))}
                 </h1>
 
                 <div className="balance-footer">
@@ -24,7 +26,7 @@ function BalanceCard({ saldo }) {
                     </span>
 
                     <span>
-                        Updated in real time
+                        {t("balanceCard.updated")}
                     </span>
 
                 </div>

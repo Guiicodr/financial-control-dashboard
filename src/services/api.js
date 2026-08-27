@@ -63,11 +63,11 @@ export function autenticar(email, senha) {
   }).then(handleResponse);
 }
 
-export function registrar(email, senha) {
+export function registrar(nome, email, senha) {
   return fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, senha }),
+    body: JSON.stringify({ nome, email, senha }),
   }).then(handleResponse);
 }
 
@@ -133,15 +133,6 @@ export function buscarGastosMensais() {
   return apiFetch("/transacoes/monthly").then(handleResponse);
 }
 
-export function analisarExtrato(arquivo) {
-  const formData = new FormData();
-  formData.append("arquivo", arquivo);
-  return apiFetch("/importacoes/extrato", {
-    method: "POST",
-    body: formData,
-  }).then(handleResponse);
-}
-
 export function listarNotificacoes() {
   return apiFetch("/notificacoes").then(handleResponse);
 }
@@ -155,4 +146,11 @@ export function registrarMovimentoMeta(id, movimento) {
 
 export function listarAlertasOrcamento() {
   return apiFetch("/orcamentos/alertas").then(handleResponse);
+}
+
+export function atualizarRenda(id, renda) {
+  return apiFetch(`/income/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(renda),
+  }).then(handleResponse);
 }

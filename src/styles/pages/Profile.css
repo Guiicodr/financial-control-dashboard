@@ -150,3 +150,7 @@
         font-size: 24px;
     }
 }
+
+.language-preference { display: grid; gap: 6px; margin-top: 14px; color: #e4e7e9; font-size: 12px; font-weight: 700; }
+.language-preference select { max-width: 250px; padding: 9px 10px; border: 1px solid #30343a; border-radius: 8px; background: #1b1d20; color: #f0f2f3; }
+.language-preference small { color: #777d84; font-weight: 400; }

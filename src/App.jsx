@@ -2,6 +2,7 @@ import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import "./styles/App.css"
 
 import Dashboard from "./pages/Dashboard";
@@ -21,12 +22,13 @@ import {
   deletarObjetivoPorId,
   listarRendas,
   criarRenda,
+  atualizarRenda,
   deletarRendaPorId
 } from "./services/api"
-import { analisarExtrato } from "./services/api"
 import { registrarMovimentoMeta as salvarMovimentoMeta } from "./services/api"
 
 function App() {
+  const { t } = useTranslation()
   const [saldo, setSaldo] = useState(0)
   const [transacoes, setTransacoes] = useState([])
   const [descricao, setDescricao] = useState("")
@@ -41,10 +43,8 @@ function App() {
   const [prazo, setPrazo] = useState("")
   const [tipoObjetivo, setTipoObjetivo] = useState("COMPRA")
   const [rendas, setRendas] = useState([])
-  const [descricaoRenda, setDescricaoRenda] = useState("")
-  const [valorRenda, setValorRenda] = useState("")
   const [autenticado, setAutenticado] = useState(() => Boolean(localStorage.getItem("accessToken")))
-  const [emailUsuario] = useState(() => localStorage.getItem("userEmail") || "Guilherme")
+  const [usuario, setUsuario] = useState(() => ({ nome: localStorage.getItem("userName") || localStorage.getItem("userEmail")?.split("@")[0] || "", email: localStorage.getItem("userEmail") || "" }))
 
   function carregarDados() {
     buscarSaldo()
@@ -121,10 +121,6 @@ function App() {
       .then(() => carregarDados())
   }
 
-  function importarTransacoes(transacoesImportadas) {
-    return Promise.all(transacoesImportadas.map((transacao) => criarTransacao(transacao)))
-      .then(() => carregarDados())
-  }
 
   function adicionarObjetivo(event) {
     event.preventDefault()
@@ -186,8 +182,8 @@ function App() {
 
     if (totalRendas === 0) {
       return {
-        titulo: "No financial data",
-        mensagem: "Register your monthly income to start receiving financial insights.",
+        titulo: t("dashboard.noData"),
+        mensagem: t("dashboard.noDataMessage"),
         status: "neutral"
       };
     }
@@ -199,11 +195,7 @@ function App() {
     const utilities = calcularCategoria("UTILITIES");
 
     const categories = [
-      { nome: "Food", valor: food },
-      { nome: "Transport", valor: transport },
-      { nome: "Leisure", valor: leisure },
-      { nome: "Education", valor: education },
-      { nome: "Utilities", valor: utilities }
+      { nome: t("charts.food"), valor: food }, { nome: t("charts.transport"), valor: transport }, { nome: t("charts.leisure"), valor: leisure }, { nome: t("charts.education"), valor: education }, { nome: t("charts.bills"), valor: utilities }
     ];
 
     const maiorCategoria = categories.reduce((a, b) =>
@@ -212,31 +204,27 @@ function App() {
 
     if (percentualConsumo >= 90) {
       return {
-        titulo: "Critical spending",
-        mensagem: `You have already spent ${percentualConsumo.toFixed(1)}% of your monthly income. Your biggest expense is ${maiorCategoria.nome}.`,
+        titulo: t("dashboard.critical"), mensagem: t("dashboard.criticalMessage", { percent: percentualConsumo.toFixed(1), category: maiorCategoria.nome }),
         status: "danger"
       };
     }
 
     if (percentualConsumo >= 70) {
       return {
-        titulo: "Attention required",
-        mensagem: `${maiorCategoria.nome} represents your largest expense this month. Consider reviewing this category.`,
+        titulo: t("dashboard.attention"), mensagem: t("dashboard.attentionMessage", { category: maiorCategoria.nome }),
         status: "warning"
       };
     }
 
     if (education > food && education > leisure) {
       return {
-        titulo: "Great investment",
-        mensagem: "Most of your spending is focused on education, which usually contributes to long-term growth.",
+        titulo: t("dashboard.investment"), mensagem: t("dashboard.investmentMessage"),
         status: "healthy"
       };
     }
 
     return {
-      titulo: "Healthy financial profile",
-      mensagem: "Your expenses are balanced and remain within a safe percentage of your income.",
+      titulo: t("dashboard.healthy"), mensagem: t("dashboard.healthyMessage"),
       status: "healthy"
     };
   }
@@ -244,29 +232,21 @@ function App() {
   const diagnosticoFinanceiro = gerarDiagnosticoFinanceiro()
 
   const categoriasConsumo = [
-    { label: "Food", value: "ALIMENTACAO", limite: 25 },
-    { label: "Bills", value: "OUTROS", limite: 30 },
-    { label: "Transport", value: "TRANSPORTE", limite: 15 },
-    { label: "Education", value: "ESTUDOS", limite: 15 },
-    { label: "Leisure", value: "LAZER", limite: 10 }
+    { label: t("categories.ALIMENTACAO"), value: "ALIMENTACAO", limite: 25 }, { label: t("categories.OUTROS"), value: "OUTROS", limite: 30 }, { label: t("categories.TRANSPORTE"), value: "TRANSPORTE", limite: 15 }, { label: t("categories.ESTUDOS"), value: "ESTUDOS", limite: 15 }, { label: t("categories.LAZER"), value: "LAZER", limite: 10 }
   ]
 
   const categoriasFormulario = [
-    { label: "Alimentação", value: "ALIMENTACAO" },
-    { label: "Transporte", value: "TRANSPORTE" },
-    { label: "Lazer", value: "LAZER" },
-    { label: "Estudos", value: "ESTUDOS" },
-    { label: "Outros", value: "OUTROS" }
+    { label: t("categories.ALIMENTACAO"), value: "ALIMENTACAO" }, { label: t("categories.TRANSPORTE"), value: "TRANSPORTE" }, { label: t("categories.LAZER"), value: "LAZER" }, { label: t("categories.ESTUDOS"), value: "ESTUDOS" }, { label: t("categories.OUTROS"), value: "OUTROS" }
   ]
 
-  if (!autenticado) return <AuthPage onAuthenticated={() => setAutenticado(true)} />
+  if (!autenticado) return <AuthPage onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }} />
 
   return (
     <div className="app-layout">
       <aside className="sidebar">
         <div className="brand">
           <h2>Finanly</h2>
-          <span>Personal Financial Assistant</span>
+          <span>{t("brand.tagline")}</span>
         </div>
 
         <nav className="sidebar-nav">
@@ -275,7 +255,7 @@ function App() {
             onClick={() => setTelaAtual("dashboard")}
           >
             <MdDashboard />
-            Dashboard
+            {t("nav.dashboard")}
           </button>
 
           <button
@@ -283,7 +263,7 @@ function App() {
             onClick={() => setTelaAtual("transacoes")}
           >
             <FaMoneyBillWave />
-            Transactions
+            {t("nav.transactions")}
           </button>
 
           <button
@@ -291,7 +271,7 @@ function App() {
             onClick={() => setTelaAtual("Income")}
           >
             <FaMoneyBillWave />
-            Income
+            {t("nav.income")}
           </button>
 
 
@@ -300,15 +280,14 @@ function App() {
             onClick={() => setTelaAtual("objetivos")}
           >
             <FaBullseye />
-            Goals
+            {t("nav.goals")}
           </button>
         </nav>
-        <button className="user-card" type="button" onClick={() => setTelaAtual("perfil")} aria-label="Abrir perfil">
-          <div className="avatar">G</div>
+        <button className="user-card" type="button" onClick={() => setTelaAtual("perfil")} aria-label={t("nav.profile")}>
+          <div className="avatar">{usuario.nome?.charAt(0).toUpperCase()}</div>
 
           <div>
-            <strong>{emailUsuario}</strong>
-            <span>Meu perfil</span>
+            <strong>{usuario.nome}</strong><span>{t("nav.profile")}</span>
           </div>
         </button>
       </aside>
@@ -332,6 +311,7 @@ function App() {
             calcularProgressoObjetivo={calcularProgressoObjetivo}
             registrarMovimentoMeta={(id, movimento) => salvarMovimentoMeta(id, movimento).then(carregarObjetivos)}
             abrirObjetivos={() => setTelaAtual("objetivos")}
+            nomeUsuario={usuario.nome}
           />
         )}
 
@@ -347,8 +327,6 @@ function App() {
             transacoes={transacoes}
             adicionarTransacoes={adicionarTransacoes}
             deletarTransacao={deletarTransacao}
-            importarTransacoes={importarTransacoes}
-            analisarExtrato={analisarExtrato}
           />
         )}
 
@@ -374,23 +352,22 @@ function App() {
         {telaAtual === "Income" && (
           <Income
             rendas={rendas}
-            descricaoRenda={descricaoRenda}
-            setDescricaoRenda={setDescricaoRenda}
-            valorRenda={valorRenda}
-            setValorRenda={setValorRenda}
             carregarRendas={carregarRendas}
             criarRenda={criarRenda}
+            atualizarRenda={atualizarRenda}
             deletarRendaPorId={deletarRendaPorId}
           />
         )}
 
         {telaAtual === "perfil" && (
           <Profile
-            email={emailUsuario}
+            nome={usuario.nome} email={usuario.email}
             voltar={() => setTelaAtual("dashboard")}
             sair={() => {
               localStorage.removeItem("accessToken")
               localStorage.removeItem("refreshToken")
+              localStorage.removeItem("userName")
+              localStorage.removeItem("userEmail")
               setAutenticado(false)
             }}
           />

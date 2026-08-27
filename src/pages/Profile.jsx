@@ -1,16 +1,8 @@
-import { FaArrowLeft, FaRightFromBracket, FaShieldHalved, FaUser } from "react-icons/fa6";
+import { FaArrowLeft, FaRightFromBracket, FaUser } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
 import "../styles/pages/Profile.css";
-
-function Profile({ email, voltar, sair }) {
-    return (
-        <div className="profile-page">
-            <button className="profile-back" type="button" onClick={voltar}><FaArrowLeft /> Dashboard</button>
-            <header className="profile-heading"><span className="profile-kicker">Conta pessoal</span><h1>Seu perfil</h1><p>Gerencie seus dados e a segurança do seu espaço financeiro.</p></header>
-            <section className="profile-hero"><div className="profile-avatar"><FaUser /></div><div><span className="profile-label">Usuário</span><h2>{email || "Guilherme"}</h2><p>Conta Finanly</p></div></section>
-            <div className="profile-grid"><section className="profile-card"><div className="profile-card-icon"><FaUser /></div><div><h3>Preferências</h3><p>Moeda padrão: Real brasileiro (BRL)</p><p>Notificações internas: ativadas</p></div></section></div>
-            <button className="profile-logout" type="button" onClick={sair}><FaRightFromBracket /> Sair da conta</button>
-        </div>
-    );
+function Profile({ nome, email, voltar, sair }) {
+  const { t, i18n } = useTranslation(); const trocarIdioma = (event) => { const idioma = event.target.value; i18n.changeLanguage(idioma); localStorage.setItem("language", idioma); };
+  return <div className="profile-page"><button className="profile-back" type="button" onClick={voltar}><FaArrowLeft /> {t("profile.back")}</button><header className="profile-heading"><span className="profile-kicker">{t("profile.kicker")}</span><h1>{t("profile.title")}</h1><p>{t("profile.subtitle")}</p></header><section className="profile-hero"><div className="profile-avatar"><FaUser /></div><div><span className="profile-label">{t("profile.user")}</span><h2>{nome || email}</h2><p>{t("brand.account")}</p></div></section><div className="profile-grid"><section className="profile-card"><div className="profile-card-icon"><FaUser /></div><div><h3>{t("profile.preferences")}</h3><p>{t("profile.currency")}</p><p>{t("profile.notifications")}</p><label className="language-preference" htmlFor="language"><span>{t("profile.language")}</span><select id="language" value={i18n.language} onChange={trocarIdioma}><option value="pt-BR">{t("profile.portuguese")}</option><option value="en-US">{t("profile.english")}</option></select><small>{t("profile.languageDescription")}</small></label></div></section></div><button className="profile-logout" type="button" onClick={sair}><FaRightFromBracket /> {t("profile.logout")}</button></div>;
 }
-
 export default Profile;

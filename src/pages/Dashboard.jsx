@@ -3,6 +3,7 @@ import FinancialChart from "../components/ui/FinancialChart";
 import IncomeExpenseChart from "../components/ui/IncomeExpenseChart";
 import MonthComparisonChart from "../components/ui/MonthComparisonChart";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { listarNotificacoes } from "../services/api";
 import StatCard from "../components/ui/StatCard";
 import {
@@ -24,8 +25,9 @@ function Dashboard({
   calcularCategoria,
   objetivos,
   calcularProgressoObjetivo,
-  abrirObjetivos
+  abrirObjetivos, nomeUsuario
 }) {
+  const { t, i18n } = useTranslation();
   const [notificacoes, setNotificacoes] = useState([]);
   useEffect(() => { listarNotificacoes().then(setNotificacoes).catch(() => setNotificacoes([])); }, []);
 
@@ -38,13 +40,13 @@ function Dashboard({
 
           <h1>
 
-            Good afternoon, Guilherme
+            {t("dashboard.greeting", { name: nomeUsuario })}
 
           </h1>
 
           <p>
 
-            Here's your financial overview today.
+            {t("dashboard.overview")}
 
           </p>
 
@@ -55,17 +57,17 @@ function Dashboard({
       <BalanceCard saldo={saldo} />
 
       <section className="overview-grid">
-        <StatCard title="Income" value={totalRendas} prefix="R$ " icon={<FaArrowTrendUp />} variant="success" subtitle="Recurring income" />
-        <StatCard title="Expenses" value={totalSaidas} prefix="R$ " icon={<FaArrowTrendDown />} variant="danger" subtitle="Monthly expenses" />
-        <StatCard title="Balance" value={saldo} prefix="R$ " icon={<FaWallet />} variant="primary" subtitle="Available balance" />
-        <StatCard title="Income Usage" value={percentualConsumo.toFixed(1)} suffix="%" icon={<FaChartPie />} variant="warning" subtitle="Current month" />
+        <StatCard title={t("dashboard.income")} value={new Intl.NumberFormat(i18n.language, { style: "currency", currency: "BRL" }).format(totalRendas)} icon={<FaArrowTrendUp />} variant="success" subtitle={t("dashboard.recurringIncome")} />
+        <StatCard title={t("dashboard.expenses")} value={new Intl.NumberFormat(i18n.language, { style: "currency", currency: "BRL" }).format(totalSaidas)} icon={<FaArrowTrendDown />} variant="danger" subtitle={t("dashboard.monthlyExpenses")} />
+        <StatCard title={t("dashboard.balance")} value={new Intl.NumberFormat(i18n.language, { style: "currency", currency: "BRL" }).format(saldo)} icon={<FaWallet />} variant="primary" subtitle={t("dashboard.availableBalance")} />
+        <StatCard title={t("dashboard.incomeUsage")} value={percentualConsumo.toFixed(1)} suffix="%" icon={<FaChartPie />} variant="warning" subtitle={t("dashboard.currentMonth")} />
       </section>
 
       <FinancialChart />
 
       <IncomeExpenseChart totalRendas={totalRendas} totalSaidas={totalSaidas} />
       <MonthComparisonChart transacoes={transacoes} />
-      {notificacoes.length > 0 && <section className="insight-card warning"><h2>Alerts</h2>{notificacoes.map((item, index) => <p key={`${item.tipo}-${index}`}><strong>{item.titulo}:</strong> {item.mensagem}</p>)}</section>}
+      {notificacoes.length > 0 && <section className="insight-card warning"><h2>{t("dashboard.alerts")}</h2>{notificacoes.map((item, index) => <p key={`${item.tipo}-${index}`}><strong>{item.titulo}:</strong> {item.mensagem}</p>)}</section>}
 
       <section
         className={`insight-card ${diagnosticoFinanceiro.status}`}
@@ -77,7 +79,7 @@ function Dashboard({
       <div className="dashboard-grid">
 
         <section className="categories-card">
-          <h2>Consumption</h2>
+          <h2>{t("dashboard.consumption")}</h2>
 
           {categoriasConsumo.map((categoria) => {
             const valor = calcularCategoria(
@@ -108,7 +110,7 @@ function Dashboard({
                   <div className="category-values">
 
                     <strong>
-                      R$ {valor.toFixed(2)}
+                      {new Intl.NumberFormat(i18n.language, { style: "currency", currency: "BRL" }).format(valor)}
                     </strong>
 
                     <small>
@@ -139,7 +141,7 @@ function Dashboard({
         <section className="goals-card">
 
           <div className="goals-header">
-            <h2>🎯 Goals</h2>
+            <h2>{t("dashboard.goals")}</h2>
 
             {objetivos.length > 0 && (
               <span className="notification-dot"></span>
@@ -148,13 +150,13 @@ function Dashboard({
 
           {objetivos.length === 0 ? (
             <div className="empty-goals">
-              <p>No goals registered yet.</p>
+              <p>{t("dashboard.noGoals")}</p>
 
               <button
                 className="goal-action-btn"
                 onClick={abrirObjetivos}
               >
-                + New Goal
+                {t("dashboard.newGoal")}
               </button>
             </div>
           ) : (
