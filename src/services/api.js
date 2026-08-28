@@ -67,7 +67,7 @@ export function registrar(nome, email, senha) {
   return fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nome, email, senha }),
+    body: JSON.stringify({ name: nome, email, senha }),
   }).then(handleResponse);
 }
 
