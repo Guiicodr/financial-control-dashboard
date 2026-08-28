@@ -1,6 +1,7 @@
 import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
+import { FaWhatsapp } from "react-icons/fa6"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import "./styles/App.css"
@@ -26,6 +27,7 @@ import {
   deletarRendaPorId
 } from "./services/api"
 import { registrarMovimentoMeta as salvarMovimentoMeta } from "./services/api"
+import { consultarWhatsapp, abrirChatWhatsapp } from "./services/api"
 
 function App() {
   const { t } = useTranslation()
@@ -43,6 +45,7 @@ function App() {
   const [prazo, setPrazo] = useState("")
   const [tipoObjetivo, setTipoObjetivo] = useState("COMPRA")
   const [rendas, setRendas] = useState([])
+  const [waBotNumero, setWaBotNumero] = useState("")
   const [autenticado, setAutenticado] = useState(() => Boolean(localStorage.getItem("accessToken")))
   const [usuario, setUsuario] = useState(() => ({ nome: localStorage.getItem("userName") || localStorage.getItem("userEmail")?.split("@")[0] || "", email: localStorage.getItem("userEmail") || "" }))
 
@@ -74,6 +77,7 @@ function App() {
     carregarDados()
     carregarObjetivos()
     carregarRendas()
+    consultarWhatsapp().then((dados) => setWaBotNumero(dados.botNumero || "")).catch(() => {})
 
     const abrirGoals = () => {
       setTelaAtual("objetivos")
@@ -373,6 +377,18 @@ function App() {
           />
         )}
       </main>
+
+      {waBotNumero && (
+        <button
+          className="whatsapp-fab"
+          type="button"
+          aria-label="Registrar gasto pelo WhatsApp"
+          title="Registrar gasto pelo WhatsApp"
+          onClick={() => abrirChatWhatsapp(waBotNumero)}
+        >
+          <FaWhatsapp />
+        </button>
+      )}
     </div>
   )
 }

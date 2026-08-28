@@ -154,3 +154,24 @@ export function atualizarRenda(id, renda) {
     body: JSON.stringify(renda),
   }).then(handleResponse);
 }
+
+// ===== WhatsApp =====
+
+export function consultarWhatsapp() {
+  return apiFetch("/usuario/whatsapp").then(handleResponse);
+}
+
+export function vincularWhatsapp(telefone) {
+  return apiFetch("/usuario/whatsapp", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ telefone }),
+  }).then(handleResponse);
+}
+
+/** Abre o chat do bot no WhatsApp (wa.me) com a mensagem inicial. */
+export function abrirChatWhatsapp(botNumero) {
+  const numero = botNumero || import.meta.env.VITE_WHATSAPP_BOT_NUMBER || "";
+  if (!numero) return;
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent("ajuda")}`, "_blank");
+}
