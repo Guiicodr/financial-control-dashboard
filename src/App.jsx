@@ -249,7 +249,7 @@ function App() {
     <div className="app-layout">
       <aside className="sidebar">
         <div className="brand">
-          <h2>Finanly</h2>
+          <h2><img src="/favicon.svg" alt="" className="brand-logo" />Finanly</h2>
           <span>{t("brand.tagline")}</span>
         </div>
 

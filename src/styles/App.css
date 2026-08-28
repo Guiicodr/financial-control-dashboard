@@ -592,18 +592,13 @@ body {
     -webkit-text-fill-color: initial;
 }
 
-.brand h2::before {
-    content: "◉";
-    display: inline-grid;
-    width: 26px;
-    height: 26px;
+.brand-logo {
+    display: inline-block;
+    width: 27px;
+    height: 27px;
     margin-right: 9px;
-    place-items: center;
     border-radius: 8px;
-    background: #20c864;
-    color: #07130b;
-    font-size: 16px;
-    vertical-align: -5px;
+    vertical-align: -6px;
 }
 
 .brand span {
