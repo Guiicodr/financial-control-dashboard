@@ -12,6 +12,13 @@ function AuthPage({ onAuthenticated }) {
   const [erro, setErro] = useState("");
   const [enviando, setEnviando] = useState(false);
 
+  function usarContaTeste() {
+    setEmail("teste@teste.com");
+    setSenha("teste123");
+    setModoCadastro(false);
+    setErro("");
+  }
+
   function enviar(event) {
     event.preventDefault();
     setErro("");
@@ -25,7 +32,6 @@ function AuthPage({ onAuthenticated }) {
       .then((data) => {
         if (!data.accessToken) throw new Error(data.message || data.error || t("auth.authError"));
         const usuario = data.usuario || data.user || {};
-        // O backend retorna { accessToken, refreshToken, name }
         const nomeUsuario = usuario.nome || usuario.name || data.name || nome || email.split("@")[0];
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken || "");
@@ -78,6 +84,13 @@ function AuthPage({ onAuthenticated }) {
               <label htmlFor="password">{t("auth.password")}</label>
               <input id="password" type="password" minLength="6" required placeholder="••••••••" value={senha} onChange={(e) => setSenha(e.target.value)} />
             </div>
+            {!modoCadastro && (
+              <div className="auth-test-link">
+                <button type="button" className="test-account-btn" onClick={usarContaTeste}>
+                  🧪 Use test account (teste@teste.com / teste123)
+                </button>
+              </div>
+            )}
             {erro && <div className="auth-error-badge">{erro}</div>}
             <button type="submit" className="auth-submit-btn" disabled={enviando}>
               {enviando ? t("auth.connecting") : t(modoCadastro ? "auth.createAccount" : "auth.signIn")}

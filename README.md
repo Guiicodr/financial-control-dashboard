@@ -72,6 +72,21 @@ src/
 └── main.jsx
 ```
 
+## 🔑 Test Credentials
+
+The application comes with a pre-configured test account for quick access:
+
+| Field | Value |
+|---|---|
+| **E-mail** | `teste@teste.com` |
+| **Password** | `teste123` |
+
+On the login page, click the **"Use test account"** button to auto-fill these credentials.
+
+> 💡 The backend automatically creates this test user on startup via `DataInitializer`.
+
+---
+
 ## Backend Integration
 
 The frontend consumes a local REST API available at:
