@@ -172,6 +172,64 @@
     box-shadow: 0 0 0 1px #10b981;
 }
 
+/* Password toggle */
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 2.5rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: #ffffff;
+}
+
+/* Password strength */
+.password-strength {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.35rem;
+}
+
+.strength-bars {
+    display: flex;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.strength-bar {
+    height: 4px;
+    flex: 1;
+    border-radius: 99px;
+    transition: background 0.3s ease;
+}
+
+.strength-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 3rem;
+    text-align: right;
+}
+
 .auth-error-badge {
     padding: 0.75rem;
     background-color: rgba(239, 68, 68, 0.1);

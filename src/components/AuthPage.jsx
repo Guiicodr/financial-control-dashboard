@@ -1,9 +1,23 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { autenticar, registrar } from "../services/api";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import "../styles/Auth.css";
 
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === "true";
+
+function calcPasswordStrength(senha) {
+  if (!senha) return { label: "", level: 0, color: "" };
+  let score = 0;
+  if (senha.length >= 6) score += 1;
+  if (senha.length >= 10) score += 1;
+  if (/[A-Z]/.test(senha)) score += 1;
+  if (/[0-9]/.test(senha)) score += 1;
+  if (/[^a-zA-Z0-9]/.test(senha)) score += 1;
+  if (score <= 2) return { label: "Fraca", level: 1, color: "#ef4444" };
+  if (score <= 3) return { label: "Média", level: 2, color: "#f59e0b" };
+  return { label: "Forte", level: 3, color: "#10b981" };
+}
 
 function AuthPage({ onAuthenticated }) {
   const { t } = useTranslation();
@@ -13,6 +27,9 @@ function AuthPage({ onAuthenticated }) {
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
   const [enviando, setEnviando] = useState(false);
+  const [showSenha, setShowSenha] = useState(false);
+
+  const strength = calcPasswordStrength(senha);
 
   function usarContaTeste() {
     setEmail("teste@teste.com");
@@ -84,7 +101,22 @@ function AuthPage({ onAuthenticated }) {
             </div>
             <div className="input-group">
               <label htmlFor="password">{t("auth.password")}</label>
-              <input id="password" type="password" minLength="6" required placeholder="••••••••" value={senha} onChange={(e) => setSenha(e.target.value)} />
+              <div className="password-wrapper">
+                <input id="password" type={showSenha ? "text" : "password"} minLength="6" required placeholder="••••••••" value={senha} onChange={(e) => setSenha(e.target.value)} />
+                <button type="button" className="password-toggle" onClick={() => setShowSenha(!showSenha)} tabIndex={-1}>
+                  {showSenha ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+              {modoCadastro && senha && (
+                <div className="password-strength">
+                  <div className="strength-bars">
+                    {[1, 2, 3].map((lvl) => (
+                      <div key={lvl} className="strength-bar" style={{ background: lvl <= strength.level ? strength.color : "#1e293b" }} />
+                    ))}
+                  </div>
+                  <span className="strength-label" style={{ color: strength.color || "#94a3b8" }}>{strength.label}</span>
+                </div>
+              )}
             </div>
             {DEV_MODE && !modoCadastro && (
               <div className="auth-test-link">
