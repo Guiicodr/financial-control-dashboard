@@ -304,3 +304,49 @@
 .forgot-link:hover {
     color: #10b981;
 }
+
+/* Forgot password icons */
+.auth-forgot-icon {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.auth-forgot-success {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.forgot-back-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: color 0.2s ease;
+    width: 100%;
+}
+
+.forgot-back-btn:hover {
+    color: #10b981;
+}
+
+.token-display {
+    padding: 0.75rem 1rem;
+    background-color: #0f172a !important;
+    border: 1px solid #1e293b !important;
+    border-radius: 8px;
+    color: #10b981 !important;
+    font-size: 0.8rem !important;
+    font-family: monospace;
+    cursor: text;
+    width: 100%;
+}

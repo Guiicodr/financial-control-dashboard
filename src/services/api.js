@@ -175,3 +175,21 @@ export function abrirChatWhatsapp(botNumero) {
   if (!numero) return;
   window.open(`https://wa.me/${numero}?text=${encodeURIComponent("ajuda")}`, "_blank");
 }
+
+// ===== Recuperação de Senha =====
+
+export function solicitarResetSenha(email) {
+  return fetch(`${API_URL}/auth/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  }).then(handleResponse);
+}
+
+export function resetarSenha(token, senha) {
+  return fetch(`${API_URL}/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, senha }),
+  }).then(handleResponse);
+}
