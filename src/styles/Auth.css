@@ -284,3 +284,23 @@
     opacity: 1;
     background-color: rgba(16, 185, 129, 0.08);
 }
+
+/* Forgot password */
+.auth-forgot-password {
+    text-align: center;
+    margin-top: -0.5rem;
+}
+
+.forgot-link {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+    color: #10b981;
+}

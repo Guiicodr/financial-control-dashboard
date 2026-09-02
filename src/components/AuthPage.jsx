@@ -126,6 +126,13 @@ function AuthPage({ onAuthenticated }) {
               </div>
             )}
             {erro && <div className="auth-error-badge">{erro}</div>}
+            {!modoCadastro && (
+              <div className="auth-forgot-password">
+                <button type="button" className="forgot-link" onClick={() => alert("Em breve: recuperação de senha via e-mail")}>
+                  Esqueceu a senha?
+                </button>
+              </div>
+            )}
             <button type="submit" className="auth-submit-btn" disabled={enviando}>
               {enviando ? t("auth.connecting") : t(modoCadastro ? "auth.createAccount" : "auth.signIn")}
             </button>
