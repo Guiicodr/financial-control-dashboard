@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { autenticar, registrar } from "../services/api";
 import "../styles/Auth.css";
 
+const DEV_MODE = import.meta.env.VITE_DEV_MODE === "true";
+
 function AuthPage({ onAuthenticated }) {
   const { t } = useTranslation();
   const [modoCadastro, setModoCadastro] = useState(false);
@@ -84,10 +86,10 @@ function AuthPage({ onAuthenticated }) {
               <label htmlFor="password">{t("auth.password")}</label>
               <input id="password" type="password" minLength="6" required placeholder="••••••••" value={senha} onChange={(e) => setSenha(e.target.value)} />
             </div>
-            {!modoCadastro && (
+            {DEV_MODE && !modoCadastro && (
               <div className="auth-test-link">
                 <button type="button" className="test-account-btn" onClick={usarContaTeste}>
-                  🧪 Use test account (teste@teste.com / teste123)
+                  🐛 Dev (conta teste)
                 </button>
               </div>
             )}
