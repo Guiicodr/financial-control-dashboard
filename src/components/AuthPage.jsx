@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { autenticar, registrar, solicitarResetSenha, resetarSenha } from "../services/api";
-import { FaEye, FaEyeSlash, FaArrowLeft, FaCheckCircle, FaEnvelope } from "react-icons/fa6";
+import { FaEye, FaEyeSlash, FaArrowLeft, FaCircleCheck, FaEnvelope } from "react-icons/fa6";
 import "../styles/Auth.css";
 
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === "true";
@@ -153,7 +153,7 @@ function AuthPage({ onAuthenticated }) {
               ) : (
                 <form onSubmit={enviarReset} className="auth-form">
                   <div className="auth-forgot-icon">
-                    <FaCheckCircle style={{ color: "#10b981" }} />
+                    <FaCircleCheck style={{ color: "#10b981" }} />
                   </div>
                   <p className="auth-forgot-success">
                     Token gerado! Use o token abaixo para redefinir sua senha.
