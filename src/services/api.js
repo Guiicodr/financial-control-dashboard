@@ -2,7 +2,12 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 async function handleResponse(response) {
   const text = await response.text();
-  const data = text ? JSON.parse(text) : {};
+  let data = {};
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    data = {};
+  }
 
   if (!response.ok) {
     const errorMsg = data.message || data.error || `Erro (${response.status})`;
