@@ -1,4 +1,4 @@
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -1284,5 +1284,4 @@ body {
 .app-layout, body { background: white !important; color: #111 !important; }
 .main-content { width: 100% !important; padding: 20px !important; }
 .transaction-card { color: #111 !important; background: white !important; border-color: #ddd !important; }
-}
 }

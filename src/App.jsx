@@ -1,7 +1,7 @@
 import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
-import { FaBars, FaTimes, FaWhatsapp } from "react-icons/fa6"
+import { FaBars, FaXmark, FaWhatsapp } from "react-icons/fa6"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import "./styles/App.css"
