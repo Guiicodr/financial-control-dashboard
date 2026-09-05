@@ -255,7 +255,7 @@ function App() {
             <span>{t("brand.tagline")}</span>
           </div>
           <button className="sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Fechar menu">
-            <FaTimes />
+            <FaXmark />
           </button>
         </div>
 
