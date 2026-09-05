@@ -153,3 +153,26 @@ http://localhost:8080
 ## Status
 
 In development.
+## 📱 Responsividade
+
+O frontend é totalmente responsivo e adaptável a diferentes tamanhos de tela:
+
+### Breakpoints
+
+| Breakpoint | Largura | Comportamento |
+|------------|---------|---------------|
+| **Desktop** | >1024px | Layout completo com sidebar fixa |
+| **Tablet** | 768px - 1024px | Sidebar reduzida, grid 2 colunas |
+| **Mobile** | <768px | Sidebar como overlay com toggle, grid adaptável |
+| **Mobile pequeno** | <480px | Grid 1 coluna, elementos compactados |
+
+### Funcionalidades Responsivas
+
+- **Sidebar adaptável**: em telas menores, vira um menu lateral deslizante com overlay
+- **Botão hamburger**: aparece apenas em dispositivos móveis para abrir/fechar o menu
+- **Grids flexíveis**: os cards de overview adaptam-se de 4 para 2 para 1 coluna
+- **Formulários**: campos organizados em coluna única no mobile
+- **Cards e ícones**: dimensionados proporcionalmente para caber em qualquer tela
+- **Botão WhatsApp**: reposicionado e redimensionado em telas pequenas
+
+---

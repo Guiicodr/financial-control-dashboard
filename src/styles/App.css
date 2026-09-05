@@ -1158,3 +1158,298 @@ body {
         border-color: #ddd;
     }
 }
+
+/* ===== RESPONSIVIDADE MOBILE ===== */
+
+.mobile-header {
+    display: none;
+    align-items: center;
+    padding: 12px 0;
+}
+
+.menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #2a3045;
+    border-radius: 12px;
+    background: #1a2035;
+    color: #94a3b8;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-toggle:hover {
+    background: #242d45;
+    color: #22c55e;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-close {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-close:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+}
+
+.sidebar-overlay {
+    display: none;
+}
+
+/* Tablets e abaixo */
+@media (max-width: 1024px) {
+    .overview-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 14px;
+    }
+
+    .main-content {
+        padding: 28px !important;
+    }
+
+    .sidebar {
+        width: 240px !important;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 28px !important;
+    }
+}
+
+/* Dispositivos móveis */
+@media (max-width: 768px) {
+    .mobile-header {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .sidebar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        width: 280px !important;
+    }
+
+    .sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+
+    .sidebar-close {
+        display: flex;
+    }
+
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 99;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        animation: fadeIn 0.2s ease;
+    }
+
+    .app-layout {
+        flex-direction: column;
+    }
+
+    .main-content {
+        padding: 20px 16px !important;
+        width: 100% !important;
+    }
+
+    .overview-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px;
+    }
+
+    .overview-card {
+        padding: 14px;
+    }
+
+    .overview-card strong {
+        font-size: 20px;
+    }
+
+    .header h1 {
+        font-size: 26px !important;
+    }
+
+    .header {
+        margin-bottom: 20px;
+    }
+
+    .balance-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .balance-card h1 {
+        font-size: 32px !important;
+    }
+
+    .balance-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+    }
+
+    .stat-card h2 {
+        font-size: 20px !important;
+    }
+
+    .stat-card {
+        padding: 14px !important;
+    }
+
+    .transactions-form-card {
+        padding: 16px !important;
+    }
+
+    .transactions-form {
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    .transactions-toolbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .transactions-search,
+    .transactions-filter,
+    .transactions-period {
+        width: 100%;
+    }
+
+    .transaction-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px !important;
+    }
+
+    .transaction-left {
+        width: 100%;
+    }
+
+    .transaction-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .transaction-info h3 {
+        font-size: 16px;
+    }
+
+    .transaction-right strong {
+        font-size: 20px;
+    }
+
+    .transaction-icon {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 18px !important;
+    }
+
+    .dashboard-hero {
+        margin-bottom: 28px !important;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 24px !important;
+    }
+
+    .dashboard-hero p {
+        font-size: 15px;
+    }
+
+    .categories-card,
+    .goals-card {
+        padding: 16px;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .profile-heading h1 {
+        font-size: 24px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .whatsapp-fab {
+        width: 48px;
+        height: 48px;
+        right: 16px;
+        bottom: 16px;
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .overview-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .main-content {
+        padding: 14px 12px !important;
+    }
+
+    .header h1 {
+        font-size: 22px !important;
+    }
+
+    .balance-card h1 {
+        font-size: 28px !important;
+    }
+
+    .transaction-card {
+        padding: 12px !important;
+    }
+
+    .sidebar {
+        width: 100% !important;
+        max-width: 300px;
+    }
+
+    .brand h2 {
+        font-size: 22px;
+    }
+}

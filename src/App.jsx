@@ -1,7 +1,7 @@
 import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
-import { FaWhatsapp } from "react-icons/fa6"
+import { FaBars, FaTimes, FaWhatsapp } from "react-icons/fa6"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import "./styles/App.css"
@@ -48,6 +48,7 @@ function App() {
   const [waBotNumero, setWaBotNumero] = useState("")
   const [autenticado, setAutenticado] = useState(() => Boolean(localStorage.getItem("accessToken")))
   const [usuario, setUsuario] = useState(() => ({ nome: localStorage.getItem("userName") || localStorage.getItem("userEmail")?.split("@")[0] || "", email: localStorage.getItem("userEmail") || "" }))
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   function carregarDados() {
     buscarSaldo()
@@ -247,10 +248,15 @@ function App() {
 
   return (
     <div className="app-layout">
-      <aside className="sidebar">
-        <div className="brand">
-          <h2><img src="/favicon.svg" alt="" className="brand-logo" />Finanly</h2>
-          <span>{t("brand.tagline")}</span>
+      <aside className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
+        <div className="sidebar-header">
+          <div className="brand">
+            <h2><img src="/favicon.svg" alt="" className="brand-logo" />Finanly</h2>
+            <span>{t("brand.tagline")}</span>
+          </div>
+          <button className="sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Fechar menu">
+            <FaTimes />
+          </button>
         </div>
 
         <nav className="sidebar-nav">
@@ -295,8 +301,14 @@ function App() {
           </div>
         </button>
       </aside>
+      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
 
       <main className="main-content">
+        <div className="mobile-header">
+          <button className="menu-toggle" onClick={() => setSidebarOpen(true)} aria-label="Abrir menu">
+            <FaBars />
+          </button>
+        </div>
         <header className="header">
         </header>
 
