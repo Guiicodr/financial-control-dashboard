@@ -151,6 +151,138 @@
     }
 }
 
+/* ============ RESPONSIVO MOBILE ============ */
+@media (max-width: 768px) {
+    .profile-page {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .profile-back {
+        margin-bottom: 20px !important;
+        font-size: 13px !important;
+    }
+
+    .profile-heading {
+        margin-bottom: 18px !important;
+    }
+
+    .profile-heading h1 {
+        font-size: 24px !important;
+        margin: 6px 0 4px !important;
+    }
+
+    .profile-heading p {
+        font-size: 12px !important;
+    }
+
+    .profile-hero {
+        padding: 18px !important;
+        gap: 14px !important;
+    }
+
+    .profile-avatar {
+        width: 52px !important;
+        height: 52px !important;
+        font-size: 20px !important;
+        border-radius: 14px !important;
+    }
+
+    .profile-hero h2 {
+        font-size: 17px !important;
+        word-break: break-all !important;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        margin-top: 12px !important;
+    }
+
+    .profile-card {
+        flex-direction: column !important;
+        gap: 12px !important;
+        padding: 16px !important;
+        min-height: auto !important;
+    }
+
+    .profile-card-icon {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 14px !important;
+    }
+
+    .profile-card h3 {
+        font-size: 14px !important;
+        margin-bottom: 6px !important;
+    }
+
+    .profile-card p {
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+    }
+
+    .language-preference select {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .whatsapp-form {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+
+    .whatsapp-form input {
+        width: 100% !important;
+        flex: none !important;
+        box-sizing: border-box !important;
+    }
+
+    .whatsapp-form button {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .whatsapp-open-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .profile-logout {
+        width: 100% !important;
+        justify-content: center !important;
+        margin-top: 18px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-heading h1 {
+        font-size: 20px !important;
+    }
+
+    .profile-hero {
+        padding: 14px !important;
+    }
+
+    .profile-avatar {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 18px !important;
+    }
+
+    .profile-hero h2 {
+        font-size: 15px !important;
+    }
+
+    .profile-card {
+        padding: 14px !important;
+    }
+
+    .profile-card p {
+        font-size: 11px !important;
+    }
+}
+
 .language-preference { display: grid; gap: 6px; margin-top: 14px; color: #e4e7e9; font-size: 12px; font-weight: 700; }
 .language-preference select { max-width: 250px; padding: 9px 10px; border: 1px solid #30343a; border-radius: 8px; background: #1b1d20; color: #f0f2f3; }
 .language-preference small { color: #777d84; font-weight: 400; }
