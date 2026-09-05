@@ -1158,298 +1158,131 @@ body {
         border-color: #ddd;
     }
 }
-
-/* ===== RESPONSIVIDADE MOBILE ===== */
-
-.mobile-header {
-    display: none;
-    align-items: center;
-    padding: 12px 0;
-}
-
+/* ===== TOGGLE SIDEBAR (mobile) ===== */
+.mobile-header { display: none; align-items: center; padding: 12px 0 8px; }
 .menu-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid #2a3045;
-    border-radius: 12px;
-    background: #1a2035;
-    color: #94a3b8;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    display: none; align-items: center; justify-content: center;
+    width: 40px; height: 40px;
+    border: 1px solid #2a3045; border-radius: 12px;
+    background: #1a2035; color: #94a3b8; font-size: 18px;
+    cursor: pointer; transition: all 0.2s ease;
 }
-
-.menu-toggle:hover {
-    background: #242d45;
-    color: #22c55e;
-}
-
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
+.menu-toggle:hover { background: #242d45; color: #22c55e; }
+.sidebar-header { display: flex; align-items: center; justify-content: space-between; }
 .sidebar-close {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    color: #94a3b8;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    display: none; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border: none; border-radius: 10px;
+    background: transparent; color: #94a3b8; font-size: 18px;
+    cursor: pointer; transition: all 0.2s ease;
 }
+.sidebar-close:hover { background: rgba(239,68,68,0.12); color: #ef4444; }
+.sidebar-overlay { display: none; }
 
-.sidebar-close:hover {
-    background: rgba(239, 68, 68, 0.12);
-    color: #ef4444;
-}
-
-.sidebar-overlay {
-    display: none;
-}
-
-/* Tablets e abaixo */
+/* ===== RESPONSIVIDADE ===== */
 @media (max-width: 1024px) {
-    .overview-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 14px;
-    }
-
-    .main-content {
-        padding: 28px !important;
-    }
-
-    .sidebar {
-        width: 240px !important;
-    }
-
-    .dashboard-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .dashboard-hero h1 {
-        font-size: 28px !important;
-    }
+    .main-content { padding: 28px 24px !important; }
+    .sidebar { width: 240px !important; }
+    .overview-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
+    .dashboard-grid { grid-template-columns: 1fr !important; }
+    .dashboard-hero h1, .header h1 { font-size: 28px !important; }
 }
-
-/* Dispositivos móveis */
+/* Mobile (<= 768px) */
 @media (max-width: 768px) {
-    .mobile-header {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: flex;
-    }
-
-    .sidebar {
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        z-index: 100;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        width: 280px !important;
-    }
-
-    .sidebar.sidebar-open {
-        transform: translateX(0);
-    }
-
-    .sidebar-close {
-        display: flex;
-    }
-
-    .sidebar-overlay {
-        display: block;
-        position: fixed;
-        inset: 0;
-        z-index: 99;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
-        animation: fadeIn 0.2s ease;
-    }
-
-    .app-layout {
-        flex-direction: column;
-    }
-
-    .main-content {
-        padding: 20px 16px !important;
-        width: 100% !important;
-    }
-
-    .overview-grid {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 12px;
-    }
-
-    .overview-card {
-        padding: 14px;
-    }
-
-    .overview-card strong {
-        font-size: 20px;
-    }
-
-    .header h1 {
-        font-size: 26px !important;
-    }
-
-    .header {
-        margin-bottom: 20px;
-    }
-
-    .balance-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        padding: 20px;
-    }
-
-    .balance-card h1 {
-        font-size: 32px !important;
-    }
-
-    .balance-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 18px;
-    }
-
-    .stat-card h2 {
-        font-size: 20px !important;
-    }
-
-    .stat-card {
-        padding: 14px !important;
-    }
-
-    .transactions-form-card {
-        padding: 16px !important;
-    }
-
-    .transactions-form {
-        grid-template-columns: 1fr !important;
-        gap: 12px;
-    }
-
-    .transactions-toolbar {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .transactions-search,
-    .transactions-filter,
-    .transactions-period {
-        width: 100%;
-    }
-
-    .transaction-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 16px !important;
-    }
-
-    .transaction-left {
-        width: 100%;
-    }
-
-    .transaction-right {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .transaction-info h3 {
-        font-size: 16px;
-    }
-
-    .transaction-right strong {
-        font-size: 20px;
-    }
-
-    .transaction-icon {
-        width: 44px !important;
-        height: 44px !important;
-        font-size: 18px !important;
-    }
-
-    .dashboard-hero {
-        margin-bottom: 28px !important;
-    }
-
-    .dashboard-hero h1 {
-        font-size: 24px !important;
-    }
-
-    .dashboard-hero p {
-        font-size: 15px;
-    }
-
-    .categories-card,
-    .goals-card {
-        padding: 16px;
-    }
-
-    .profile-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .profile-heading h1 {
-        font-size: 24px;
-    }
-
-    .card {
-        padding: 16px;
-    }
-
-    .whatsapp-fab {
-        width: 48px;
-        height: 48px;
-        right: 16px;
-        bottom: 16px;
-        font-size: 22px;
-    }
+.app-layout { flex-direction: column !important; display: flex !important; }
+.mobile-header { display: flex; }
+.menu-toggle { display: flex; }
+.sidebar { position: fixed !important; top: 0 !important; left: 0 !important; bottom: 0 !important; z-index: 100 !important; transform: translateX(-100%); transition: transform 0.3s ease; width: 280px !important; display: flex !important; flex-direction: column !important; }
+.sidebar.sidebar-open { transform: translateX(0); }
+.sidebar-close { display: flex; }
+.sidebar-overlay { display: block; position: fixed; inset: 0; z-index: 99; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); animation: fadeIn 0.2s ease; }
+.sidebar-nav { flex-direction: column !important; overflow-x: visible !important; }
+.sidebar-nav button { white-space: normal !important; }
+.user-card { display: flex !important; }
+.main-content { padding: 16px !important; width: 100% !important; }
+.overview-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+.overview-card { padding: 14px !important; }
+.overview-card strong { font-size: 20px; }
+.header { margin-bottom: 16px !important; }
+.header h1 { font-size: 24px !important; margin: 4px 0 !important; }
+.header p { font-size: 14px; }
+.balance-card { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; padding: 20px !important; min-height: auto !important; }
+.balance-card h1 { font-size: 32px !important; margin: 8px 0 !important; }
+.balance-title { font-size: 11px !important; }
+.balance-footer { flex-wrap: wrap; gap: 8px; }
+.balance-icon { width: 44px !important; height: 44px !important; font-size: 18px !important; }
+.stat-card { padding: 14px !important; min-height: 80px !important; }
+.stat-card h2 { font-size: 20px !important; margin-top: 8px !important; }
+.stat-header span { font-size: 12px !important; }
+.stat-subtitle { font-size: 10px !important; padding-top: 8px !important; }
+.stat-icon { width: 36px !important; height: 36px !important; font-size: 16px !important; }
+.page-header h1 { font-size: 26px !important; }
+.transactions-form-card { padding: 16px !important; }
+.transactions-form { grid-template-columns: 1fr !important; gap: 12px !important; }
+.transactions-toolbar { flex-direction: column !important; gap: 10px !important; margin: 16px 0 !important; }
+.transactions-search,.transactions-filter,.transactions-period { width: 100% !important; height: 44px !important; flex: none !important; }
+.transaction-card { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; padding: 14px !important; }
+.transaction-left { width: 100% !important; gap: 14px !important; }
+.transaction-right { width: 100% !important; justify-content: space-between !important; }
+.transaction-icon { width: 44px !important; height: 44px !important; font-size: 18px !important; }
+.transaction-info h3 { font-size: 16px !important; }
+.transaction-info span { font-size: 13px !important; }
+.transaction-right strong { font-size: 20px !important; }
+.dashboard-hero { margin-bottom: 20px !important; }
+.dashboard-hero h1 { font-size: 22px !important; }
+.dashboard-hero p { font-size: 14px !important; }
+.dashboard-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+.categories-card,.goals-card { padding: 16px !important; }
+.goals-header { margin-bottom: 12px !important; }
+.goal-preview strong { font-size: 14px; }
+.category-header span { font-size: 14px; }
+.category-values strong { font-size: 15px; }
+.category-item { padding: 12px 0 !important; }
+.progress-bar { height: 8px !important; }
+.income-form { grid-template-columns: 1fr !important; }
+.income-form-card { padding: 16px !important; }
+.income-item { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; padding: 16px !important; }
+.income-right { width: 100% !important; justify-content: space-between !important; }
+.income-icon { width: 44px !important; height: 44px !important; }
+.form-card { padding: 16px !important; }
+.form-card form { grid-template-columns: 1fr !important; gap: 12px !important; }
+.form-card input,.form-card select { min-height: 44px !important; }
+.transactions-card { padding: 16px !important; }
+.transactions-card li { grid-template-columns: 1fr !important; padding: 14px !important; }
+.delete-button { grid-column: 1 !important; grid-row: auto !important; justify-self: start !important; }
+.profile-page { max-width: 100% !important; padding: 0 !important; }
+.profile-heading h1 { font-size: 24px !important; }
+.profile-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+.profile-hero { flex-direction: column !important; text-align: center !important; padding: 20px !important; }
+.profile-card { padding: 16px !important; min-height: auto !important; }
+.auth-container { flex-direction: column !important; }
+.auth-brand-section { display: none !important; }
+.auth-form-section { padding: 1.5rem !important; }
+.auth-card { max-width: 100% !important; }
+.card { padding: 16px !important; }
+.whatsapp-fab { width: 48px !important; height: 48px !important; right: 16px !important; bottom: 16px !important; font-size: 22px !important; }
+.insight-card { padding: 16px !important; margin-bottom: 16px !important; }
+.insight-card h2 { font-size: 18px !important; }
+.insight-card p { font-size: 13px !important; }
 }
-
+/* Mobile pequeno (<= 480px) */
 @media (max-width: 480px) {
-    .overview-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .main-content {
-        padding: 14px 12px !important;
-    }
-
-    .header h1 {
-        font-size: 22px !important;
-    }
-
-    .balance-card h1 {
-        font-size: 28px !important;
-    }
-
-    .transaction-card {
-        padding: 12px !important;
-    }
-
-    .sidebar {
-        width: 100% !important;
-        max-width: 300px;
-    }
-
-    .brand h2 {
-        font-size: 22px;
-    }
+.overview-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+.main-content { padding: 12px 12px !important; }
+.header h1 { font-size: 20px !important; }
+.balance-card h1 { font-size: 26px !important; }
+.balance-card { padding: 16px !important; }
+.sidebar { width: 100% !important; max-width: 300px; }
+.brand h2 { font-size: 22px !important; }
+.stat-card h2 { font-size: 18px !important; }
+.transaction-card { padding: 12px !important; }
+.page-header h1 { font-size: 22px !important; }
+.dashboard-hero h1 { font-size: 20px !important; }
+}
+/* Print */
+@media print {
+.sidebar, .page-header button, .transactions-toolbar button, .transaction-right button { display: none !important; }
+.app-layout, body { background: white !important; color: #111 !important; }
+.main-content { width: 100% !important; padding: 20px !important; }
+.transaction-card { color: #111 !important; background: white !important; border-color: #ddd !important; }
+}
 }
