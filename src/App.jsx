@@ -1,7 +1,7 @@
 import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
-import { FaBars, FaXmark, FaWhatsapp } from "react-icons/fa6"
+import { FaWhatsapp, FaBriefcase } from "react-icons/fa6"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import "./styles/App.css"
@@ -12,6 +12,8 @@ import Goals from "./pages/Goals";
 import Profile from "./pages/Profile";
 import Transactions from "./pages/Transactions";
 import AuthPage from "./components/AuthPage";
+import AppShell from "./components/layout/AppShell";
+import { useTheme } from "./hooks/useTheme";
 
 import {
   listarTransacoes,
@@ -29,8 +31,16 @@ import {
 import { registrarMovimentoMeta as salvarMovimentoMeta } from "./services/api"
 import { consultarWhatsapp, abrirChatWhatsapp } from "./services/api"
 
+const NAV_ITEMS = [
+  { id: "dashboard", labelKey: "nav.dashboard", icon: <MdDashboard /> },
+  { id: "transacoes", labelKey: "nav.transactions", icon: <FaMoneyBillWave /> },
+  { id: "rendas", labelKey: "nav.income", icon: <FaBriefcase /> },
+  { id: "metas", labelKey: "nav.goals", icon: <FaBullseye /> },
+];
+
 function App() {
   const { t } = useTranslation()
+  const { theme, toggleTheme } = useTheme()
   const [saldo, setSaldo] = useState(0)
   const [transacoes, setTransacoes] = useState([])
   const [descricao, setDescricao] = useState("")
@@ -48,7 +58,7 @@ function App() {
   const [waBotNumero, setWaBotNumero] = useState("")
   const [autenticado, setAutenticado] = useState(() => Boolean(localStorage.getItem("accessToken")))
   const [usuario, setUsuario] = useState(() => ({ nome: localStorage.getItem("userName") || localStorage.getItem("userEmail")?.split("@")[0] || "", email: localStorage.getItem("userEmail") || "" }))
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+
 
   function carregarDados() {
     buscarSaldo()
@@ -247,161 +257,109 @@ function App() {
   if (!autenticado) return <AuthPage onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }} />
 
   return (
-    <div className="app-layout">
-      <aside className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
-        <div className="sidebar-header">
-          <div className="brand">
-            <h2><img src="/favicon.svg" alt="" className="brand-logo" />Finanly</h2>
-            <span>{t("brand.tagline")}</span>
-          </div>
-          <button className="sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Fechar menu">
-            <FaXmark />
-          </button>
-        </div>
-
-        <nav className="sidebar-nav">
+    <AppShell
+      navItems={NAV_ITEMS}
+      activeId={telaAtual}
+      onNavigate={setTelaAtual}
+      user={usuario}
+      onOpenProfile={() => setTelaAtual("perfil")}
+      theme={theme}
+      onToggleTheme={toggleTheme}
+      syncLabel={t("common.sync")}
+      fab={
+        waBotNumero ? (
           <button
-            className={telaAtual === "dashboard" ? "active" : ""}
-            onClick={() => setTelaAtual("dashboard")}
+            className="whatsapp-fab"
+            type="button"
+            aria-label={t("common.whatsappFab")}
+            title={t("common.whatsappFab")}
+            onClick={() => abrirChatWhatsapp(waBotNumero)}
           >
-            <MdDashboard />
-            {t("nav.dashboard")}
+            <FaWhatsapp />
           </button>
-
-          <button
-            className={telaAtual === "transacoes" ? "active" : ""}
-            onClick={() => setTelaAtual("transacoes")}
-          >
-            <FaMoneyBillWave />
-            {t("nav.transactions")}
-          </button>
-
-          <button
-            className={telaAtual === "Income" ? "active" : ""}
-            onClick={() => setTelaAtual("Income")}
-          >
-            <FaMoneyBillWave />
-            {t("nav.income")}
-          </button>
-
-
-          <button
-            className={telaAtual === "objetivos" ? "active" : ""}
-            onClick={() => setTelaAtual("objetivos")}
-          >
-            <FaBullseye />
-            {t("nav.goals")}
-          </button>
-        </nav>
-        <button className="user-card" type="button" onClick={() => setTelaAtual("perfil")} aria-label={t("nav.profile")}>
-          <div className="avatar">{usuario.nome?.charAt(0).toUpperCase()}</div>
-
-          <div>
-            <strong>{usuario.nome}</strong><span>{t("nav.profile")}</span>
-          </div>
-        </button>
-      </aside>
-      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
-
-      <main className="main-content">
-        <div className="mobile-header">
-          <button className="menu-toggle" onClick={() => setSidebarOpen(true)} aria-label="Abrir menu">
-            <FaBars />
-          </button>
-        </div>
-        <header className="header">
-        </header>
-
-        {telaAtual === "dashboard" && (
-          <Dashboard
-            saldo={saldo}
-            totalRendas={totalRendas}
-            totalSaidas={totalSaidas}
-            transacoes={transacoes}
-            percentualConsumo={percentualConsumo}
-            diagnosticoFinanceiro={diagnosticoFinanceiro}
-            categoriasConsumo={categoriasConsumo}
-            calcularCategoria={calcularCategoria}
-            rendas={rendas}
-            objetivos={objetivos}
-            calcularProgressoObjetivo={calcularProgressoObjetivo}
-            registrarMovimentoMeta={(id, movimento) => salvarMovimentoMeta(id, movimento).then(carregarObjetivos)}
-            abrirObjetivos={() => setTelaAtual("objetivos")}
-            nomeUsuario={usuario.nome}
-          />
-        )}
-
-        {telaAtual === "transacoes" && (
-          <Transactions
-            descricao={descricao}
-            setDescricao={setDescricao}
-            valor={valor}
-            setValor={setValor}
-            categoria={categoria}
-            setCategoria={setCategoria}
-            categoriasFormulario={categoriasFormulario}
-            transacoes={transacoes}
-            adicionarTransacoes={adicionarTransacoes}
-            deletarTransacao={deletarTransacao}
-          />
-        )}
-
-        {telaAtual === "objetivos" && (
-          <Goals
-            objetivos={objetivos}
-            nomeObjetivo={nomeObjetivo}
-            setNomeObjetivo={setNomeObjetivo}
-            valorAlvo={valorAlvo}
-            setValorAlvo={setValorAlvo}
-            valorAtual={valorAtual}
-            setValorAtual={setValorAtual}
-            prazo={prazo}
-            setPrazo={setPrazo}
-            tipoObjetivo={tipoObjetivo}
-            setTipoObjetivo={setTipoObjetivo}
-            adicionarObjetivo={adicionarObjetivo}
-            deletarObjetivo={deletarObjetivo}
-            calcularProgressoObjetivo={calcularProgressoObjetivo}
-          />
-        )}
-
-        {telaAtual === "Income" && (
-          <Income
-            rendas={rendas}
-            carregarRendas={carregarRendas}
-            criarRenda={criarRenda}
-            atualizarRenda={atualizarRenda}
-            deletarRendaPorId={deletarRendaPorId}
-          />
-        )}
-
-        {telaAtual === "perfil" && (
-          <Profile
-            nome={usuario.nome} email={usuario.email}
-            voltar={() => setTelaAtual("dashboard")}
-            sair={() => {
-              localStorage.removeItem("accessToken")
-              localStorage.removeItem("refreshToken")
-              localStorage.removeItem("userName")
-              localStorage.removeItem("userEmail")
-              setAutenticado(false)
-            }}
-          />
-        )}
-      </main>
-
-      {waBotNumero && (
-        <button
-          className="whatsapp-fab"
-          type="button"
-          aria-label="Registrar gasto pelo WhatsApp"
-          title="Registrar gasto pelo WhatsApp"
-          onClick={() => abrirChatWhatsapp(waBotNumero)}
-        >
-          <FaWhatsapp />
-        </button>
+        ) : null
+      }
+    >
+      {telaAtual === "dashboard" && (
+        <Dashboard
+          saldo={saldo}
+          totalRendas={totalRendas}
+          totalSaidas={totalSaidas}
+          transacoes={transacoes}
+          percentualConsumo={percentualConsumo}
+          diagnosticoFinanceiro={diagnosticoFinanceiro}
+          categoriasConsumo={categoriasConsumo}
+          calcularCategoria={calcularCategoria}
+          rendas={rendas}
+          objetivos={objetivos}
+          calcularProgressoObjetivo={calcularProgressoObjetivo}
+          registrarMovimentoMeta={(id, movimento) => salvarMovimentoMeta(id, movimento).then(carregarObjetivos)}
+          abrirObjetivos={() => setTelaAtual("metas")}
+          nomeUsuario={usuario.nome}
+        />
       )}
-    </div>
+
+      {telaAtual === "transacoes" && (
+        <Transactions
+          descricao={descricao}
+          setDescricao={setDescricao}
+          valor={valor}
+          setValor={setValor}
+          categoria={categoria}
+          setCategoria={setCategoria}
+          categoriasFormulario={categoriasFormulario}
+          transacoes={transacoes}
+          adicionarTransacoes={adicionarTransacoes}
+          deletarTransacao={deletarTransacao}
+        />
+      )}
+
+      {telaAtual === "metas" && (
+        <Goals
+          objetivos={objetivos}
+          nomeObjetivo={nomeObjetivo}
+          setNomeObjetivo={setNomeObjetivo}
+          valorAlvo={valorAlvo}
+          setValorAlvo={setValorAlvo}
+          valorAtual={valorAtual}
+          setValorAtual={setValorAtual}
+          prazo={prazo}
+          setPrazo={setPrazo}
+          tipoObjetivo={tipoObjetivo}
+          setTipoObjetivo={setTipoObjetivo}
+          adicionarObjetivo={adicionarObjetivo}
+          deletarObjetivo={deletarObjetivo}
+          calcularProgressoObjetivo={calcularProgressoObjetivo}
+          registrarMovimentoMeta={(id, movimento) => salvarMovimentoMeta(id, movimento).then(carregarObjetivos)}
+        />
+      )}
+
+      {telaAtual === "rendas" && (
+        <Income
+          rendas={rendas}
+          carregarRendas={carregarRendas}
+          criarRenda={criarRenda}
+          atualizarRenda={atualizarRenda}
+          deletarRendaPorId={deletarRendaPorId}
+        />
+      )}
+
+      {telaAtual === "perfil" && (
+        <Profile
+          nome={usuario.nome}
+          email={usuario.email}
+          voltar={() => setTelaAtual("dashboard")}
+          sair={() => {
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("refreshToken")
+            localStorage.removeItem("userName")
+            localStorage.removeItem("userEmail")
+            setAutenticado(false)
+          }}
+        />
+      )}
+    </AppShell>
   )
 }
+
 export default App
