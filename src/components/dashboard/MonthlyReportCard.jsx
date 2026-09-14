@@ -3,8 +3,6 @@ import Card from "../ui/Card";
 import TrendBadge from "../ui/TrendBadge";
 import { formatCurrency } from "../../lib/format";
 import { percentChange } from "../../lib/finance";
-import "../../styles/pages/dashboard.css";
-
 /** Comparativo real entre o mes atual e o anterior (receitas e despesas). */
 function MonthlyReportCard({ current, previous, onOpenReports }) {
   const { t, i18n } = useTranslation();

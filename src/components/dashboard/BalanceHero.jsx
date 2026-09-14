@@ -5,8 +5,6 @@ import TrendBadge from "../ui/TrendBadge";
 import EmptyState from "../ui/EmptyState";
 import { chartTokens } from "../../lib/chartTheme";
 import { formatCompactCurrency, formatCurrency } from "../../lib/format";
-import "../../styles/pages/dashboard.css";
-
 /** Card principal: saldo disponivel (valor real da API) + evolucao real. */
 function BalanceHero({ balance, series, delta, theme }) {
   const { t, i18n } = useTranslation();

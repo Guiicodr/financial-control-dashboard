@@ -2,8 +2,6 @@ import { FaArrowTrendUp, FaCircleInfo, FaTriangleExclamation } from "react-icons
 import { useTranslation } from "react-i18next";
 import Card from "../ui/Card";
 import { formatCurrency, formatPercent } from "../../lib/format";
-import "../../styles/pages/dashboard.css";
-
 function insightIcon(tone) {
   if (tone === "positive") return <FaArrowTrendUp />;
   if (tone === "warning" || tone === "danger") return <FaTriangleExclamation />;

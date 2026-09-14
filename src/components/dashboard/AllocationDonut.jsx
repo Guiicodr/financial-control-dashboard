@@ -4,8 +4,6 @@ import Card from "../ui/Card";
 import EmptyState from "../ui/EmptyState";
 import { formatCurrency, formatPercent } from "../../lib/format";
 import { chartTokens } from "../../lib/chartTheme";
-import "../../styles/pages/dashboard.css";
-
 const ALLOCATION_LABELS = {
   income: "dashboard.income",
   investment: "dashboard.investments",

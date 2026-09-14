@@ -3,8 +3,6 @@ import Card from "../ui/Card";
 import EmptyState from "../ui/EmptyState";
 import CategoryBadge from "../ui/CategoryBadge";
 import { formatCurrency, formatPercent } from "../../lib/format";
-import "../../styles/pages/dashboard.css";
-
 /**
  * Orcamento: despesas do mes contra a soma dos limites reais
  * (GET /orcamentos/alertas). Sem limites definidos nao inventamos meta.

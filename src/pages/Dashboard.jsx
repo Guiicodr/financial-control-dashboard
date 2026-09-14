@@ -25,8 +25,6 @@ import {
   percentChange,
 } from "../lib/finance";
 import { currentMonthKey, formatCurrency, formatMonthShort, formatMonthYear, formatPercent, monthRange } from "../lib/format";
-import "../styles/pages/dashboard.css";
-
 const PERIOD_OPTIONS = [3, 6, 12];
 
 /**

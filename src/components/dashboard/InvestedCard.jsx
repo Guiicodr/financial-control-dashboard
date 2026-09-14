@@ -2,8 +2,6 @@ import { FaBriefcase } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import Card from "../ui/Card";
 import { formatCurrency, formatPercent } from "../../lib/format";
-import "../../styles/pages/dashboard.css";
-
 /** Card escuro com dinheiro alocado em investimentos e reserva (metas reais). */
 function InvestedCard({ investment, reserve, income }) {
   const { t, i18n } = useTranslation();

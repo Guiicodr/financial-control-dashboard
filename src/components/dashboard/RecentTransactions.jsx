@@ -4,8 +4,6 @@ import Card from "../ui/Card";
 import EmptyState from "../ui/EmptyState";
 import CategoryBadge from "../ui/CategoryBadge";
 import { formatDayMonth, formatSignedCurrency } from "../../lib/format";
-import "../../styles/pages/dashboard.css";
-
 const CATEGORY_ICONS = {
   ALIMENTACAO: <FaBurger />,
   TRANSPORTE: <FaCar />,

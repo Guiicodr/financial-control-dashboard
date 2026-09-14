@@ -1,6 +1,4 @@
 import MetricCard from "../ui/MetricCard";
-import "../../styles/pages/dashboard.css";
-
 function MetricGrid({ items }) {
   return (
     <section className="metric-grid" aria-label="Indicadores">
