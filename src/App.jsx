@@ -1,7 +1,7 @@
 import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
-import { FaWhatsapp, FaBriefcase, FaWallet } from "react-icons/fa6"
+import { FaWhatsapp, FaBriefcase, FaWallet, FaChartColumn } from "react-icons/fa6"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import "./styles/App.css"
@@ -12,6 +12,7 @@ import Goals from "./pages/Goals";
 import Profile from "./pages/Profile";
 import Transactions from "./pages/Transactions";
 import Wallets from "./pages/Wallets";
+import Reports from "./pages/Reports";
 import AuthPage from "./components/AuthPage";
 import AppShell from "./components/layout/AppShell";
 import TransactionModal from "./components/transactions/TransactionModal";
@@ -40,6 +41,7 @@ const NAV_ITEMS = [
   { id: "dashboard", labelKey: "nav.dashboard", icon: <MdDashboard /> },
   { id: "transacoes", labelKey: "nav.transactions", icon: <FaMoneyBillWave /> },
   { id: "carteiras", labelKey: "nav.wallets", icon: <FaWallet /> },
+  { id: "relatorios", labelKey: "nav.reports", icon: <FaChartColumn /> },
   { id: "rendas", labelKey: "nav.income", icon: <FaBriefcase /> },
   { id: "metas", labelKey: "nav.goals", icon: <FaBullseye /> },
 ];
@@ -333,6 +335,7 @@ function App() {
           theme={theme}
           onNewTransaction={() => setModal({ mode: "create" })}
           onOpenTransactions={() => setTelaAtual("transacoes")}
+          onOpenReports={() => setTelaAtual("relatorios")}
         />
       )}
 
@@ -349,6 +352,10 @@ function App() {
 
       {telaAtual === "carteiras" && (
         <Wallets saldo={saldo} objetivos={objetivos} />
+      )}
+
+      {telaAtual === "relatorios" && (
+        <Reports transacoes={transacoes} rendas={rendas} theme={theme} />
       )}
 
       {telaAtual === "metas" && (

@@ -1,0 +1,346 @@
+/* ==========================================================================
+   Finanly - Relatorios
+   ========================================================================== */
+
+.reports-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.reports-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.reports-chip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.reports-chip span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.reports-chip strong {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: var(--space-5);
+}
+
+.reports-page .report-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.reports-page .is-positive { color: var(--income); }
+.reports-page .is-negative { color: var(--expense); }
+
+/* --------------------------- Comparativo mensal --------------------------- */
+
+.reports-page .report-totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+}
+
+.reports-page .report-totals .report-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--surface-inset);
+}
+
+.reports-page .report-totals .report-stat > span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.reports-page .report-totals .report-stat > strong {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.reports-page .report-chart {
+  width: 100%;
+  min-height: 240px;
+}
+
+.reports-page .report-loading {
+  padding: var(--space-6) 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--fs-body);
+}
+
+.reports-page .report-warning {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--warning-soft);
+  color: var(--warning);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+
+.reports-page .projection-target {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+}
+
+.reports-page .projection-target > span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.reports-page .projection-target > strong {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------- Por categoria ---------------------------- */
+
+.reports-page .category-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  list-style: none;
+}
+
+.reports-page .category-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.reports-page .category-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.reports-page .category-name {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+}
+
+.reports-page .category-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-pill);
+  flex: 0 0 auto;
+}
+
+.reports-page .category-top strong {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.reports-page .category-bar {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-inset);
+  overflow: hidden;
+}
+
+.reports-page .category-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width var(--transition);
+}
+
+.reports-page .category-share {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* ------------------------- Limites de orcamento ------------------------- */
+
+.reports-page .budget-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  list-style: none;
+}
+
+.reports-page .budget-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.reports-page .budget-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.reports-page .budget-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.reports-page .budget-values {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.reports-page .budget-values strong {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.reports-page .budget-values em {
+  font-style: normal;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.reports-page .budget-empty {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.reports-page .budget-bar-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.reports-page .budget-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-inset);
+  overflow: hidden;
+}
+
+.reports-page .budget-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width var(--transition);
+}
+
+.reports-page .budget-fill--ok { background: var(--income); }
+.reports-page .budget-fill--warning { background: var(--warning); }
+.reports-page .budget-fill--danger { background: var(--expense); }
+
+.reports-page .budget-pct {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+  min-width: 44px;
+  text-align: right;
+}
+
+.reports-page .budget-pct--ok { color: var(--income); }
+.reports-page .budget-pct--warning { color: var(--warning); }
+.reports-page .budget-pct--danger { color: var(--expense); }
+
+.reports-page .budget-edit {
+  align-self: flex-start;
+}
+
+.reports-page .budget-form {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.reports-page .budget-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 140px;
+}
+
+.reports-page .budget-form .field > span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.reports-page .budget-form .field input {
+  height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-inset);
+  color: var(--text-primary);
+  font-size: var(--fs-body);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.reports-page .budget-form .field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.reports-page .budget-form-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.reports-page .field-error {
+  flex-basis: 100%;
+  font-style: normal;
+  font-size: var(--fs-xs);
+  color: var(--danger);
+}
+
+@media (max-width: 720px) {
+  .reports-grid { grid-template-columns: 1fr; }
+  .reports-page .budget-form { flex-direction: column; align-items: stretch; }
+}

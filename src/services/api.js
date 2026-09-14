@@ -209,7 +209,9 @@ export function atualizarTransacao(id, transacao) {
 
 export function listarOrcamentos() {
   return apiFetch("/orcamentos").then(handleResponse);
-}// ===== Cartoes de credito =====
+}
+
+// ===== Cartoes de credito =====
 
 export function listarCartoes() {
   return apiFetch("/cartoes").then(handleResponse);
@@ -224,4 +226,16 @@ export function criarCartao(cartao) {
 
 export function deletarCartao(id) {
   return apiFetch(`/cartoes/${id}`, { method: "DELETE" }).then(handleResponse);
+}
+// ===== Relatorios / Projecoes =====
+
+export function buscarProjecaoSaldo(meses = 6) {
+  return apiFetch(`/projecoes/saldo?meses=${meses}`).then(handleResponse);
+}
+
+export function criarOrcamento(orcamento) {
+  return apiFetch("/orcamentos", {
+    method: "POST",
+    body: JSON.stringify(orcamento),
+  }).then(handleResponse);
 }
