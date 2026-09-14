@@ -318,7 +318,32 @@
   }
 }
 
+/* ---------------------- Botao flutuante do WhatsApp ---------------------- */
+
+.whatsapp-fab {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--success);
+  color: var(--surface);
+  font-size: 26px;
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--transition-fast);
+}
+
+.whatsapp-fab:hover {
+  transform: translateY(-2px);
+}
+
 /* ---------------------------- Mobile ---------------------------- */
+
 @media (max-width: 720px) {
   .shell-topbar {
     padding: var(--space-3) var(--space-4);
