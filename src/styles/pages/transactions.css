@@ -234,7 +234,7 @@
 
 .segmented button.is-active {
   background: var(--accent);
-  color: #fff;
+  color: var(--text-on-accent);
 }
 
 .tx-form {

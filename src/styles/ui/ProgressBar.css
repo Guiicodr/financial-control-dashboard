@@ -2,7 +2,7 @@
 
     width:100%;
 
-    background:rgba(255,255,255,.06);
+    background: var(--track);
 
     border-radius:999px;
 

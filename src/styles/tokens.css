@@ -50,6 +50,11 @@
   --topbar-h: 72px;
   --content-max: 1240px;
   --mobile-nav-h: 66px;
+
+  /* Tokens semanticos compartilhados */
+  --scrim: rgba(0, 0, 0, .55);
+  --text-on-accent: #FFFFFF;
+  --hero-text: #F4F6F8;
 }
 
 /* ==================== DARK (experiencia principal) ==================== */
@@ -115,6 +120,7 @@
 
   --hero-surface: #0D0F13;
   --hero-border: #202531;
+  --track: rgba(255, 255, 255, .06);
 }
 
 /* ==================== LIGHT (produto finalizado) ==================== */
@@ -179,4 +185,5 @@
 
   --hero-surface: #16181D;
   --hero-border: #24272E;
+  --track: rgba(20, 22, 26, .08);
 }

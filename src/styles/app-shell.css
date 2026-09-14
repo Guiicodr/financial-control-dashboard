@@ -150,7 +150,7 @@
   display: grid;
   place-items: center;
   background: var(--accent);
-  color: #fff;
+  color: var(--text-on-accent);
   font-weight: var(--fw-bold);
   font-size: var(--fs-sm);
   flex: none;
@@ -229,7 +229,7 @@
   display: grid;
   place-items: center;
   background: var(--accent);
-  color: #fff;
+  color: var(--text-on-accent);
   font-weight: var(--fw-bold);
   font-size: var(--fs-sm);
   border: none;
@@ -260,7 +260,7 @@
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, .5);
+  background: var(--scrim);
   z-index: 35;
 }
 

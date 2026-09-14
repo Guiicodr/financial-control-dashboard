@@ -11,32 +11,6 @@ body,
     min-height: 100vh;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #111827;
-    color: white;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #111827;
-    color: white;
-}
-
-
-
-.sidebar {
-    width: 260px;
-    background-color: #161b2e;
-    padding: 28px 20px;
-    border-right: 1px solid #2a3045;
-
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
 .brand h2 {
     margin: 0;
     font-size: 28px;
@@ -49,8 +23,6 @@ body {
     color: #9ca3af;
     font-size: 14px;
 }
-
-
 
 .sidebar-nav button {
     position: relative;
@@ -118,13 +90,9 @@ body {
 
 }
 
-
-
 .header {
     margin-bottom: 28px;
 }
-
-
 
 .header h1 {
     margin: 8px 0 6px;
@@ -135,10 +103,6 @@ body {
     color: #9ca3af;
     margin: 0;
 }
-
-
-
-
 
 .overview-card:hover {
     transform: translateY(-2px);
@@ -153,19 +117,8 @@ body {
     font-size: 24px;
 }
 
-
-
-
-
-
-
-
-
 .insight-card,
 .chart-card,
-
-
-
 
 .insight-card h2,
 .chart-card h2,
@@ -173,8 +126,6 @@ body {
     margin-bottom: 18px;
     font-size: 20px;
 }
-
-
 
 .insight-card::before {
 
@@ -240,20 +191,6 @@ body {
     font-size: 18px;
 }
 
-.sidebar {
-    width: 260px;
-    background: linear-gradient(180deg,
-            #161b2e 0%,
-            #111827 100%);
-
-    padding: 28px 20px;
-    border-right: 1px solid #2a3045;
-
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
 .brand h2 {
     margin: 0;
     font-size: 30px;
@@ -267,26 +204,6 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-
-
-.avatar {
-    width: 42px;
-    height: 42px;
-
-    border-radius: 50%;
-
-    background: #22c55e;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-weight: bold;
-    color: #08111f;
-}
-
-
-
 .overview-card strong {
     font-size: 24px;
 }
@@ -295,18 +212,12 @@ body {
     font-size: 13px;
 }
 
-
-
-
-
 .progress-fill {
     height: 100%;
     background: linear-gradient(90deg,
             #22c55e,
             #3b82f6);
 }
-
-
 
 @keyframes pulse {
     0% {
@@ -325,20 +236,10 @@ body {
     }
 }
 
-
-
-
-
-
-
-
-
 .goal-preview strong {
     display: block;
     margin-bottom: 8px;
 }
-
-
 
 @keyframes pulse {
     0% {
@@ -357,8 +258,6 @@ body {
     }
 }
 
-
-
 .user-card strong {
     display: block;
 }
@@ -369,19 +268,11 @@ body {
     font-size: 13px;
 }
 
-
-
-
-
-
-
 .progress-fill {
     height: 100%;
     border-radius: 999px;
     transition: .3s ease;
 }
-
-
 
 .goal-action-btn:hover {
     transform: translateY(-2px);
@@ -395,24 +286,7 @@ body {
 }
 
 /* Finanly dashboard visual system */
-body {
-    background: #090a0c;
-    color: #f4f5f6;
-}
 
-
-
-.sidebar {
-    position: sticky;
-    top: 0;
-    width: 252px;
-    height: 100vh;
-    flex: 0 0 252px;
-    padding: 22px 20px;
-    gap: 24px;
-    background: #0b0c0e;
-    border-right: 1px solid #1d1f22;
-}
 
 .brand {
     padding: 5px 0 26px;
@@ -439,8 +313,6 @@ body {
 .brand span {
     display: none;
 }
-
-
 
 .sidebar-nav button {
     min-height: 38px;
@@ -473,16 +345,6 @@ body {
     background: #20c864;
 }
 
-
-
-.avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 9px;
-    background: #20c864;
-    font-size: 12px;
-}
-
 .user-card strong {
     font-size: 12px;
 }
@@ -496,12 +358,6 @@ body {
     color: #20c864;
 }
 
-
-
-.dashboard-hero {
-    margin-bottom: 24px;
-}
-
 .dashboard-hero h1 {
     font-size: 20px;
     letter-spacing: -.035em;
@@ -512,8 +368,6 @@ body {
     color: #73777c;
     font-size: 12px;
 }
-
-
 
 .overview-card,
 .insight-card,
@@ -529,8 +383,6 @@ body {
     box-shadow: none;
 }
 
-
-
 .overview-card span {
     color: #777b80;
     font-size: 11px;
@@ -540,14 +392,6 @@ body {
     font-size: 17px;
     font-weight: 600;
 }
-
-
-
-
-
-
-
-
 
 .financial-chart,
 .income-expense-chart,
@@ -570,25 +414,13 @@ body {
     font-size: 10px;
 }
 
-
-
-
-
-
-
 .category-values strong {
     font-size: 11px;
 }
 
-
-
 .progress-fill {
     background: #20c864;
 }
-
-
-
-
 
 .insight-card h2 {
     margin-bottom: 8px;
@@ -601,41 +433,19 @@ body {
 }
 
 @media (max-width: 800px) {
-    .sidebar {
-        position: static;
-        width: 100%;
-        height: auto;
-        flex: none;
-        padding: 14px 16px;
-    }
-
-    
 
     .brand {
         padding: 0 0 12px;
     }
 
-    
-
     .sidebar-nav button {
         white-space: nowrap;
     }
 
-    
-
-    
-
-    
-
-    
 }
 
 @media (max-width: 480px) {
-    
 
-    
-
-    
 }
 
 /* Shared screen treatment */
@@ -694,10 +504,6 @@ body {
     transform: translateY(-2px);
 }
 
-
-
-
-
 .transaction-info h3,
 .income-item strong {
     color: #e8eaed;
@@ -711,14 +517,10 @@ body {
     font-size: 11px;
 }
 
-
-
 .transaction-right strong,
 .income-item strong {
     font-size: 13px;
 }
-
-
 
 .transaction-right button,
 .income-item button {
@@ -881,9 +683,6 @@ body {
         color: #111;
     }
 
-    
-
-    
 }
 /* ===== TOGGLE SIDEBAR (mobile) ===== */
 
@@ -896,26 +695,15 @@ body {
 
 /* ===== RESPONSIVIDADE ===== */
 @media (max-width: 1024px) {
-    
-    .sidebar { width: 240px !important; }
-    
-    
+
     .dashboard-hero h1, .header h1 { font-size: 28px !important; }
 }
 /* Mobile (<= 768px) */
 @media (max-width: 768px) {
 
-
-
-.sidebar { position: fixed !important; top: 0 !important; left: 0 !important; bottom: 0 !important; z-index: 100 !important; transform: translateX(-100%); transition: transform 0.3s ease; width: 280px !important; display: flex !important; flex-direction: column !important; }
 .sidebar
 
-
-
 .sidebar-nav button { white-space: normal !important; }
-
-
-
 
 .overview-card strong { font-size: 20px; }
 .header { margin-bottom: 16px !important; }
@@ -933,17 +721,12 @@ body {
 .stat-icon { width: 36px !important; height: 36px !important; font-size: 16px !important; }
 .page-header h1 { font-size: 26px !important; }
 
-
-
 .transactions-search,.transactions-filter,
-
-
-
 
 .transaction-info h3 { font-size: 16px !important; }
 .transaction-info span { font-size: 13px !important; }
 .transaction-right strong { font-size: 20px !important; }
-.dashboard-hero { margin-bottom: 20px !important; }
+
 .dashboard-hero h1 { font-size: 22px !important; }
 .dashboard-hero p { font-size: 14px !important; }
 
@@ -959,7 +742,7 @@ body {
 .income-item { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; padding: 16px !important; }
 .income-right { width: 100% !important; justify-content: space-between !important; }
 .income-icon { width: 44px !important; height: 44px !important; }
-.form-card { padding: 16px !important; }
+
 .form-card form { grid-template-columns: 1fr !important; gap: 12px !important; }
 .form-card input,.form-card select { min-height: 44px !important; }
 
@@ -987,7 +770,7 @@ body {
 .header h1 { font-size: 20px !important; }
 .balance-card h1 { font-size: 26px !important; }
 .balance-card { padding: 16px !important; }
-.sidebar { width: 100% !important; max-width: 300px; }
+
 .brand h2 { font-size: 22px !important; }
 .stat-card h2 { font-size: 18px !important; }
 

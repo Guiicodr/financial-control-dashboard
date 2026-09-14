@@ -72,6 +72,6 @@
 
     color:white;
 
-    background:rgba(255,255,255,.05);
+    background: var(--surface-hover);
 
 }

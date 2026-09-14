@@ -43,7 +43,7 @@
   place-items: center;
   font-size: 10px;
   background: var(--accent);
-  color: #fff;
+  color: var(--text-on-accent);
   transition: transform var(--transition);
 }
 

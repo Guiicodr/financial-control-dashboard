@@ -18,7 +18,7 @@
 .card--hero {
   background: var(--hero-surface);
   border-color: var(--hero-border);
-  color: #F4F6F8;
+  color: var(--hero-text);
 }
 
 .card--inset { background: var(--surface-inset); }
@@ -265,7 +265,7 @@
 
 .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-.btn--primary { background: var(--accent); color: #fff; }
+.btn--primary { background: var(--accent); color: var(--text-on-accent); }
 .btn--primary:hover { background: var(--accent-hover); }
 
 .btn--ghost { background: transparent; border-color: var(--border); color: var(--text-secondary); }
@@ -275,7 +275,7 @@
 .btn--link:hover { text-decoration: underline; }
 
 .btn--danger { background: var(--danger-soft); color: var(--danger); }
-.btn--danger:hover { background: var(--danger); color: #fff; }
+.btn--danger:hover { background: var(--danger); color: var(--text-on-accent); }
 
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 
