@@ -67,7 +67,7 @@ function Goals({ objetivos, adicionarObjetivo, deletarObjetivo, registrarMovimen
   }
 
   return (
-    <div className="page goals-page">
+    <div className="goals-page">
       <header className="page-head">
         <div>
           <span className="page-kicker">{t("goals.kicker")}</span>
