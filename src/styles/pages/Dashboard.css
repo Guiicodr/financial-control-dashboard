@@ -28,11 +28,13 @@
 
 .dashboard-hero .hero-note{
 
-    font-style:italic;
+    font-size:34px;
 
-    font-size:15px;
+    font-weight:800;
 
-    margin-bottom:4px;
+    color:var(--text-primary);
+
+    margin-bottom:12px;
 
 }
 

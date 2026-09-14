@@ -65,12 +65,6 @@ function Dashboard({
 
           </p>
 
-          <p>
-
-            {t("dashboard.overview")}
-
-          </p>
-
         </div>
 
       </section>
