@@ -13,6 +13,9 @@ import Profile from "./pages/Profile";
 import Transactions from "./pages/Transactions";
 import AuthPage from "./components/AuthPage";
 import AppShell from "./components/layout/AppShell";
+import TransactionModal from "./components/transactions/TransactionModal";
+import ToastHost from "./components/ui/ToastHost";
+import { pushToast } from "./lib/toast";
 import { useTheme } from "./hooks/useTheme";
 
 import {
@@ -20,6 +23,7 @@ import {
   buscarSaldo,
   criarTransacao,
   deletarTransacaoPorId,
+  atualizarTransacao,
   listarObjetivos,
   criarObjetivo,
   deletarObjetivoPorId,
@@ -43,10 +47,9 @@ function App() {
   const { theme, toggleTheme } = useTheme()
   const [saldo, setSaldo] = useState(0)
   const [transacoes, setTransacoes] = useState([])
-  const [descricao, setDescricao] = useState("")
-  const [valor, setValor] = useState("")
-  const [categoria, setCategoria] = useState("ALIMENTACAO")
   const [telaAtual, setTelaAtual] = useState("dashboard")
+  const [carregando, setCarregando] = useState(true)
+  const [modal, setModal] = useState(null)
 
   const [objetivos, setObjetivos] = useState([])
   const [nomeObjetivo, setNomeObjetivo] = useState("")
@@ -65,7 +68,10 @@ function App() {
       .then((data) => setSaldo(data))
 
     listarTransacoes()
-      .then((data) => setTransacoes(data))
+      .then((data) => {
+        setTransacoes(data)
+        setCarregando(false)
+      })
   }
 
   function carregarObjetivos() {
@@ -110,31 +116,9 @@ function App() {
     }
   }, [autenticado])
 
-  function adicionarTransacoes(event) {
-    event.preventDefault()
+  
 
-    const novaTransacao = {
-      descricao,
-      valor: Number(valor),
-      tipo: "SAIDA",
-      data: new Date().toISOString().split("T")[0],
-      categoria
-    }
-
-    criarTransacao(novaTransacao)
-      .then(() => {
-        carregarDados()
-
-        setDescricao("")
-        setValor("")
-        setCategoria("ALIMENTACAO")
-      })
-  }
-
-  function deletarTransacao(id) {
-    deletarTransacaoPorId(id)
-      .then(() => carregarDados())
-  }
+  
 
 
   function adicionarObjetivo(event) {
@@ -178,6 +162,57 @@ function App() {
     }
 
     return (valorAtual / valorAlvo) * 100
+  }
+
+  function criarLancamento(dados) {
+    if (dados.tipo === "RECEITA") {
+      return criarRenda({
+        descricao: dados.descricao,
+        valor: dados.valor,
+        tipo: "EXTRA",
+        data: dados.data,
+      }).then(() => {
+        carregarRendas()
+        pushToast(t("tx.savedIncome"))
+      })
+    }
+
+    return criarTransacao({
+      descricao: dados.descricao,
+      valor: dados.valor,
+      tipo: "SAIDA",
+      data: dados.data,
+      categoria: dados.categoria,
+    }).then(() => {
+      carregarDados()
+      pushToast(t("tx.savedExpense"))
+    })
+  }
+
+  function editarLancamento(dados) {
+    return atualizarTransacao(dados.id, {
+      descricao: dados.descricao,
+      valor: dados.valor,
+      tipo: "SAIDA",
+      data: dados.data,
+      categoria: dados.categoria,
+    }).then(() => {
+      carregarDados()
+      pushToast(t("tx.savedEdit"))
+    })
+  }
+
+  function excluirLancamento(item) {
+    if (item.origem === "RECEITA") {
+      return deletarRendaPorId(item.id).then(() => {
+        carregarRendas()
+        pushToast(t("tx.deleted"), "warning")
+      })
+    }
+    return deletarTransacaoPorId(item.id).then(() => {
+      carregarDados()
+      pushToast(t("tx.deleted"), "warning")
+    })
   }
 
   const totalRendas = rendas.reduce(
@@ -250,13 +285,10 @@ function App() {
     { label: t("categories.ALIMENTACAO"), value: "ALIMENTACAO", limite: 25 }, { label: t("categories.OUTROS"), value: "OUTROS", limite: 30 }, { label: t("categories.TRANSPORTE"), value: "TRANSPORTE", limite: 15 }, { label: t("categories.ESTUDOS"), value: "ESTUDOS", limite: 15 }, { label: t("categories.LAZER"), value: "LAZER", limite: 10 }
   ]
 
-  const categoriasFormulario = [
-    { label: t("categories.ALIMENTACAO"), value: "ALIMENTACAO" }, { label: t("categories.TRANSPORTE"), value: "TRANSPORTE" }, { label: t("categories.LAZER"), value: "LAZER" }, { label: t("categories.ESTUDOS"), value: "ESTUDOS" }, { label: t("categories.OUTROS"), value: "OUTROS" }
-  ]
-
   if (!autenticado) return <AuthPage onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }} />
 
   return (
+    <>
     <AppShell
       navItems={NAV_ITEMS}
       activeId={telaAtual}
@@ -297,23 +329,19 @@ function App() {
           abrirObjetivos={() => setTelaAtual("metas")}
           nomeUsuario={usuario.nome}
           theme={theme}
-          onNewTransaction={() => setTelaAtual("transacoes")}
+          onNewTransaction={() => setModal({ mode: "create" })}
           onOpenTransactions={() => setTelaAtual("transacoes")}
         />
       )}
 
       {telaAtual === "transacoes" && (
         <Transactions
-          descricao={descricao}
-          setDescricao={setDescricao}
-          valor={valor}
-          setValor={setValor}
-          categoria={categoria}
-          setCategoria={setCategoria}
-          categoriasFormulario={categoriasFormulario}
           transacoes={transacoes}
-          adicionarTransacoes={adicionarTransacoes}
-          deletarTransacao={deletarTransacao}
+          rendas={rendas}
+          loading={carregando}
+          onNew={() => setModal({ mode: "create" })}
+          onEdit={(item) => setModal({ mode: "edit", item: item })}
+          onDelete={excluirLancamento}
         />
       )}
 
@@ -362,6 +390,15 @@ function App() {
         />
       )}
     </AppShell>
+
+      <TransactionModal
+        open={Boolean(modal)}
+        initial={modal && modal.mode === "edit" ? modal.item : null}
+        onClose={() => setModal(null)}
+        onSubmit={modal && modal.mode === "edit" ? editarLancamento : criarLancamento}
+      />
+      <ToastHost />
+    </>
   )
 }
 
