@@ -296,6 +296,9 @@ function App() {
           registrarMovimentoMeta={(id, movimento) => salvarMovimentoMeta(id, movimento).then(carregarObjetivos)}
           abrirObjetivos={() => setTelaAtual("metas")}
           nomeUsuario={usuario.nome}
+          theme={theme}
+          onNewTransaction={() => setTelaAtual("transacoes")}
+          onOpenTransactions={() => setTelaAtual("transacoes")}
         />
       )}
 

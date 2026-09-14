@@ -2,7 +2,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 async function handleResponse(response) {
   const text = await response.text();
-  let data = {};
+  let data;
   try {
     data = text ? JSON.parse(text) : {};
   } catch {
@@ -197,4 +197,16 @@ export function resetarSenha(token, senha) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ token, senha }),
   }).then(handleResponse);
+}
+// ===== Edicao / Orcamentos (endpoints aditivos do backend) =====
+
+export function atualizarTransacao(id, transacao) {
+  return apiFetch(`/transacoes/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(transacao),
+  }).then(handleResponse);
+}
+
+export function listarOrcamentos() {
+  return apiFetch("/orcamentos").then(handleResponse);
 }
