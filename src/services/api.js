@@ -209,4 +209,19 @@ export function atualizarTransacao(id, transacao) {
 
 export function listarOrcamentos() {
   return apiFetch("/orcamentos").then(handleResponse);
+}// ===== Cartoes de credito =====
+
+export function listarCartoes() {
+  return apiFetch("/cartoes").then(handleResponse);
+}
+
+export function criarCartao(cartao) {
+  return apiFetch("/cartoes", {
+    method: "POST",
+    body: JSON.stringify(cartao),
+  }).then(handleResponse);
+}
+
+export function deletarCartao(id) {
+  return apiFetch(`/cartoes/${id}`, { method: "DELETE" }).then(handleResponse);
 }

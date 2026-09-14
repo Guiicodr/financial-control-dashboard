@@ -1,7 +1,7 @@
 import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
-import { FaWhatsapp, FaBriefcase } from "react-icons/fa6"
+import { FaWhatsapp, FaBriefcase, FaWallet } from "react-icons/fa6"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import "./styles/App.css"
@@ -11,6 +11,7 @@ import Income from "./pages/Income";
 import Goals from "./pages/Goals";
 import Profile from "./pages/Profile";
 import Transactions from "./pages/Transactions";
+import Wallets from "./pages/Wallets";
 import AuthPage from "./components/AuthPage";
 import AppShell from "./components/layout/AppShell";
 import TransactionModal from "./components/transactions/TransactionModal";
@@ -38,6 +39,7 @@ import { consultarWhatsapp, abrirChatWhatsapp } from "./services/api"
 const NAV_ITEMS = [
   { id: "dashboard", labelKey: "nav.dashboard", icon: <MdDashboard /> },
   { id: "transacoes", labelKey: "nav.transactions", icon: <FaMoneyBillWave /> },
+  { id: "carteiras", labelKey: "nav.wallets", icon: <FaWallet /> },
   { id: "rendas", labelKey: "nav.income", icon: <FaBriefcase /> },
   { id: "metas", labelKey: "nav.goals", icon: <FaBullseye /> },
 ];
@@ -343,6 +345,10 @@ function App() {
           onEdit={(item) => setModal({ mode: "edit", item: item })}
           onDelete={excluirLancamento}
         />
+      )}
+
+      {telaAtual === "carteiras" && (
+        <Wallets saldo={saldo} objetivos={objetivos} />
       )}
 
       {telaAtual === "metas" && (
