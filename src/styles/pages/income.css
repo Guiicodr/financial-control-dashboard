@@ -1,0 +1,256 @@
+/* ==========================================================================
+   Finanly - Rendas
+   ========================================================================== */
+
+.income-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------- Resumo ---------------------------------- */
+
+.income-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.income-chip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.income-chip span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.income-chip strong {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------- Cards ----------------------------------- */
+
+.income-card {
+  margin-bottom: var(--space-5);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.income-card-head {
+  margin-bottom: var(--space-5);
+}
+
+.income-card-head .card-subtitle {
+  margin-top: var(--space-1);
+}
+
+/* ----------------------------- Formularios ------------------------------- */
+
+.income-form {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 180px;
+}
+
+.field > span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.field input {
+  height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-inset);
+  color: var(--text-primary);
+  font-size: var(--fs-body);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.form-error {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: var(--fs-sm);
+}
+
+/* -------------------------------- Lista ---------------------------------- */
+
+.income-list-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.income-list-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.income-list-count {
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+}
+
+.income-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.income-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color var(--transition-fast);
+}
+
+.income-item:hover {
+  border-color: var(--accent);
+}
+
+.income-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.income-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.income-icon--extra {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.income-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.income-name {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.income-type {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.income-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 0 0 auto;
+}
+
+.income-amount {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--success);
+  font-variant-numeric: tabular-nums;
+}
+
+.income-delete {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.income-delete:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ---------------------------- Responsivo --------------------------------- */
+
+@media (max-width: 720px) {
+  .income-card {
+    padding: var(--space-5);
+  }
+
+  .income-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .income-form .btn {
+    width: 100%;
+  }
+
+  .income-amount {
+    font-size: var(--fs-body);
+  }
+}
