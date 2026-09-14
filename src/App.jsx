@@ -4,8 +4,6 @@ import { FaBullseye } from "react-icons/fa"
 import { FaWhatsapp, FaBriefcase, FaWallet, FaChartColumn } from "react-icons/fa6"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import "./styles/App.css"
-
 import Dashboard from "./pages/Dashboard";
 import Income from "./pages/Income";
 import Goals from "./pages/Goals";
