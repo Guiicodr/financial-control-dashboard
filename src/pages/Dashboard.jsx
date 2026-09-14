@@ -29,7 +29,22 @@ function Dashboard({
 }) {
   const { t, i18n } = useTranslation();
   const [notificacoes, setNotificacoes] = useState([]);
+  const [horaAtual, setHoraAtual] = useState(() => new Date().getHours());
   useEffect(() => { listarNotificacoes().then(setNotificacoes).catch(() => setNotificacoes([])); }, []);
+  useEffect(() => {
+    const timer = setInterval(() => setHoraAtual(new Date().getHours()), 30000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const chaveSaudacao =
+    horaAtual >= 5 && horaAtual < 12
+      ? "dashboard.greetingMorning"
+      : horaAtual < 18
+        ? "dashboard.greetingAfternoon"
+        : "dashboard.greetingEvening";
+
+  const notasHorarias = t("dashboard.hourlyNotes", { returnObjects: true });
+  const notaHoraria = Array.isArray(notasHorarias) ? notasHorarias[horaAtual] ?? "" : "";
 
   return (
     <>
@@ -40,9 +55,15 @@ function Dashboard({
 
           <h1>
 
-            {t("dashboard.greeting", { name: nomeUsuario })}
+            {t(chaveSaudacao, { name: nomeUsuario })}
 
           </h1>
+
+          <p className="hero-note">
+
+            {notaHoraria}
+
+          </p>
 
           <p>
 

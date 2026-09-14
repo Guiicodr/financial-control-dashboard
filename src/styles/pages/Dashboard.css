@@ -26,6 +26,16 @@
 
 }
 
+.dashboard-hero .hero-note{
+
+    font-style:italic;
+
+    font-size:15px;
+
+    margin-bottom:4px;
+
+}
+
 .category-values{
     display:flex;
     gap:12px;
