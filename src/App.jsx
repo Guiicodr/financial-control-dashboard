@@ -56,11 +56,6 @@ function App() {
   const [modal, setModal] = useState(null)
 
   const [objetivos, setObjetivos] = useState([])
-  const [nomeObjetivo, setNomeObjetivo] = useState("")
-  const [valorAlvo, setValorAlvo] = useState("")
-  const [valorAtual, setValorAtual] = useState("")
-  const [prazo, setPrazo] = useState("")
-  const [tipoObjetivo, setTipoObjetivo] = useState("COMPRA")
   const [rendas, setRendas] = useState([])
   const [waBotNumero, setWaBotNumero] = useState("")
   const [autenticado, setAutenticado] = useState(() => Boolean(localStorage.getItem("accessToken")))
@@ -125,32 +120,12 @@ function App() {
   
 
 
-  function adicionarObjetivo(event) {
-    event.preventDefault()
-
-    const novoObjetivo = {
-      nome: nomeObjetivo,
-      valorAlvo: Number(valorAlvo),
-      valorAtual: Number(valorAtual),
-      prazo: prazo,
-      tipo: tipoObjetivo
-    }
-
-    criarObjetivo(novoObjetivo)
-      .then(() => {
-        carregarObjetivos()
-
-        setNomeObjetivo("")
-        setValorAlvo("")
-        setValorAtual("")
-        setPrazo("")
-        setTipoObjetivo("COMPRA")
-      })
+  function adicionarObjetivo(objetivo) {
+    return criarObjetivo(objetivo).then(() => carregarObjetivos())
   }
 
   function deletarObjetivo(id) {
-    deletarObjetivoPorId(id)
-      .then(() => carregarObjetivos())
+    return deletarObjetivoPorId(id).then(() => carregarObjetivos())
   }
 
   function calcularCategoria(nomeCategoria) {
@@ -361,19 +336,8 @@ function App() {
       {telaAtual === "metas" && (
         <Goals
           objetivos={objetivos}
-          nomeObjetivo={nomeObjetivo}
-          setNomeObjetivo={setNomeObjetivo}
-          valorAlvo={valorAlvo}
-          setValorAlvo={setValorAlvo}
-          valorAtual={valorAtual}
-          setValorAtual={setValorAtual}
-          prazo={prazo}
-          setPrazo={setPrazo}
-          tipoObjetivo={tipoObjetivo}
-          setTipoObjetivo={setTipoObjetivo}
           adicionarObjetivo={adicionarObjetivo}
           deletarObjetivo={deletarObjetivo}
-          calcularProgressoObjetivo={calcularProgressoObjetivo}
           registrarMovimentoMeta={(id, movimento) => salvarMovimentoMeta(id, movimento).then(carregarObjetivos)}
         />
       )}

@@ -1,0 +1,302 @@
+/* ==========================================================================
+   Finanly - Metas
+   ========================================================================== */
+
+.goals-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.goals-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.goals-chip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.goals-chip span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.goals-chip strong {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.goals-form-card {
+  margin-bottom: var(--space-6);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+}
+
+/* --------------------------------- Card --------------------------------- */
+
+.goal-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.goal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.goal-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.goal-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.goal-name {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.goal-type {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.goal-status {
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+}
+
+.goal-status--ongoing { background: var(--accent-soft); color: var(--accent); }
+.goal-status--near { background: var(--warning-soft); color: var(--warning); }
+.goal-status--late { background: var(--danger-soft); color: var(--danger); }
+.goal-status--done { background: var(--success-soft); color: var(--success); }
+
+.goal-values {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.goal-values strong {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-black);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.goal-values em {
+  font-style: normal;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.goal-bar {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-inset);
+  overflow: hidden;
+}
+
+.goal-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width var(--transition);
+}
+
+.goal-fill--ongoing { background: var(--accent); }
+.goal-fill--near { background: var(--warning); }
+.goal-fill--late { background: var(--danger); }
+.goal-fill--done { background: var(--success); }
+
+.goal-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.goal-pace {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface-inset);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.goal-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+.goal-delete {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  border-radius: var(--radius-xs, 8px);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.goal-delete:hover { background: var(--danger-soft); color: var(--danger); }
+
+/* ------------------------------ Formulario ------------------------------ */
+
+.goal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.goal-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.goal-form .field > span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.goal-form .field input,
+.goal-form .field select {
+  height: 44px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-inset);
+  color: var(--text-primary);
+  font-size: var(--fs-body);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.goal-form .field input:focus,
+.goal-form .field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.goal-form .field-row {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.goal-form .field-error {
+  font-style: normal;
+  font-size: var(--fs-xs);
+  color: var(--danger);
+}
+
+.goal-form .field-hint,
+.goal-form .form-error {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.goal-form .form-error { color: var(--danger); }
+
+.goal-form .dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* ------------------------------- Movimento ------------------------------- */
+
+.movement-preview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--surface-inset);
+}
+
+.movement-preview dt {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+  margin-bottom: var(--space-1);
+}
+
+.movement-preview dd {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .goals-grid { grid-template-columns: 1fr; }
+  .goals-form-card { padding: var(--space-4); }
+  .goal-form .field-row { flex-direction: column; }
+}
