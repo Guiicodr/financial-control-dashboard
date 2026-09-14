@@ -279,8 +279,8 @@
   display: grid;
   place-items: center;
   font-size: 24px;
-  background: #25D366;
-  color: #06251A;
+  background: var(--success);
+  color: var(--surface);
   box-shadow: var(--shadow-md);
   z-index: 45;
   transition: transform var(--transition-fast);
@@ -316,30 +316,6 @@
   .shell-content {
     padding: var(--space-6) var(--space-5) var(--space-9);
   }
-}
-
-/* ---------------------- Botao flutuante do WhatsApp ---------------------- */
-
-.whatsapp-fab {
-  position: fixed;
-  right: 22px;
-  bottom: 22px;
-  z-index: 50;
-  display: grid;
-  place-items: center;
-  width: 54px;
-  height: 54px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--success);
-  color: var(--surface);
-  font-size: 26px;
-  box-shadow: var(--shadow-lg);
-  transition: transform var(--transition-fast);
-}
-
-.whatsapp-fab:hover {
-  transform: translateY(-2px);
 }
 
 /* ---------------------------- Mobile ---------------------------- */

@@ -2,21 +2,22 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { autenticar, registrar, solicitarResetSenha, resetarSenha } from "../services/api";
 import { FaEye, FaEyeSlash, FaArrowLeft, FaCircleCheck, FaEnvelope } from "react-icons/fa6";
-import "../styles/Auth.css";
+import "../styles/pages/auth.css";
 
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === "true";
 
+/** Nivel de forca (1 a 3) calculado no cliente; rotulo e cor vem do i18n e dos tokens. */
 function calcPasswordStrength(senha) {
-  if (!senha) return { label: "", level: 0, color: "" };
+  if (!senha) return { level: 0 };
   let score = 0;
   if (senha.length >= 6) score += 1;
   if (senha.length >= 10) score += 1;
   if (/[A-Z]/.test(senha)) score += 1;
   if (/[0-9]/.test(senha)) score += 1;
   if (/[^a-zA-Z0-9]/.test(senha)) score += 1;
-  if (score <= 2) return { label: "Fraca", level: 1, color: "#ef4444" };
-  if (score <= 3) return { label: "Média", level: 2, color: "#f59e0b" };
-  return { label: "Forte", level: 3, color: "#10b981" };
+  if (score <= 2) return { level: 1 };
+  if (score <= 3) return { level: 2 };
+  return { level: 3 };
 }
 
 function AuthPage({ onAuthenticated }) {
@@ -35,6 +36,13 @@ function AuthPage({ onAuthenticated }) {
   const [showNovaSenha, setShowNovaSenha] = useState(false);
 
   const strength = calcPasswordStrength(senha);
+  const strengthLabels = [
+    null,
+    t("auth.strengthWeak"),
+    t("auth.strengthMedium"),
+    t("auth.strengthStrong"),
+  ];
+  const strengthLabel = strengthLabels[strength.level] || "";
 
   function enviarForgot(event) {
     event.preventDefault();
@@ -121,8 +129,8 @@ function AuthPage({ onAuthenticated }) {
           <div className="auth-header">
             {esquecendo ? (
               <>
-                <h2>{t("forgot.title") || "Recuperar senha"}</h2>
-                <p>{t("forgot.subtitle") || "Digite seu e-mail e enviaremos um link para redefinir sua senha."}</p>
+                <h2>{t("forgot.title")}</h2>
+                <p>{t("forgot.subtitle")}</p>
               </>
             ) : (
               <>
@@ -139,33 +147,33 @@ function AuthPage({ onAuthenticated }) {
                     <FaEnvelope />
                   </div>
                   <div className="input-group">
-                    <label htmlFor="reset-email">E-mail</label>
-                    <input id="reset-email" type="email" required placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <label htmlFor="reset-email">{t("auth.email")}</label>
+                    <input id="reset-email" type="email" required placeholder={t("auth.emailPlaceholder")} value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   {erro && <div className="auth-error-badge">{erro}</div>}
                   <button type="submit" className="auth-submit-btn" disabled={enviando}>
-                    {enviando ? "Enviando..." : "Enviar link"}
+                    {enviando ? t("forgot.sending") : t("forgot.sendLink")}
                   </button>
                   <button type="button" className="forgot-back-btn" onClick={() => { setEsquecendo(false); setErro(""); }}>
-                    <FaArrowLeft /> Voltar para o login
+                    <FaArrowLeft /> {t("forgot.backToLogin")}
                   </button>
                 </form>
               ) : (
                 <form onSubmit={enviarReset} className="auth-form">
                   <div className="auth-forgot-icon">
-                    <FaCircleCheck style={{ color: "#10b981" }} />
+                    <FaCircleCheck />
                   </div>
                   <p className="auth-forgot-success">
-                    Token gerado! Use o token abaixo para redefinir sua senha.
+                    {t("forgot.tokenMessage")}
                   </p>
                   <div className="input-group">
-                    <label htmlFor="reset-token">Token de recuperação</label>
+                    <label htmlFor="reset-token">{t("forgot.tokenLabel")}</label>
                     <input id="reset-token" type="text" value={resetToken} readOnly className="token-display" />
                   </div>
                   <div className="input-group">
-                    <label htmlFor="new-password">Nova senha</label>
+                    <label htmlFor="new-password">{t("forgot.newPassword")}</label>
                     <div className="password-wrapper">
-                      <input id="new-password" type={showNovaSenha ? "text" : "password"} minLength="6" required placeholder="Mín. 6 caracteres" value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)} />
+                      <input id="new-password" type={showNovaSenha ? "text" : "password"} minLength="6" required placeholder={t("auth.passwordHint")} value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)} />
                       <button type="button" className="password-toggle" onClick={() => setShowNovaSenha(!showNovaSenha)} tabIndex={-1}>
                         {showNovaSenha ? <FaEyeSlash /> : <FaEye />}
                       </button>
@@ -173,7 +181,7 @@ function AuthPage({ onAuthenticated }) {
                   </div>
                   {erro && <div className="auth-error-badge">{erro}</div>}
                   <button type="submit" className="auth-submit-btn" disabled={enviando}>
-                    {enviando ? "Redefinindo..." : "Redefinir senha"}
+                    {enviando ? t("forgot.resetting") : t("forgot.reset")}
                   </button>
                 </form>
               )}
@@ -188,7 +196,7 @@ function AuthPage({ onAuthenticated }) {
               )}
               <div className="input-group">
                 <label htmlFor="email">{t("auth.email")}</label>
-                <input id="email" type="email" required placeholder="name@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input id="email" type="email" required placeholder={t("auth.emailPlaceholder")} value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div className="input-group">
                 <label htmlFor="password">{t("auth.password")}</label>
@@ -202,17 +210,17 @@ function AuthPage({ onAuthenticated }) {
                   <div className="password-strength">
                     <div className="strength-bars">
                       {[1, 2, 3].map((lvl) => (
-                        <div key={lvl} className="strength-bar" style={{ background: lvl <= strength.level ? strength.color : "#1e293b" }} />
+                        <div key={lvl} className={lvl <= strength.level ? `strength-bar strength-bar--${strength.level}` : "strength-bar"} />
                       ))}
                     </div>
-                    <span className="strength-label" style={{ color: strength.color || "#94a3b8" }}>{strength.label}</span>
+                    <span className={`strength-label strength-label--${strength.level}`}>{strengthLabel}</span>
                   </div>
                 )}
               </div>
               {DEV_MODE && !modoCadastro && (
                 <div className="auth-test-link">
                   <button type="button" className="test-account-btn" onClick={usarContaTeste}>
-                    🐛 Dev (conta teste)
+                    {t("auth.devAccount")}
                   </button>
                 </div>
               )}
@@ -220,7 +228,7 @@ function AuthPage({ onAuthenticated }) {
               {!modoCadastro && !esquecendo && (
                 <div className="auth-forgot-password">
                   <button type="button" className="forgot-link" onClick={() => { setEsquecendo(true); setErro(""); }}>
-                    Esqueceu a senha?
+                    {t("auth.forgotLink")}
                   </button>
                 </div>
               )}

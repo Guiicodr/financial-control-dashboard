@@ -2,8 +2,8 @@
     display: flex;
     min-height: 100vh;
     width: 100%;
-    background-color: #0b0f17;
-    color: #ffffff;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
     font-family: system-ui, -apple-system, sans-serif;
 }
 
@@ -12,8 +12,8 @@
     display: none;
     width: 50%;
     padding: 3rem;
-    background: linear-gradient(135deg, #0f172a 0%, #0b0f17 100%);
-    border-right: 1px solid #1e293b;
+    background: linear-gradient(135deg, var(--surface) 0%, var(--bg-app) 100%);
+    border-right: 1px solid var(--border);
     position: relative;
     overflow: hidden;
     flex-direction: column;
@@ -29,7 +29,7 @@
 .brand-logo {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #10b981;
+    color: var(--accent);
     letter-spacing: -0.5px;
 }
 
@@ -41,9 +41,9 @@
 .brand-badge {
     display: inline-block;
     padding: 0.25rem 0.75rem;
-    background-color: rgba(16, 185, 129, 0.1);
-    color: #10b981;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    background-color: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--accent-soft);
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 600;
@@ -55,19 +55,19 @@
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: 1rem;
-    background: linear-gradient(to right, #ffffff, #94a3b8);
+    background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .brand-content p {
-    color: #94a3b8;
+    color: var(--text-secondary);
     font-size: 1.05rem;
     line-height: 1.6;
 }
 
 .brand-footer p {
-    color: #64748b;
+    color: var(--text-muted);
     font-size: 0.85rem;
 }
 
@@ -77,7 +77,7 @@
     left: -5rem;
     width: 24rem;
     height: 24rem;
-    background-color: rgba(16, 185, 129, 0.12);
+    background-color: var(--accent-soft);
     border-radius: 50%;
     filter: blur(80px);
     pointer-events: none;
@@ -100,10 +100,10 @@
 /* Tabs */
 .auth-tabs {
     display: flex;
-    background-color: #161e2e;
+    background-color: var(--surface-inset);
     padding: 4px;
     border-radius: 12px;
-    border: 1px solid #1e293b;
+    border: 1px solid var(--border);
     margin-bottom: 2rem;
 }
 
@@ -112,7 +112,7 @@
     padding: 0.6rem;
     font-size: 0.875rem;
     font-weight: 600;
-    color: #94a3b8;
+    color: var(--text-secondary);
     background: transparent;
     border: none;
     border-radius: 8px;
@@ -121,9 +121,9 @@
 }
 
 .tab-btn.active {
-    background-color: #1e293b;
-    color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    background-color: var(--surface-2);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
 }
 
 .auth-header h2 {
@@ -133,7 +133,7 @@
 }
 
 .auth-header p {
-    color: #94a3b8;
+    color: var(--text-secondary);
     font-size: 0.9rem;
     margin-bottom: 1.75rem;
 }
@@ -153,23 +153,23 @@
 .input-group label {
     font-size: 0.85rem;
     font-weight: 500;
-    color: #cbd5e1;
+    color: var(--text-primary);
 }
 
 .input-group input {
     padding: 0.75rem 1rem;
-    background-color: #161e2e;
-    border: 1px solid #1e293b;
+    background-color: var(--surface-inset);
+    border: 1px solid var(--border);
     border-radius: 8px;
-    color: #ffffff;
+    color: var(--text-primary);
     font-size: 0.95rem;
     outline: none;
     transition: border-color 0.2s ease;
 }
 
 .input-group input:focus {
-    border-color: #10b981;
-    box-shadow: 0 0 0 1px #10b981;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
 }
 
 /* Password toggle */
@@ -189,7 +189,7 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: #94a3b8;
+    color: var(--text-secondary);
     cursor: pointer;
     padding: 0.25rem;
     display: flex;
@@ -199,7 +199,7 @@
 }
 
 .password-toggle:hover {
-    color: #ffffff;
+    color: var(--text-primary);
 }
 
 /* Password strength */
@@ -220,6 +220,7 @@
     height: 4px;
     flex: 1;
     border-radius: 99px;
+    background-color: var(--surface-inset);
     transition: background 0.3s ease;
 }
 
@@ -228,13 +229,14 @@
     font-weight: 600;
     min-width: 3rem;
     text-align: right;
+    color: var(--text-muted);
 }
 
 .auth-error-badge {
     padding: 0.75rem;
-    background-color: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    color: #ef4444;
+    background-color: var(--danger-soft);
+    border: 1px solid var(--danger-soft);
+    color: var(--danger);
     font-size: 0.85rem;
     border-radius: 8px;
     text-align: center;
@@ -242,8 +244,8 @@
 
 .auth-submit-btn {
     padding: 0.8rem;
-    background-color: #10b981;
-    color: #0b0f17;
+    background-color: var(--accent);
+    color: var(--bg-app);
     font-weight: 700;
     font-size: 0.95rem;
     border: none;
@@ -254,7 +256,7 @@
 }
 
 .auth-submit-btn:hover {
-    background-color: #059669;
+    background-color: var(--accent-hover);
 }
 
 .auth-submit-btn:disabled {
@@ -270,7 +272,7 @@
 .test-account-btn {
     background: none;
     border: none;
-    color: #10b981;
+    color: var(--accent);
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
@@ -282,7 +284,7 @@
 
 .test-account-btn:hover {
     opacity: 1;
-    background-color: rgba(16, 185, 129, 0.08);
+    background-color: var(--accent-soft);
 }
 
 /* Forgot password */
@@ -294,7 +296,7 @@
 .forgot-link {
     background: none;
     border: none;
-    color: #94a3b8;
+    color: var(--text-secondary);
     font-size: 0.8rem;
     cursor: pointer;
     padding: 0.25rem 0.5rem;
@@ -302,28 +304,28 @@
 }
 
 .forgot-link:hover {
-    color: #10b981;
+    color: var(--accent);
 }
 
 /* Forgot password icons */
 .auth-forgot-icon {
     text-align: center;
     font-size: 1.5rem;
-    color: #94a3b8;
+    color: var(--text-secondary);
     margin-bottom: 0.5rem;
 }
 
 .auth-forgot-success {
     text-align: center;
     font-size: 0.85rem;
-    color: #94a3b8;
+    color: var(--text-secondary);
     margin-bottom: 0.5rem;
 }
 
 .forgot-back-btn {
     background: none;
     border: none;
-    color: #94a3b8;
+    color: var(--text-secondary);
     font-size: 0.8rem;
     cursor: pointer;
     padding: 0.5rem;
@@ -336,17 +338,32 @@
 }
 
 .forgot-back-btn:hover {
-    color: #10b981;
+    color: var(--accent);
 }
 
 .token-display {
     padding: 0.75rem 1rem;
-    background-color: #0f172a !important;
-    border: 1px solid #1e293b !important;
+    background-color: var(--surface) !important;
+    border: 1px solid var(--border) !important;
     border-radius: 8px;
-    color: #10b981 !important;
+    color: var(--accent) !important;
     font-size: 0.8rem !important;
     font-family: monospace;
     cursor: text;
     width: 100%;
 }
+/* Cabecalho da coluna de marca (logo a esquerda) */
+.brand-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Niveis de forca da senha: cores vem dos tokens */
+.strength-bar--1 { background-color: var(--danger); }
+.strength-bar--2 { background-color: var(--warning); }
+.strength-bar--3 { background-color: var(--success); }
+.strength-label--1 { color: var(--danger); }
+.strength-label--2 { color: var(--warning); }
+.strength-label--3 { color: var(--success); }
