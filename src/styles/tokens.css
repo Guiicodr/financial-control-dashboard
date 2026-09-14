@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Finanly - Design Tokens
+   Fonte unica de verdade para cor, tipografia, espaco, radius e motion.
+   Dark (padrao) + Light via data-theme. Mantem aliases legados para permitir
+   a migracao progressiva das paginas.
+   ========================================================================== */
+
+:root {
+  --font-sans: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --fs-display: 40px;
+  --fs-h1: 30px;
+  --fs-h2: 22px;
+  --fs-h3: 17px;
+  --fs-body: 15px;
+  --fs-sm: 13px;
+  --fs-xs: 11px;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-black: 800;
+
+  --tracking-caps: .12em;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 56px;
+
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --transition-fast: .15s var(--ease);
+  --transition: .25s var(--ease);
+  --transition-slow: .4s var(--ease);
+
+  --sidebar-w: 258px;
+  --topbar-h: 72px;
+  --content-max: 1240px;
+  --mobile-nav-h: 66px;
+}
+
+/* ==================== DARK (experiencia principal) ==================== */
+:root,
+:root[data-theme=dark] {
+  color-scheme: dark;
+
+  --bg-main: #08090C;
+  --bg-app: #08090C;
+  --bg-sidebar: #0B0C10;
+  --surface: #111318;
+  --surface-2: #15181E;
+  --surface-elevated: #1A1E25;
+  --surface-hover: #1E232B;
+  --surface-inset: #0D0F13;
+
+  --bg-card: var(--surface);
+  --bg-card-hover: var(--surface-hover);
+  --card: var(--surface);
+  --background: var(--bg-main);
+
+  --border: #1F242C;
+  --border-strong: #2B323C;
+  --border-color: var(--border);
+
+  --text-primary: #F4F6F8;
+  --text-secondary: #98A1AF;
+  --text-muted: #6A7381;
+  --muted: var(--text-muted);
+
+  --accent: #7C5CFF;
+  --accent-hover: #8E73FF;
+  --accent-soft: rgba(124, 92, 255, .16);
+  --accent-ring: rgba(124, 92, 255, .45);
+
+  --primary: var(--accent);
+  --primary-hover: var(--accent-hover);
+
+  --income: #34D399;
+  --income-soft: rgba(52, 211, 153, .14);
+  --expense: #F26D6D;
+  --expense-soft: rgba(242, 109, 109, .14);
+  --investment: #E8B44A;
+  --investment-soft: rgba(232, 180, 74, .14);
+  --reserve: #F472B6;
+  --reserve-soft: rgba(244, 114, 182, .14);
+
+  --success: #22C55E;
+  --success-soft: rgba(34, 197, 94, .14);
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, .14);
+  --warning: #F5A524;
+  --warning-soft: rgba(245, 165, 36, .14);
+  --neutral: #7C8593;
+
+  --chart-grid: rgba(255, 255, 255, .06);
+  --chart-axis: #8A94A3;
+  --chart-surface: var(--surface-elevated);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, .35);
+  --shadow-md: 0 12px 28px rgba(0, 0, 0, .42);
+  --shadow-lg: 0 24px 56px rgba(0, 0, 0, .5);
+
+  --hero-surface: #0D0F13;
+  --hero-border: #202531;
+}
+
+/* ==================== LIGHT (produto finalizado) ==================== */
+:root[data-theme=light] {
+  color-scheme: light;
+
+  --bg-main: #F4F2EE;
+  --bg-app: #F4F2EE;
+  --bg-sidebar: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: #FBFAF8;
+  --surface-elevated: #FFFFFF;
+  --surface-hover: #F1EEE8;
+  --surface-inset: #F6F4F0;
+
+  --bg-card: var(--surface);
+  --bg-card-hover: var(--surface-hover);
+  --card: var(--surface);
+  --background: var(--bg-main);
+
+  --border: #E7E3DB;
+  --border-strong: #D8D2C7;
+  --border-color: var(--border);
+
+  --text-primary: #14161A;
+  --text-secondary: #5B6270;
+  --text-muted: #8A8F99;
+  --muted: var(--text-muted);
+
+  --accent: #6D4AFF;
+  --accent-hover: #5C39F0;
+  --accent-soft: rgba(109, 74, 255, .12);
+  --accent-ring: rgba(109, 74, 255, .35);
+
+  --primary: var(--accent);
+  --primary-hover: var(--accent-hover);
+
+  --income: #0E9F6E;
+  --income-soft: rgba(14, 159, 110, .12);
+  --expense: #DC4C4C;
+  --expense-soft: rgba(220, 76, 76, .12);
+  --investment: #C98A12;
+  --investment-soft: rgba(201, 138, 18, .12);
+  --reserve: #D6459B;
+  --reserve-soft: rgba(214, 69, 155, .12);
+
+  --success: #16A34A;
+  --success-soft: rgba(22, 163, 74, .12);
+  --danger: #DC2626;
+  --danger-soft: rgba(220, 38, 38, .12);
+  --warning: #D97706;
+  --warning-soft: rgba(217, 119, 6, .12);
+  --neutral: #6B7280;
+
+  --chart-grid: rgba(20, 22, 26, .08);
+  --chart-axis: #7A808B;
+  --chart-surface: #FFFFFF;
+
+  --shadow-sm: 0 1px 3px rgba(20, 22, 26, .06);
+  --shadow-md: 0 10px 26px rgba(20, 22, 26, .08);
+  --shadow-lg: 0 24px 48px rgba(20, 22, 26, .12);
+
+  --hero-surface: #16181D;
+  --hero-border: #24272E;
+}
