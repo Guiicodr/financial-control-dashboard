@@ -1,0 +1,484 @@
+/* ==========================================================================
+   Finanly - Dashboard
+   Composicao das secoes e cards do painel. Todas as cores e medidas vem dos
+   tokens (tokens.css); nenhum valor de cor fixo neste arquivo.
+   ========================================================================== */
+
+/* ------------------------------ Cabecalho ------------------------------ */
+
+.hero-note {
+  margin-top: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.dashboard-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* -------------------------------- Grades ------------------------------- */
+
+.dashboard-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(212px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.dashboard-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.dashboard-panels--split {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.dashboard-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ---------------------------- Saldo (hero) ----------------------------- */
+
+.balance-hero-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.balance-hero-value {
+  margin-top: var(--space-2);
+  font-size: var(--fs-display);
+  font-weight: var(--fw-black);
+  letter-spacing: -.03em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.balance-hero-chart {
+  margin-top: var(--space-5);
+}
+
+/* --------------------------- Investido (hero) -------------------------- */
+
+.invested-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.invested-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.invested-value {
+  margin: var(--space-4) 0 var(--space-5);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-black);
+  letter-spacing: -.02em;
+  color: var(--hero-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.invested-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--hero-border);
+}
+
+.invested-stats dt {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  font-weight: var(--fw-semibold);
+  color: var(--hero-text);
+  opacity: .6;
+}
+
+.invested-stats dd {
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  color: var(--hero-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ------------------------------- Orcamento ----------------------------- */
+
+.budget-value {
+  margin-top: var(--space-2);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-black);
+  letter-spacing: -.02em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.budget-chip {
+  flex: none;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.budget-chip--ok { background: var(--success-soft); color: var(--success); }
+.budget-chip--warning { background: var(--warning-soft); color: var(--warning); }
+.budget-chip--danger { background: var(--danger-soft); color: var(--danger); }
+
+.budget-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.budget-track {
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--track);
+  overflow: hidden;
+}
+
+.budget-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--success);
+  transition: width var(--transition);
+}
+
+.budget-track--warning span { background: var(--warning); }
+.budget-track--danger span { background: var(--danger); }
+
+.budget-foot {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.budget-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  list-style: none;
+}
+
+.budget-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}/* ------------------------------- Alocacao ------------------------------ */
+
+.allocation-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.allocation-chart {
+  position: relative;
+}
+
+.allocation-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.allocation-center strong {
+  display: block;
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-black);
+  letter-spacing: -.02em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.allocation-center span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.allocation-legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  list-style: none;
+}
+
+.allocation-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.allocation-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.allocation-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.allocation-legend strong {
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------- Ultimas transacoes ------------------------ */
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  list-style: none;
+}
+
+.recent-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.recent-list li:hover {
+  background: var(--surface-hover);
+}
+
+.recent-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-inset);
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.recent-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.recent-info strong {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.recent-meta em {
+  font-style: normal;
+}
+
+.recent-value {
+  flex: none;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.recent-value--expense {
+  color: var(--expense);
+}
+
+/* ---------------------------- Comparativo ------------------------------ */
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.report-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--surface-inset);
+}
+
+.report-stat > span {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  font-weight: var(--fw-semibold);
+  color: var(--text-muted);
+}
+
+.report-stat strong {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-black);
+  letter-spacing: -.02em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.report-cta {
+  margin-top: var(--space-5);
+}
+
+/* -------------------------------- Insights ----------------------------- */
+
+.insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  list-style: none;
+}
+
+.insight {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--border-strong);
+  background: var(--surface-inset);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.insight-icon {
+  flex: none;
+  margin-top: 1px;
+  font-size: 14px;
+}
+
+.insight--positive {
+  border-left-color: var(--success);
+  background: var(--success-soft);
+  color: var(--text-primary);
+}
+
+.insight--positive .insight-icon {
+  color: var(--success);
+}
+
+.insight--warning {
+  border-left-color: var(--warning);
+  background: var(--warning-soft);
+  color: var(--text-primary);
+}
+
+.insight--warning .insight-icon {
+  color: var(--warning);
+}
+
+.insight--danger {
+  border-left-color: var(--danger);
+  background: var(--danger-soft);
+  color: var(--text-primary);
+}
+
+.insight--danger .insight-icon {
+  color: var(--danger);
+}
+
+.insight--neutral .insight-icon {
+  color: var(--text-muted);
+}
+
+/* ------------------------------ Responsivo ----------------------------- */
+
+@media (max-width: 1080px) {
+  .dashboard-hero-grid,
+  .dashboard-panels--split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .dashboard-toolbar {
+    width: 100%;
+  }
+
+  .balance-hero-value {
+    font-size: var(--fs-h1);
+  }
+
+  .invested-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .invested-stats dd {
+    white-space: normal;
+  }
+
+  .report-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

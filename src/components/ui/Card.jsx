@@ -1,31 +1,22 @@
-function Card({
+import "../../styles/ui/primitives.css";
 
-    children,
+/**
+ * Card do design system.
+ * tone: "hero" | "inset"
+ * padding: "sm" | "md" | "lg" | "none"
+ */
+function Card({ children, className = "", tone, padding }) {
+  const classes = ["card"];
 
-    className = "",
+  if (tone) classes.push("card--" + tone);
+  if (padding) classes.push("card--pad-" + padding);
+  if (className) classes.push(className);
 
-    hover = true
-
-}) {
-
-    return (
-
-        <div
-
-            className={`
-                card
-                ${hover ? "card-hover" : ""}
-                ${className}
-            `}
-
-        >
-
-            {children}
-
-        </div>
-
-    )
-
+  return (
+    <div className={classes.join(" ")}>
+      {children}
+    </div>
+  );
 }
 
-export default Card
+export default Card;
