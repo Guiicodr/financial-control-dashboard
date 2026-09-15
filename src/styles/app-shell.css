@@ -189,37 +189,26 @@
   min-height: var(--topbar-h);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
   padding: var(--space-4) var(--space-7);
   background: var(--bg-main);
   border-bottom: 1px solid var(--border);
+}
+
+/* O miolo da barra concentra marca, menu e cluster da direita. Isolar o miolo
+   permite alinhar a barra com a coluna do conteudo (mesma largura maxima). */
+.shell-topbar-inner {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
 }
 
 .shell-topbar-right {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-}
-
-.shell-sync {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 7px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-secondary);
-  font-size: var(--fs-sm);
-  white-space: nowrap;
-}
-
-.shell-sync-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--success);
 }
 
 .shell-avatar-top {
@@ -325,10 +314,6 @@
     padding: var(--space-3) var(--space-4);
   }
 
-  .shell-sync {
-    display: none;
-  }
-
   .shell-content {
     padding: var(--space-5) var(--space-4) calc(var(--mobile-nav-h) + var(--space-7));
   }
@@ -379,4 +364,75 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
+}
+
+/* ---------------------- Layout: navbar no topo ---------------------- */
+/* Desktop (>= 1081px): a navegacao vive na barra do topo e a sidebar sai de
+   cena. Abaixo disso valem o menu deslizante (hamburguer) e a barra inferior. */
+
+.shell-topnav {
+  display: none;
+}
+
+@media (min-width: 1081px) {
+  .shell-sidebar {
+    display: none;
+  }
+
+  .shell-main {
+    margin-left: 0;
+  }
+
+  .shell-content {
+    max-width: var(--content-max-topnav);
+  }
+
+  .shell-topbar {
+    padding: 0 var(--space-7);
+    background: var(--bg-topbar);
+    backdrop-filter: blur(14px);
+  }
+
+  /* Barra e conteudo dividem a mesma coluna: a marca alinha com a borda
+     esquerda do conteudo e o cluster da direita com a borda direita. */
+  .shell-topbar-inner {
+    gap: var(--space-6);
+    max-width: var(--content-max-topnav);
+    margin: 0 auto;
+  }
+
+  /* No topo a marca entra so com a logo: o nome fica apenas no menu deslizante. */
+  .shell-brand-text {
+    display: none;
+  }
+
+  .shell-topnav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .shell-topnav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shell-topnav .shell-nav-item {
+    width: auto;
+    flex: none;
+    gap: var(--space-2);
+    padding: 8px var(--space-3);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-sm);
+    white-space: nowrap;
+  }
+
+  .shell-topnav .shell-nav-item.is-active {
+    background: var(--accent-soft);
+    border-color: transparent;
+    color: var(--accent);
+  }
 }

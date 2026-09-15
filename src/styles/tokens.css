@@ -44,6 +44,7 @@
   --sidebar-w: 258px;
   --topbar-h: 72px;
   --content-max: 1240px;
+  --content-max-topnav: 1600px;
   --mobile-nav-h: 66px;
 
   /* Tokens semanticos compartilhados */
@@ -60,6 +61,7 @@
   --bg-main: #08090C;
   --bg-app: #08090C;
   --bg-sidebar: #0B0C10;
+  --bg-topbar: rgba(8, 9, 12, .82);
   --surface: #111318;
   --surface-2: #15181E;
   --surface-elevated: #1A1E25;
@@ -113,6 +115,7 @@
   --bg-main: #F4F2EE;
   --bg-app: #F4F2EE;
   --bg-sidebar: #FFFFFF;
+  --bg-topbar: rgba(244, 242, 238, .82);
   --surface: #FFFFFF;
   --surface-2: #FBFAF8;
   --surface-elevated: #FFFFFF;

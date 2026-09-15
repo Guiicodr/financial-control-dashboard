@@ -274,7 +274,6 @@ function App() {
       onOpenProfile={() => setTelaAtual("perfil")}
       theme={theme}
       onToggleTheme={toggleTheme}
-      syncLabel={t("common.sync")}
       fab={
         waBotNumero ? (
           <button

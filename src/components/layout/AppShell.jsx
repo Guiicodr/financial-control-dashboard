@@ -3,8 +3,17 @@ import { FaBars, FaXmark } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import ThemeToggle from "../ui/ThemeToggle";
 import { initialsOf } from "../../lib/format";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import "../../styles/app-shell.css";
 
+// Precisa bater com o breakpoint de tablet definido em styles/app-shell.css.
+const DESKTOP_MIN_WIDTH = 1081;
+const DESKTOP_QUERY = `(min-width: ${DESKTOP_MIN_WIDTH}px)`;
+
+/**
+ * Casca da aplicacao: navbar no topo no desktop (>= 1081px) e menu
+ * deslizante + barra inferior em telas menores.
+ */
 function AppShell({
   navItems,
   activeId,
@@ -13,27 +22,46 @@ function AppShell({
   onOpenProfile,
   theme,
   onToggleTheme,
-  syncLabel,
   children,
   fab,
 }) {
   const { t } = useTranslation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // A navbar no topo so existe no desktop: em telas menores valem o menu
+  // deslizante e a barra inferior.
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
 
   const initials = initialsOf(user && (user.nome || user.email));
   const mobileItems = navItems.slice(0, 5);
+
+  const brand = (
+    <div className="shell-brand">
+      <span className="shell-brand-logo" aria-hidden="true">F</span>
+      <span className="shell-brand-text">
+        <strong>Finanly</strong>
+        <span>{t("brand.tagline")}</span>
+      </span>
+    </div>
+  );
+
+  const navButtons = navItems.map((item) => (
+    <button
+      key={item.id}
+      type="button"
+      className={"shell-nav-item" + (activeId === item.id ? " is-active" : "")}
+      aria-current={activeId === item.id ? "page" : undefined}
+      onClick={() => { setSidebarOpen(false); onNavigate(item.id); }}
+    >
+      {item.icon}
+      <span className="shell-nav-label">{t(item.labelKey)}</span>
+    </button>
+  ));
 
   return (
     <div className="shell">
       <aside className={"shell-sidebar" + (sidebarOpen ? " is-open" : "")}>
         <div className="shell-sidebar-head">
-          <div className="shell-brand">
-            <span className="shell-brand-logo" aria-hidden="true">F</span>
-            <span className="shell-brand-text">
-              <strong>Finanly</strong>
-              <span>{t("brand.tagline")}</span>
-            </span>
-          </div>
+          {isDesktop ? null : brand}
           <button
             type="button"
             className="shell-icon-btn"
@@ -46,18 +74,7 @@ function AppShell({
 
         <nav className="shell-nav" aria-label={t("common.menu")}>
           <span className="shell-nav-caption">{t("common.menu")}</span>
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={"shell-nav-item" + (activeId === item.id ? " is-active" : "")}
-              aria-current={activeId === item.id ? "page" : undefined}
-              onClick={() => { setSidebarOpen(false); onNavigate(item.id); }}
-            >
-              {item.icon}
-              {t(item.labelKey)}
-            </button>
-          ))}
+          {navButtons}
         </nav>
 
         <div className="shell-sidebar-footer">
@@ -80,31 +97,36 @@ function AppShell({
 
       <div className="shell-main">
         <header className="shell-topbar">
-          <button
-            type="button"
-            className="shell-icon-btn"
-            onClick={() => setSidebarOpen(true)}
-            aria-label={t("common.menuOpen")}
-          >
-            <FaBars />
-          </button>
-
-          <div className="shell-topbar-right">
-            {syncLabel && (
-              <span className="shell-sync">
-                <span className="shell-sync-dot" aria-hidden="true" />
-                {syncLabel}
-              </span>
-            )}
-            <ThemeToggle theme={theme} onToggle={onToggleTheme} compact />
+          <div className="shell-topbar-inner">
             <button
               type="button"
-              className="shell-avatar-top"
-              onClick={onOpenProfile}
-              aria-label={t("nav.profile")}
+              className="shell-icon-btn"
+              onClick={() => setSidebarOpen(true)}
+              aria-label={t("common.menuOpen")}
             >
-              {initials}
+              <FaBars />
             </button>
+
+            {isDesktop && (
+              <>
+                {brand}
+                <nav className="shell-topnav" aria-label={t("common.menu")}>
+                  {navButtons}
+                </nav>
+              </>
+            )}
+
+            <div className="shell-topbar-right">
+              <ThemeToggle theme={theme} onToggle={onToggleTheme} compact />
+              <button
+                type="button"
+                className="shell-avatar-top"
+                onClick={onOpenProfile}
+                aria-label={t("nav.profile")}
+              >
+                {initials}
+              </button>
+            </div>
           </div>
         </header>
 
