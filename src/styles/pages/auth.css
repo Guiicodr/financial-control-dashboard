@@ -63,8 +63,10 @@
 }
 
 /* --- FUNDO ANIMADO (Aurora) --- */
-/* Camada atras das duas colunas; sem WebGL sobra o --bg-app do container. */
+/* Camada atras das duas colunas; sem WebGL sobra o --bg-app do container.
+   O overflow evita barra de rolagem horizontal enquanto o canvas ainda esta maior que a camada. */
 .auth-aurora {
+    overflow: hidden;
     position: absolute;
     inset: 0;
     z-index: 0;
