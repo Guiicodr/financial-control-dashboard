@@ -1,5 +1,6 @@
 /* Fundo animado (Aurora do React Bits desenhada com ogl).
-   O componente controla o canvas; aqui so garantimos o preenchimento do container. */
+   O componente controla o canvas; aqui ficam a camada fixa e o veu de contraste. */
+
 .aurora-container {
     width: 100%;
     height: 100%;
@@ -7,4 +8,33 @@
 
 .aurora-container canvas {
     display: block;
+}
+
+/* Camada presa ao viewport: fica atras do conteudo e nao cresce com a rolagem
+   (o canvas fica sempre do tamanho da janela). O overflow evita barra de
+   rolagem horizontal enquanto o canvas ainda esta maior que a camada. */
+.aurora-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Veu sobre o fundo animado (cor vem dos tokens de tema). */
+.aurora-layer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+/* Login: atenua a coluna central (hero + formulario) e deixa a Aurora viva nas laterais. */
+.aurora-layer--auth::after {
+    background: radial-gradient(115% 90% at 50% 46%, var(--aurora-veil) 0%, transparent 72%);
+}
+
+/* Telas internas: fecha o miolo, onde ficam os cards, e preserva o fundo
+   animado nas margens e no rodape do conteudo. */
+.aurora-layer--app::after {
+    background: radial-gradient(130% 115% at 50% 42%, var(--aurora-veil-app) 24%, transparent 82%);
 }

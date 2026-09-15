@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaBars, FaXmark } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import ThemeToggle from "../ui/ThemeToggle";
+import AuroraBackground from "../ui/AuroraBackground";
 import { initialsOf } from "../../lib/format";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import "../../styles/app-shell.css";
@@ -13,6 +14,7 @@ const DESKTOP_QUERY = `(min-width: ${DESKTOP_MIN_WIDTH}px)`;
 /**
  * Casca da aplicacao: navbar no topo no desktop (>= 1081px) e menu
  * deslizante + barra inferior em telas menores.
+ * O fundo animado (Aurora) fica atras de tudo, atras das barras e do conteudo.
  */
 function AppShell({
   navItems,
@@ -59,6 +61,8 @@ function AppShell({
 
   return (
     <div className="shell">
+      <AuroraBackground theme={theme} variant="app" />
+
       <aside className={"shell-sidebar" + (sidebarOpen ? " is-open" : "")}>
         <div className="shell-sidebar-head">
           {isDesktop ? null : brand}

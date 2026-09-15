@@ -262,7 +262,7 @@ function App() {
     { label: t("categories.ALIMENTACAO"), value: "ALIMENTACAO", limite: 25 }, { label: t("categories.OUTROS"), value: "OUTROS", limite: 30 }, { label: t("categories.TRANSPORTE"), value: "TRANSPORTE", limite: 15 }, { label: t("categories.ESTUDOS"), value: "ESTUDOS", limite: 15 }, { label: t("categories.LAZER"), value: "LAZER", limite: 10 }
   ]
 
-  if (!autenticado) return <AuthPage theme={theme} onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }} />
+  if (!autenticado) return <AuthPage theme={theme} onToggleTheme={toggleTheme} onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }} />
 
   return (
     <>

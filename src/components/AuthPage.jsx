@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { autenticar, registrar, solicitarResetSenha, resetarSenha } from "../services/api";
 import { FaEye, FaEyeSlash, FaArrowLeft, FaCircleCheck, FaEnvelope } from "react-icons/fa6";
-import Aurora from "./ui/Aurora";
-import AuthBrandPanel from "./auth/AuthBrandPanel";
-import { auroraProps } from "../lib/auroraTheme";
-import { useMediaQuery } from "../hooks/useMediaQuery";
+import AuroraBackground from "./ui/AuroraBackground";
+import AuthTopBar from "./auth/AuthTopBar";
+import AuthHero from "./auth/AuthHero";
 import "../styles/pages/auth.css";
 
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === "true";
@@ -24,11 +23,8 @@ function calcPasswordStrength(senha) {
   return { level: 3 };
 }
 
-function AuthPage({ theme = "dark", onAuthenticated }) {
+function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated }) {
   const { t } = useTranslation();
-  const aurora = auroraProps(theme);
-  // Com "reduce" o shader congela (uTime = 0): fundo estatico, sem animacao.
-  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [modoCadastro, setModoCadastro] = useState(false);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -87,6 +83,13 @@ function AuthPage({ theme = "dark", onAuthenticated }) {
     setErro("");
   }
 
+  // As opcoes de acesso da navbar tambem encerram a recuperacao de senha.
+  function selecionarAcesso(cadastro) {
+    setModoCadastro(cadastro);
+    setEsquecendo(false);
+    setErro("");
+  }
+
   function enviar(event) {
     event.preventDefault();
     setErro("");
@@ -113,16 +116,17 @@ function AuthPage({ theme = "dark", onAuthenticated }) {
 
   return (
     <main className="auth-container">
-      <div className="auth-aurora" aria-hidden="true">
-        <Aurora {...aurora} speed={reduceMotion ? 0 : aurora.speed} />
-      </div>
-      <AuthBrandPanel />
-      <section className="auth-form-section">
+      <AuroraBackground theme={theme} variant="auth" />
+      <AuthTopBar
+        signingUp={modoCadastro}
+        onSignIn={() => selecionarAcesso(false)}
+        onSignUp={() => selecionarAcesso(true)}
+        theme={theme}
+        onToggleTheme={onToggleTheme}
+      />
+      <section className="auth-page">
+        <AuthHero />
         <div className="auth-card">
-          <div className="auth-tabs">
-            <button type="button" className={`tab-btn ${!modoCadastro ? "active" : ""}`} onClick={() => { setModoCadastro(false); setErro(""); }}>{t("auth.signIn")}</button>
-            <button type="button" className={`tab-btn ${modoCadastro ? "active" : ""}`} onClick={() => { setModoCadastro(true); setErro(""); }}>{t("auth.createAccount")}</button>
-          </div>
           <div className="auth-header">
             {esquecendo ? (
               <>
@@ -236,6 +240,9 @@ function AuthPage({ theme = "dark", onAuthenticated }) {
           )}
         </div>
       </section>
+      <footer className="auth-footer">
+        <p>© {new Date().getFullYear()} Finanly Inc. {t("auth.rights")}</p>
+      </footer>
     </main>
   );
 }
