@@ -7,8 +7,8 @@ import { CATEGORY_COLORS, EXPENSE_CATEGORIES, expensesByCategory } from "../../l
 import "../../styles/pages/reports.css";
 
 /**
- * Limites de orcamento por categoria (entidade Orcamento do backend). O uso
- * exibido e o gasto real do mes; ao definir um limite, o backend passa a
+ * Limites de orcamento por categoria (entidade Orcamento da API). O uso
+ * exibido e o gasto real do mes; ao definir um limite, o servidor passa a
  * emitir os alertas usados no dashboard e no painel de insights.
  */
 function BudgetManager({ budgets, transacoes, monthKey, onSave, saving }) {

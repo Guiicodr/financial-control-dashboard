@@ -16,7 +16,7 @@ const PROJECTION_MONTHS = 6;
 
 /**
  * Relatorios: comparativo mensal, gastos por categoria, limites de orcamento e
- * projecao de saldo calculada pelo backend. Todos os numeros vem de dados reais.
+ * projecao de saldo calculada pelo servidor. Todos os numeros vem de dados reais.
  */
 function Reports({ transacoes, rendas, theme }) {
   const { t, i18n } = useTranslation();

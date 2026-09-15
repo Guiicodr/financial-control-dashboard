@@ -4,7 +4,7 @@ import { formatCurrency } from "../../lib/format";
 import "../../styles/pages/goals.css";
 
 /**
- * Aporte/resgate com valor informado pelo usuario. O backend soma ao
+ * Aporte/resgate com valor informado pelo usuario. O servidor soma ao
  * valorAtual (APORTE) ou subtrai com piso em zero (RESGATE); aqui validamos
  * para nao deixar o usuario resgatar mais do que a meta possui hoje.
  */

@@ -2,7 +2,7 @@
  * Finanly - derivacoes financeiras.
  *
  * REGRA CRITICA: nada aqui inventa dado. Todo calculo replica (em JS) as regras
- * ja implementadas no backend, ou apenas agrega dados reais recebidos da API.
+ * ja implementadas no servidor, ou apenas agrega dados reais recebidos da API.
  *
  *   Receitas  => entidade Income (BASE recorrente mensal / EXTRA pontual)
  *   Despesas  => Transacao com tipo === "SAIDA"
@@ -106,7 +106,7 @@ export function expensesUpTo(transacoes, monthKey) {
     .reduce((total, item) => total + Number(item.valor || 0), 0);
 }
 
-/** Saldo acumulado ate o fim de um mes (mesma semantica do backend). */
+/** Saldo acumulado ate o fim de um mes (mesma semantica do servidor). */
 export function balanceAt(rendas, transacoes, monthKey) {
   return incomeAccumulatedUpTo(rendas, monthKey) - expensesUpTo(transacoes, monthKey);
 }

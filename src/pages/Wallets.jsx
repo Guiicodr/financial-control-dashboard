@@ -15,7 +15,7 @@ const EMPTY_CARD = { nome: "", limite: "", diaFechamento: "", diaVencimento: "" 
 
 /**
  * Carteiras: composicao real do patrimonio + cartoes de credito (entidade real
- * do backend). O Finanly nao se conecta a bancos.
+ * da API). O Finanly nao se conecta a bancos.
  */
 function Wallets({ saldo, objetivos }) {
   const { t } = useTranslation();

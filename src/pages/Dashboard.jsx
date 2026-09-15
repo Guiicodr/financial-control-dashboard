@@ -30,7 +30,7 @@ const PERIOD_OPTIONS = [3, 6, 12];
 
 /**
  * Dashboard: todos os numeros vem da API ou de derivacoes que espelham as
- * regras do backend (lib/finance). Nada e inventado; sem base de comparacao
+ * regras do servidor (lib/finance). Nada e inventado; sem base de comparacao
  * o indicador correspondente simplesmente nao aparece.
  */
 function Dashboard({ saldo, transacoes, rendas, objetivos, nomeUsuario, theme, onNewTransaction, onOpenTransactions, onOpenReports }) {

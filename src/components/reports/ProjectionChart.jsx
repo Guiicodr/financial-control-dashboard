@@ -7,7 +7,7 @@ import { chartTokens } from "../../lib/chartTheme";
 import "../../styles/pages/reports.css";
 
 /**
- * Projecao de saldo calculada no backend (GET /projecoes/saldo): receitas BASE
+ * Projecao de saldo calculada pelo servidor (GET /projecoes/saldo): receitas BASE
  * recorrentes e media real de despesas. Nao e simulacao do front.
  */
 function ProjectionChart({ projection, theme, loading }) {

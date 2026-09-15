@@ -198,7 +198,7 @@ export function resetarSenha(token, senha) {
     body: JSON.stringify({ token, senha }),
   }).then(handleResponse);
 }
-// ===== Edicao / Orcamentos (endpoints aditivos do backend) =====
+// ===== Edicao / Orcamentos (endpoints aditivos da API) =====
 
 export function atualizarTransacao(id, transacao) {
   return apiFetch(`/transacoes/${id}`, {
