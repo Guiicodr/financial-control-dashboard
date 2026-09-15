@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Finanly - Tela de login (navbar em pilula + hero + formulario)
+   Finanly - Tela de acesso (formulario centralizado)
+   A barra em pilula vem de styles/ui/pill-bar.css (.pill-bar).
    ========================================================================== */
 
 .auth-container {
@@ -15,141 +16,21 @@
     overflow-x: clip;
 }
 
-/* --- NAVBAR (pilula pequena, na linguagem de barra de busca) --- */
-.auth-topbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    padding: var(--space-4) var(--space-5);
-}
+/* A barra em pilula (marca, opcoes de acesso e tema) vem de styles/ui/pill-bar.css. */
 
-.auth-topbar-inner {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    width: 100%;
-    max-width: 720px;
-    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    /* Fundo translucido + blur: a Aurora aparece por tras da barra. */
-    background: var(--bg-topbar);
-    backdrop-filter: blur(14px);
-    box-shadow: var(--shadow-sm);
-}
-
-.auth-topbar-brand {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    flex: none;
-}
-
-.auth-topbar-logo {
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: var(--fw-black);
-    font-size: var(--fs-sm);
-}
-
-.auth-topbar-name {
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-bold);
-    letter-spacing: -.02em;
-}
-
-/* Opcoes de acesso (Entrar / Criar conta) no centro da pilula. */
-.auth-topbar-options {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
-    margin: 0 auto;
-    padding: 3px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    background: var(--surface-inset);
-}
-
-.auth-option {
-    padding: 7px var(--space-3);
-    border: none;
-    border-radius: var(--radius-pill);
-    background: transparent;
-    color: var(--text-secondary);
-    font-size: var(--fs-sm);
-    font-weight: var(--fw-semibold);
-    white-space: nowrap;
-    transition: background var(--transition-fast), color var(--transition-fast);
-}
-
-.auth-option:hover {
-    color: var(--text-primary);
-}
-
-.auth-option.is-active {
-    background: var(--accent-soft);
-    color: var(--accent);
-}
-
-.auth-option:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-}
-
-/* --- PAGINA (hero + formulario na mesma coluna central) --- */
+/* --- PAGINA (formulario de acesso centralizado na viewport) --- */
 /* O fundo animado (Aurora) vive em styles/ui/aurora.css (.aurora-layer). */
 .auth-page {
     position: relative;
     z-index: 1;
     flex: 1;
     display: flex;
-    flex-direction: column;
-    gap: clamp(var(--space-6), 5vh, var(--space-9));
+    align-items: center;
+    justify-content: center;
     width: 100%;
     max-width: 720px;
     margin: 0 auto;
-    padding: var(--space-4) var(--space-5) var(--space-9);
-}
-
-/* --- HERO (nome e slogan) --- */
-.auth-hero {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    text-align: center;
-}
-
-.auth-hero-title {
-    font-size: clamp(2.5rem, 6vw, 3.5rem);
-    font-weight: var(--fw-black);
-    line-height: 1.05;
-    letter-spacing: -.03em;
-    background: linear-gradient(120deg, var(--text-primary) 20%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.auth-hero-slogan {
-    font-size: var(--fs-sm);
-    font-weight: var(--fw-semibold);
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--accent);
-}
-
-.auth-hero-text {
-    margin: var(--space-1) auto 0;
-    max-width: 42ch;
-    font-size: var(--fs-body);
-    color: var(--text-secondary);
+    padding: var(--space-6) var(--space-5) var(--space-9);
 }
 
 /* --- FORMULARIO --- */
@@ -175,31 +56,14 @@
     color: var(--text-muted);
 }
 
-/* Telas pequenas: a pilula perde o nome e o hero encolhe. */
+/* Telas pequenas: o formulario ganha mais espaco vertical. */
 @media (max-width: 560px) {
-    .auth-topbar {
-        padding: var(--space-3) var(--space-4);
-    }
-
-    .auth-topbar-name {
-        display: none;
-    }
-
-    .auth-option {
-        padding: 6px var(--space-2);
-        font-size: var(--fs-xs);
-    }
-
     .auth-page {
-        padding: var(--space-3) var(--space-4) var(--space-9);
-    }
-
-    .auth-hero-slogan {
-        font-size: var(--fs-xs);
+        padding: var(--space-3) var(--space-4) var(--space-7);
     }
 }
 
-/* As opcoes de acesso (Entrar / Criar conta) vivem na navbar: veja .auth-option. */
+/* As opcoes de acesso (Entrar / Criar conta) vivem na pilula: veja .pill-bar-option. */
 
 .auth-header h2 {
     font-size: 1.75rem;

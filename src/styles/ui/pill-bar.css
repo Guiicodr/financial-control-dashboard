@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Finanly - Barra de navegacao em pilula (telas publicas: inicio e login)
+   Mesma linguagem de barra do app: pilula translucida com blur no topo.
+   ========================================================================== */
+
+.pill-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-4) var(--space-5);
+}
+
+/* Pilula que abraca o conteudo (tela inicial). */
+.pill-bar-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: fit-content;
+    max-width: 100%;
+    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    /* Fundo translucido + blur: a Aurora aparece por tras da barra. */
+    background: var(--bg-topbar);
+    backdrop-filter: blur(14px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Login: a pilula ocupa a largura da coluna, com as opcoes centralizadas. */
+.pill-bar-inner--wide {
+    width: 100%;
+    max-width: 720px;
+}
+
+.pill-bar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex: none;
+    /* A marca tambem pode ser um botao (voltar ao inicio): reset do controle. */
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    border-radius: var(--radius-sm);
+}
+
+button.pill-bar-brand {
+    cursor: pointer;
+}
+
+button.pill-bar-brand .pill-bar-name {
+    transition: color var(--transition-fast);
+}
+
+button.pill-bar-brand:hover .pill-bar-name {
+    color: var(--accent);
+}
+
+button.pill-bar-brand:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.pill-bar-logo {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: var(--fw-black);
+    font-size: var(--fs-sm);
+}
+
+.pill-bar-name {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+    letter-spacing: -.02em;
+}
+
+/* Grupo segmentado (Entrar / Criar conta) no centro da pilula. */
+.pill-bar-options {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin: 0 auto;
+    padding: 3px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--surface-inset);
+}
+
+.pill-bar-option {
+    padding: 7px var(--space-3);
+    border: none;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    white-space: nowrap;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.pill-bar-option:hover {
+    color: var(--text-primary);
+}
+
+.pill-bar-option.is-active {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.pill-bar-option:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Acoes a direita (tema + CTAs). */
+.pill-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex: none;
+}
+
+/* Botoes dentro da pilula usam o tamanho compacto da barra. */
+.pill-bar .btn {
+    padding: 7px var(--space-4);
+    font-size: var(--fs-sm);
+}
+
+/* Telas pequenas: a pilula perde o nome e os controles encolhem. */
+@media (max-width: 560px) {
+    .pill-bar {
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .pill-bar-name {
+        display: none;
+    }
+
+    .pill-bar-option {
+        padding: 6px var(--space-2);
+        font-size: var(--fs-xs);
+    }
+
+    .pill-bar .btn {
+        padding: 6px var(--space-3);
+        font-size: var(--fs-xs);
+    }
+}

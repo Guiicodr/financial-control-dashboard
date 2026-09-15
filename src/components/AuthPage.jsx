@@ -4,7 +4,6 @@ import { autenticar, registrar, solicitarResetSenha, resetarSenha } from "../ser
 import { FaEye, FaEyeSlash, FaArrowLeft, FaCircleCheck, FaEnvelope } from "react-icons/fa6";
 import AuroraBackground from "./ui/AuroraBackground";
 import AuthTopBar from "./auth/AuthTopBar";
-import AuthHero from "./auth/AuthHero";
 import "../styles/pages/auth.css";
 
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === "true";
@@ -23,9 +22,13 @@ function calcPasswordStrength(senha) {
   return { level: 3 };
 }
 
-function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated }) {
+/**
+ * Tela de acesso (entrar / criar conta): formulario centralizado na viewport,
+ * sobre o fundo Aurora. initialMode define o modo que abre por padrao.
+ */
+function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode = "entrar", onGoHome }) {
   const { t } = useTranslation();
-  const [modoCadastro, setModoCadastro] = useState(false);
+  const [modoCadastro, setModoCadastro] = useState(initialMode === "cadastro");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -121,11 +124,11 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated }) {
         signingUp={modoCadastro}
         onSignIn={() => selecionarAcesso(false)}
         onSignUp={() => selecionarAcesso(true)}
+        onHome={onGoHome}
         theme={theme}
         onToggleTheme={onToggleTheme}
       />
       <section className="auth-page">
-        <AuthHero />
         <div className="auth-card">
           <div className="auth-header">
             {esquecendo ? (

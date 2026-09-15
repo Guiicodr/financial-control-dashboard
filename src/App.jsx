@@ -12,6 +12,7 @@ import Transactions from "./pages/Transactions";
 import Wallets from "./pages/Wallets";
 import Reports from "./pages/Reports";
 import AuthPage from "./components/AuthPage";
+import HomePage from "./components/home/HomePage";
 import AppShell from "./components/layout/AppShell";
 import TransactionModal from "./components/transactions/TransactionModal";
 import ToastHost from "./components/ui/ToastHost";
@@ -58,6 +59,8 @@ function App() {
   const [waBotNumero, setWaBotNumero] = useState("")
   const [autenticado, setAutenticado] = useState(() => Boolean(localStorage.getItem("accessToken")))
   const [usuario, setUsuario] = useState(() => ({ nome: localStorage.getItem("userName") || localStorage.getItem("userEmail")?.split("@")[0] || "", email: localStorage.getItem("userEmail") || "" }))
+  // Area publica: "inicio" (primeira tela) | "entrar" | "cadastro".
+  const [vistaPublica, setVistaPublica] = useState("inicio")
 
 
   function carregarDados() {
@@ -262,7 +265,23 @@ function App() {
     { label: t("categories.ALIMENTACAO"), value: "ALIMENTACAO", limite: 25 }, { label: t("categories.OUTROS"), value: "OUTROS", limite: 30 }, { label: t("categories.TRANSPORTE"), value: "TRANSPORTE", limite: 15 }, { label: t("categories.ESTUDOS"), value: "ESTUDOS", limite: 15 }, { label: t("categories.LAZER"), value: "LAZER", limite: 10 }
   ]
 
-  if (!autenticado) return <AuthPage theme={theme} onToggleTheme={toggleTheme} onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }} />
+  // Area publica: a primeira tela e o hero; o formulario de acesso aparece
+  // somente depois de escolher "Entrar" ou "Criar conta".
+  if (!autenticado) {
+    if (vistaPublica === "inicio") {
+      return <HomePage theme={theme} onToggleTheme={toggleTheme} onAccess={setVistaPublica} />
+    }
+
+    return (
+      <AuthPage
+        initialMode={vistaPublica}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        onGoHome={() => setVistaPublica("inicio")}
+        onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }}
+      />
+    )
+  }
 
   return (
     <>
@@ -359,6 +378,7 @@ function App() {
             localStorage.removeItem("refreshToken")
             localStorage.removeItem("userName")
             localStorage.removeItem("userEmail")
+            setVistaPublica("inicio")
             setAutenticado(false)
           }}
         />
