@@ -111,7 +111,6 @@ function AuthPage({ onAuthenticated }) {
           <span className="brand-logo">Finanly.</span>
         </div>
         <div className="brand-content">
-          <span className="brand-badge">{t("auth.badge")}</span>
           <h1>{t("auth.headline")}</h1>
           <p>{t("auth.description")}</p>
         </div>

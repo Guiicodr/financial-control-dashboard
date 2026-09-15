@@ -38,18 +38,6 @@
     z-index: 10;
 }
 
-.brand-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background-color: var(--accent-soft);
-    color: var(--accent);
-    border: 1px solid var(--accent-soft);
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-bottom: 1.25rem;
-}
-
 .brand-content h1 {
     font-size: 2.75rem;
     font-weight: 800;
