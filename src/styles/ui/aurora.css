@@ -1,0 +1,10 @@
+/* Fundo animado (Aurora do React Bits desenhada com ogl).
+   O componente controla o canvas; aqui so garantimos o preenchimento do container. */
+.aurora-container {
+    width: 100%;
+    height: 100%;
+}
+
+.aurora-container canvas {
+    display: block;
+}

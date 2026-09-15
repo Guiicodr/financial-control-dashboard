@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { autenticar, registrar, solicitarResetSenha, resetarSenha } from "../services/api";
 import { FaEye, FaEyeSlash, FaArrowLeft, FaCircleCheck, FaEnvelope } from "react-icons/fa6";
+import Aurora from "./ui/Aurora";
+import AuthBrandPanel from "./auth/AuthBrandPanel";
+import { auroraProps } from "../lib/auroraTheme";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import "../styles/pages/auth.css";
 
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === "true";
@@ -20,8 +24,11 @@ function calcPasswordStrength(senha) {
   return { level: 3 };
 }
 
-function AuthPage({ onAuthenticated }) {
+function AuthPage({ theme = "dark", onAuthenticated }) {
   const { t } = useTranslation();
+  const aurora = auroraProps(theme);
+  // Com "reduce" o shader congela (uTime = 0): fundo estatico, sem animacao.
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [modoCadastro, setModoCadastro] = useState(false);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -106,19 +113,10 @@ function AuthPage({ onAuthenticated }) {
 
   return (
     <main className="auth-container">
-      <section className="auth-brand-section">
-        <div className="brand-header">
-          <span className="brand-logo">Finanly.</span>
-        </div>
-        <div className="brand-content">
-          <h1>{t("auth.headline")}</h1>
-          <p>{t("auth.description")}</p>
-        </div>
-        <div className="brand-footer">
-          <p>© {new Date().getFullYear()} Finanly Inc. {t("auth.rights")}</p>
-        </div>
-        <div className="glow-effect" />
-      </section>
+      <div className="auth-aurora" aria-hidden="true">
+        <Aurora {...aurora} speed={reduceMotion ? 0 : aurora.speed} />
+      </div>
+      <AuthBrandPanel />
       <section className="auth-form-section">
         <div className="auth-card">
           <div className="auth-tabs">

@@ -83,6 +83,9 @@
 
   --primary: var(--accent);
 
+  /* Veu sobre o fundo animado (Aurora) da tela de login */
+  --aurora-veil: rgba(8, 9, 12, .58);
+
   --income: #34D399;
   --income-soft: rgba(52, 211, 153, .14);
   --expense: #F26D6D;
@@ -136,6 +139,9 @@
   --accent-soft: rgba(109, 74, 255, .12);
 
   --primary: var(--accent);
+
+  /* Veu sobre o fundo animado (Aurora) da tela de login */
+  --aurora-veil: rgba(246, 244, 240, .58);
 
   --income: #0E9F6E;
   --income-soft: rgba(14, 159, 110, .12);

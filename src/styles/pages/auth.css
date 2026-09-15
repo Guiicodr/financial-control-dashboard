@@ -1,4 +1,5 @@
 .auth-container {
+    position: relative;
     display: flex;
     min-height: 100vh;
     width: 100%;
@@ -12,9 +13,11 @@
     display: none;
     width: 50%;
     padding: 3rem;
-    background: linear-gradient(135deg, var(--surface) 0%, var(--bg-app) 100%);
+    /* Fundo transparente para o Aurora atravessar as duas colunas. */
+    background: transparent;
     border-right: 1px solid var(--border);
     position: relative;
+    z-index: 1;
     overflow: hidden;
     flex-direction: column;
     justify-content: space-between;
@@ -59,20 +62,36 @@
     font-size: 0.85rem;
 }
 
-.glow-effect {
+/* --- FUNDO ANIMADO (Aurora) --- */
+/* Camada atras das duas colunas; sem WebGL sobra o --bg-app do container. */
+.auth-aurora {
     position: absolute;
-    bottom: -5rem;
-    left: -5rem;
-    width: 24rem;
-    height: 24rem;
-    background-color: var(--accent-soft);
-    border-radius: 50%;
-    filter: blur(80px);
+    inset: 0;
+    z-index: 0;
     pointer-events: none;
+}
+
+/* Veu sobre o fundo animado: atenua onde ficam os textos (formulario e branding)
+   e preserva o Aurora vivo nas areas livres. */
+.auth-aurora::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(90% 90% at 74% 50%, var(--aurora-veil) 0%, transparent 68%),
+        radial-gradient(85% 75% at 24% 62%, var(--aurora-veil) 0%, transparent 72%);
+}
+
+@media (max-width: 1023px) {
+    .auth-aurora::after {
+        background: radial-gradient(120% 90% at 50% 50%, var(--aurora-veil) 0%, transparent 75%);
+    }
 }
 
 /* --- COLUNA DIREITA (FORMULÁRIO) --- */
 .auth-form-section {
+    position: relative;
+    z-index: 1;
     flex: 1;
     display: flex;
     align-items: center;
