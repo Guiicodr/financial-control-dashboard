@@ -190,7 +190,7 @@
   width: 32px;
   height: 32px;
   margin-left: auto;
-  border-radius: var(--radius-xs, 8px);
+  border-radius: var(--radius-xs, 4px);
   border: 1px solid transparent;
   background: transparent;
   color: var(--text-muted);

@@ -31,10 +31,10 @@
   --space-7: 32px;
   --space-9: 56px;
 
-  --radius-xs: 8px;
-  --radius-sm: 12px;
-  --radius-md: 16px;
-  --radius-lg: 22px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
   --radius-pill: 999px;
 
   --ease: cubic-bezier(.2, .8, .2, 1);
