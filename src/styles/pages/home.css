@@ -47,23 +47,30 @@
     font-weight: var(--fw-black);
     line-height: 1.05;
     letter-spacing: -.03em;
+    /* A entrelinha apertada (1.05, abaixo da altura natural da fonte) joga os
+       descendentes da ultima linha para fora da caixa. O gradiente so pinta a
+       caixa (background-clip: text), entao a chamada em ingles aparecia
+       cortada embaixo (ex.: "goes."). O padding devolve essa folga ao
+       gradiente, e por ser simetrico nao muda o alinhamento. */
+    padding: .15em 0;
     background: linear-gradient(120deg, var(--text-primary) 25%, var(--accent) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    /* Entrada da chamada: fade + leve subida, no ritmo dos toasts do app. */
+    /* Entrada da chamada: fade + leve deslocamento da esquerda para a
+       direita, no ritmo dos toasts do app. */
     animation: homeTitleIn .6s var(--ease);
 }
 
 @keyframes homeTitleIn {
     from {
         opacity: 0;
-        transform: translateY(14px);
+        transform: translateX(-20px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
 }
 
