@@ -40,6 +40,13 @@
     max-width: none;
 }
 
+/* Inicio: barra espelhada (acessos a esquerda e marca a direita). O padding
+   segue o espelho: o tema fica rente a esquerda e o nome com folga a direita. */
+.pill-bar-inner--actions-first {
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+}
+
 .pill-bar-brand {
     display: flex;
     align-items: center;

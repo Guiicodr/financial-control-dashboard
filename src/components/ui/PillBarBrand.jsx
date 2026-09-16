@@ -1,13 +1,14 @@
 import "../../styles/ui/pill-bar.css";
 
 /**
- * Marca Finanly (logo + nome) usada nas barras em pilula.
+ * Marca Finanly (nome) usada nas barras em pilula. A logo em icone entra por
+ * padrao; nameOnly mostra so o nome (barra da tela inicial).
  * Com onClick vira um botao (ex.: voltar para a tela inicial).
  */
-function PillBarBrand({ onClick, label }) {
+function PillBarBrand({ onClick, label, nameOnly = false }) {
   const conteudo = (
     <>
-      <span className="pill-bar-logo" aria-hidden="true">F</span>
+      {nameOnly ? null : <span className="pill-bar-logo" aria-hidden="true">F</span>}
       <span className="pill-bar-name">Finanly.</span>
     </>
   );

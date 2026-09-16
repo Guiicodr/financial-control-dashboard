@@ -5,9 +5,9 @@ import ThemeToggle from "../ui/ThemeToggle";
 import "../../styles/ui/primitives.css";
 
 /**
- * Barra da tela inicial: marca a esquerda e, a direita, o alternador de tema
- * com as duas entradas do produto (entrar e criar conta). Esticada, ela ocupa
- * a largura do hero e fica logo acima da chamada principal.
+ * Barra da tela inicial: a esquerda, o alternador de tema com as duas entradas
+ * do produto (entrar e criar conta); a direita, so o nome da marca. Esticada,
+ * ela ocupa a largura do hero e fica logo acima da chamada principal.
  */
 function HomeTopBar({ theme, onToggleTheme, onAccess }) {
   const { t } = useTranslation();
@@ -15,7 +15,8 @@ function HomeTopBar({ theme, onToggleTheme, onAccess }) {
   return (
     <PillBar
       stretch
-      brand={<PillBarBrand />}
+      actionsFirst
+      brand={<PillBarBrand nameOnly />}
       actions={
         <>
           {onToggleTheme ? <ThemeToggle theme={theme} onToggle={onToggleTheme} compact /> : null}

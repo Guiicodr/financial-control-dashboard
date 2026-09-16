@@ -97,4 +97,11 @@
         gap: var(--space-4);
         padding: var(--space-4) var(--space-4) var(--space-5);
     }
+
+    /* Na barra do inicio o nome da marca fica: sem a logo, ele e o unico
+       sinal da marca no mobile (a pilula do login segue so com a logo). */
+    .home-hero .pill-bar-name {
+        display: block;
+        font-size: var(--fs-sm);
+    }
 }
