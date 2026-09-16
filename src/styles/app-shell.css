@@ -411,33 +411,14 @@
     display: none;
   }
 
+  /* Navegacao no topo em Dock (React Bits): os itens viram icones dentro da
+     pilula e o rotulo aparece no tooltip. O overflow precisa ficar visivel
+     para o item magnificado e o tooltip nao serem cortados. */
   .shell-topnav {
     display: flex;
     align-items: center;
-    gap: var(--space-1);
     flex: 1;
     min-width: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .shell-topnav::-webkit-scrollbar {
-    display: none;
-  }
-
-  .shell-topnav .shell-nav-item {
-    width: auto;
-    flex: none;
-    gap: var(--space-2);
-    padding: 8px var(--space-3);
-    border-radius: var(--radius-pill);
-    font-size: var(--fs-sm);
-    white-space: nowrap;
-  }
-
-  .shell-topnav .shell-nav-item.is-active {
-    background: var(--accent-soft);
-    border-color: transparent;
-    color: var(--accent);
+    overflow: visible;
   }
 }

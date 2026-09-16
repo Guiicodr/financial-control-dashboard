@@ -3,6 +3,7 @@ import { FaBars, FaXmark } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import ThemeToggle from "../ui/ThemeToggle";
 import AuroraBackground from "../ui/AuroraBackground";
+import Dock from "../ui/Dock";
 import { initialsOf } from "../../lib/format";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import "../../styles/app-shell.css";
@@ -10,6 +11,16 @@ import "../../styles/app-shell.css";
 // Precisa bater com o breakpoint de tablet definido em styles/app-shell.css.
 const DESKTOP_MIN_WIDTH = 1081;
 const DESKTOP_QUERY = `(min-width: ${DESKTOP_MIN_WIDTH}px)`;
+
+/* Navegacao no topo em Dock (React Bits). A magnificacao tem o mesmo valor da
+   altura do painel: o item cresce dentro da pilula, entao nao estoura a barra
+   (que fica com altura fixa) nem desloca o conteudo. */
+const DOCK_PANEL_HEIGHT = 44;
+const DOCK_BASE_ITEM = 34;
+const DOCK_MAGNIFICATION = 44;
+const DOCK_DISTANCE = 140;
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 /**
  * Casca da aplicacao: navbar no topo no desktop (>= 1081px) e menu
@@ -32,6 +43,8 @@ function AppShell({
   // A navbar no topo so existe no desktop: em telas menores valem o menu
   // deslizante e a barra inferior.
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  // Com movimento reduzido o dock fica estatico (tamanho base = magnificado).
+  const reduceMotion = useMediaQuery(REDUCED_MOTION_QUERY);
 
   const initials = initialsOf(user && (user.nome || user.email));
   const mobileItems = navItems.slice(0, 5);
@@ -58,6 +71,24 @@ function AppShell({
       <span className="shell-nav-label">{t(item.labelKey)}</span>
     </button>
   ));
+
+  // No topo a mesma navegacao vira Dock: fica o icone e o rotulo aparece no
+  // tooltip do item. A pagina atual entra pelo estado do item (is-active).
+  const dockItems = navItems.map((item) => {
+    const isActive = activeId === item.id;
+
+    return {
+      id: item.id,
+      icon: item.icon,
+      label: t(item.labelKey),
+      className: isActive ? "is-active" : "",
+      ariaCurrent: isActive ? "page" : undefined,
+      onClick: () => {
+        setSidebarOpen(false);
+        onNavigate(item.id);
+      },
+    };
+  });
 
   return (
     <div className="shell">
@@ -115,7 +146,16 @@ function AppShell({
               <>
                 {brand}
                 <nav className="shell-topnav" aria-label={t("common.menu")}>
-                  {navButtons}
+                  <Dock
+                    items={dockItems}
+                    ariaLabel={t("common.menu")}
+                    labelPlacement="bottom"
+                    panelHeight={DOCK_PANEL_HEIGHT}
+                    baseItemSize={DOCK_BASE_ITEM}
+                    magnification={reduceMotion ? DOCK_BASE_ITEM : DOCK_MAGNIFICATION}
+                    distance={DOCK_DISTANCE}
+                    expandHeight={false}
+                  />
                 </nav>
               </>
             )}
