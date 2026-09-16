@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import AuroraBackground from "../ui/AuroraBackground";
-import HomeTopBar from "./HomeTopBar";
 import HomeHero from "./HomeHero";
 import "../../styles/pages/home.css";
 
@@ -15,8 +14,7 @@ function HomePage({ theme = "dark", onToggleTheme, onAccess }) {
   return (
     <main className="home-container">
       <AuroraBackground theme={theme} variant="auth" />
-      <HomeTopBar theme={theme} onToggleTheme={onToggleTheme} onAccess={onAccess} />
-      <HomeHero onAccess={onAccess} />
+      <HomeHero theme={theme} onToggleTheme={onToggleTheme} onAccess={onAccess} />
       <footer className="home-footer">
         <p>© {new Date().getFullYear()} Finanly Inc. {t("auth.rights")}</p>
       </footer>

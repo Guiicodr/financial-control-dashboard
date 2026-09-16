@@ -11,11 +11,12 @@
     width: 100%;
     background-color: var(--bg-app);
     color: var(--text-primary);
-    /* clip (e nao hidden) para o position: sticky da pilula continuar valendo. */
+    /* clip (e nao hidden) para nao cortar o blur/sombra da barra e ainda
+       evitar rolagem horizontal quando o canvas da Aurora cresce. */
     overflow-x: clip;
 }
 
-/* --- HERO (selo + chamada + acoes de acesso) --- */
+/* --- HERO (barra de acesso + chamada principal) --- */
 .home-hero {
     position: relative;
     z-index: 1;
@@ -32,33 +33,16 @@
     text-align: center;
 }
 
-.home-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: 7px var(--space-4) 7px var(--space-3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    background: var(--bg-topbar);
-    backdrop-filter: blur(14px);
-    color: var(--text-secondary);
-    font-size: var(--fs-xs);
-    font-weight: var(--fw-semibold);
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-}
-
-.home-badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-soft);
-    flex: none;
+/* A barra vira item do hero: sem sticky, sem padding proprio e alinhada a
+   largura da chamada (a pilula esticada vem de styles/ui/pill-bar.css). */
+.home-hero .pill-bar {
+    position: static;
+    padding: 0;
+    width: 100%;
 }
 
 .home-title {
-    max-width: 22ch;
+    max-width: 26ch;
     font-size: clamp(2.25rem, 5.5vw, 3.75rem);
     font-weight: var(--fw-black);
     line-height: 1.05;
@@ -67,27 +51,27 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    /* Entrada da chamada: fade + leve subida, no ritmo dos toasts do app. */
+    animation: homeTitleIn .6s var(--ease);
 }
 
-.home-subtitle {
-    max-width: 54ch;
-    font-size: var(--fs-body);
-    color: var(--text-secondary);
+@keyframes homeTitleIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.home-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    margin-top: var(--space-2);
-}
-
-/* Acoes do hero: pilulas maiores que o botao padrao do app. */
-.home-actions .btn {
-    padding: 13px var(--space-6);
-    font-size: var(--fs-body);
+/* Com movimento reduzido a chamada aparece estatica (mesma regra da Aurora). */
+@media (prefers-reduced-motion: reduce) {
+    .home-title {
+        animation: none;
+    }
 }
 
 .home-trust {
@@ -107,25 +91,10 @@
     color: var(--text-muted);
 }
 
-/* Telas pequenas: hero mais enxuto e selo sem o espacamento extra. */
+/* Telas pequenas: hero mais enxuto, com a chamada mais perto da barra. */
 @media (max-width: 560px) {
     .home-hero {
         gap: var(--space-4);
         padding: var(--space-4) var(--space-4) var(--space-5);
-    }
-
-    .home-badge {
-        font-size: 10px;
-        padding: 6px var(--space-3);
-    }
-
-    .home-actions {
-        width: 100%;
-    }
-
-    .home-actions .btn {
-        flex: 1;
-        padding: 12px var(--space-4);
-        font-size: var(--fs-sm);
     }
 }

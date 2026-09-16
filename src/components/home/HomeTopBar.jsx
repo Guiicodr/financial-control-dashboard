@@ -6,13 +6,15 @@ import "../../styles/ui/primitives.css";
 
 /**
  * Barra da tela inicial: marca a esquerda e, a direita, o alternador de tema
- * com as duas entradas do produto (entrar e criar conta).
+ * com as duas entradas do produto (entrar e criar conta). Esticada, ela ocupa
+ * a largura do hero e fica logo acima da chamada principal.
  */
 function HomeTopBar({ theme, onToggleTheme, onAccess }) {
   const { t } = useTranslation();
 
   return (
     <PillBar
+      stretch
       brand={<PillBarBrand />}
       actions={
         <>

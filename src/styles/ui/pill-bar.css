@@ -34,6 +34,12 @@
     max-width: 720px;
 }
 
+/* Inicio: a pilula estica ate a largura do hero (barra acima da chamada). */
+.pill-bar-inner--stretch {
+    width: 100%;
+    max-width: none;
+}
+
 .pill-bar-brand {
     display: flex;
     align-items: center;
