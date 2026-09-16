@@ -15,7 +15,9 @@
 
 .dock-panel {
     display: flex;
-    align-items: flex-end;
+    /* Itens centralizados na altura do painel: no hover o crescimento fica
+       simetrico (antes o item subia a partir da base da pilula). */
+    align-items: center;
     width: fit-content;
     /* Espacamento entre os itens e nas pontas: mantem o ritmo do dock original
        do React Bits (gap 1rem com padding lateral de 0,5rem, ou seja, a ponta

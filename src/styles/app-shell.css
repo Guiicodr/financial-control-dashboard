@@ -417,6 +417,9 @@
   .shell-topnav {
     display: flex;
     align-items: center;
+    /* A pilula fica no meio da barra: a marca e o cluster da direita continuam
+       nas pontas, e o dock se centraliza no vao entre eles. */
+    justify-content: center;
     flex: 1;
     min-width: 0;
     overflow: visible;
