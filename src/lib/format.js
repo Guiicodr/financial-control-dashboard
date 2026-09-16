@@ -92,6 +92,14 @@ export function formatMonthShort(monthKey, locale = DEFAULT_LOCALE) {
     .toUpperCase();
 }
 
+/** Set 2026 - mes abreviado com ano, para rotulos compactos de periodo. */
+export function formatMonthShortYear(monthKey, locale = DEFAULT_LOCALE) {
+  const date = parseMonthKey(monthKey);
+  if (!date) return "-";
+  const month = new Intl.DateTimeFormat(locale, { month: "short" }).format(date).replace(".", "");
+  return month.charAt(0).toUpperCase() + month.slice(1) + " " + date.getFullYear();
+}
+
 /** Converte qualquer data (ISO, Date, epoch) em Date local segura. */
 export function parseISODate(value) {
   if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value;

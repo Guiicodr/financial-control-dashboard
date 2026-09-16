@@ -24,7 +24,7 @@ import {
   incomeInMonth,
   percentChange,
 } from "../lib/finance";
-import { currentMonthKey, formatCurrency, formatMonthShort, formatMonthYear, formatPercent, monthRange } from "../lib/format";
+import { currentMonthKey, formatCurrency, formatMonthShort, formatMonthShortYear, formatPercent, monthRange } from "../lib/format";
 import "../styles/pages/dashboard.css";
 const PERIOD_OPTIONS = [3, 6, 12];
 
@@ -148,9 +148,6 @@ function Dashboard({ saldo, transacoes, rendas, objetivos, nomeUsuario, theme, o
         <div>
           <span className="dashboard-kicker">{t("dashboard.overviewKicker")}</span>
           <h1 className="dashboard-title">{t(greetingKey, { name: nomeUsuario })}</h1>
-          <p className="dashboard-subtitle">
-            {t("dashboard.summaryOf", { period: formatMonthYear(mesAtual, i18n.language) })}
-          </p>
           {notaHora ? <p className="hero-note">{notaHora}</p> : null}
         </div>
 
@@ -161,9 +158,13 @@ function Dashboard({ saldo, transacoes, rendas, objetivos, nomeUsuario, theme, o
             onChange={setPeriod}
             options={PERIOD_OPTIONS.map((value) => ({ value: value, label: t("dashboard.months", { count: value }) }))}
           />
-          <button type="button" className="btn btn--primary" onClick={onNewTransaction}>
-            {t("dashboard.newTransaction")}
-          </button>
+          {/* Mes/ano do resumo (mesma tipografia do titulo) acima do botao. */}
+          <div className="dashboard-toolbar-action">
+            <span className="dashboard-period">{formatMonthShortYear(mesAtual, i18n.language)}</span>
+            <button type="button" className="btn btn--primary" onClick={onNewTransaction}>
+              {t("dashboard.newTransaction")}
+            </button>
+          </div>
         </div>
       </header>
 

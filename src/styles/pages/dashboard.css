@@ -6,17 +6,38 @@
 
 /* ------------------------------ Cabecalho ------------------------------ */
 
+/* Subtitulo do topo: mantem o tamanho reduzido e a cor atenuada, mas entra na
+   tipografia do titulo. Sem isso ele saia do fallback do sistema (Segoe UI
+   regular) enquanto o titulo pedia o peso 800 (Segoe UI Black), e os dois
+   pareciam fontes diferentes na mesma linha do cabecalho. */
 .hero-note {
   margin-top: var(--space-2);
+  font-family: var(--font-sans);
   font-size: var(--fs-sm);
+  font-weight: var(--fw-black);
   color: var(--text-secondary);
 }
 
 .dashboard-toolbar {
   display: flex;
-  align-items: center;
+  /* Alinha a base dos controles: o periodo fica na mesma linha do botao,
+     mesmo com o rotulo de mes/ano empilhado acima dele. */
+  align-items: flex-end;
   gap: var(--space-3);
   flex-wrap: wrap;
+}
+
+/* Mes/ano do resumo na mesma linha do titulo, com o botao de lancamento logo
+   abaixo dele. A tipografia e a do titulo (primitives.css). O recuo de cima
+   vale a linha do kicker mais o respiro dele: e o que faz "Set 2026" comecar
+   exatamente na altura do titulo (medido: 23px = 15px + 8px). O rotulo fica
+   centralizado sobre o botao para nao encostar no canto direito do conteudo. */
+.dashboard-toolbar-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding-top: calc(var(--fs-body) + var(--space-2));
 }
 
 /* -------------------------------- Grades ------------------------------- */
@@ -464,6 +485,11 @@
 @media (max-width: 720px) {
   .dashboard-toolbar {
     width: 100%;
+  }
+
+  /* Empilhado abaixo do texto, o mes/ano volta a ficar colado no botao. */
+  .dashboard-toolbar-action {
+    padding-top: 0;
   }
 
   .balance-hero-value {

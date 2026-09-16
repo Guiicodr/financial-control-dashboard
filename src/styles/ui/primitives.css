@@ -285,11 +285,23 @@
 .page-head,
 .dashboard-header {
   display: flex;
-  align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-4);
   flex-wrap: wrap;
   margin-bottom: var(--space-6);
+}
+
+/* Cabecalhos de pagina comuns alinham pela base: os controles ficam na linha
+   do subtitulo. */
+.page-head {
+  align-items: flex-end;
+}
+
+/* O painel alinha pelo topo para o mes/ano ("Set 2026") cair na mesma altura do
+   titulo; o botao de lancamento, empilhado abaixo dele, passa da base do texto
+   da esquerda e responde pela altura do cabecalho. */
+.dashboard-header {
+  align-items: flex-start;
 }
 
 .page-kicker,
@@ -303,8 +315,16 @@
   margin-bottom: var(--space-2);
 }
 
+/* Linha do kicker do painel fixada no token (mesma altura que o "normal" ja
+   produzia): e a referencia usada para descer o mes/ano ate o titulo
+   (dashboard.css, .dashboard-toolbar-action). */
+.dashboard-kicker {
+  line-height: var(--fs-body);
+}
+
 .page-title,
-.dashboard-title {
+.dashboard-title,
+.dashboard-period {
   font-size: var(--fs-h1);
   font-weight: var(--fw-black);
   letter-spacing: -.02em;
@@ -322,7 +342,8 @@
 
 @media (max-width: 720px) {
   .page-title,
-  .dashboard-title { font-size: var(--fs-h2); }
+  .dashboard-title,
+  .dashboard-period { font-size: var(--fs-h2); }
   .page-head,
   .dashboard-header { align-items: flex-start; }
 }
