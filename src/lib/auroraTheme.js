@@ -16,7 +16,10 @@ const AURORA_TOKENS = {
 
 /** Ajustes comuns aos dois temas, calibrados para fundo de tela cheia. */
 export const AURORA_TUNING = {
-  speed: 0.4,
+  /* Velocidade do shader: uTime = segundos * speed, e o ruido avanca
+     0.25 * speed por segundo no eixo vertical. Em 0.4 uma "onda" completa
+     levava ~10s (fundo quase parado); em 0.8 leva ~5s. */
+  speed: 0.8,
   blend: 0.39,
   amplitude: 1.0,
 };
