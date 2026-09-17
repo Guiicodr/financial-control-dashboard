@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import BlurHighlight from "../ui/BlurHighlight";
 import HomeTopBar from "./HomeTopBar";
 import "../../styles/ui/primitives.css";
 
@@ -9,6 +10,9 @@ import "../../styles/ui/primitives.css";
  */
 function HomeHero({ theme, onToggleTheme, onAccess }) {
   const { t } = useTranslation();
+  /* Trechos destacados do subtitulo: array do dicionario, como as notas do
+     dashboard. A busca ignora acento, entao "suba de nível" casa com o texto. */
+  const highlights = t("home.subtitleHighlights", { returnObjects: true });
 
   return (
     <section className="home-hero">
@@ -16,7 +20,15 @@ function HomeHero({ theme, onToggleTheme, onAccess }) {
 
       <h1 className="home-title">{t("home.title")}</h1>
 
-      <p className="home-trust">{t("home.trust")}</p>
+      <BlurHighlight
+        className="home-subtitle"
+        highlights={highlights}
+        delay={180}
+        step={70}
+        duration={800}
+      >
+        {t("home.subtitle")}
+      </BlurHighlight>
     </section>
   );
 }

@@ -58,8 +58,8 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     /* Entrada da chamada: fade + leve deslocamento da esquerda para a
-       direita, no ritmo dos toasts do app. */
-    animation: homeTitleIn .6s var(--ease);
+       direita, em ritmo calmo (o subtitulo entra no mesmo compasso). */
+    animation: homeTitleIn 1.1s var(--ease);
 }
 
 @keyframes homeTitleIn {
@@ -81,9 +81,13 @@
     }
 }
 
-.home-trust {
-    font-size: var(--fs-xs);
-    color: var(--text-muted);
+/* Subtitulo: complementa a chamada na cor secundaria e numa largura de leitura
+   confortavel; a entrada e o destaque vem do componente BlurHighlight. */
+.home-subtitle {
+    max-width: 52ch;
+    font-size: clamp(1rem, 1.35vw, 1.125rem);
+    line-height: 1.55;
+    color: var(--text-secondary);
 }
 
 .home-footer {

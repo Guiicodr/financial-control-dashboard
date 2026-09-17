@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Finanly - Paragrafo com entrada borrada e destaque automatico
+   (Blur Highlight do React Bits, na variante CSS)
+   As palavras entram em sequencia (opacidade + blur) e, na sequencia, os
+   trechos marcados recebem um realce que cresce da esquerda para a direita.
+   Os tempos de cada palavra chegam em linha pelo componente (--bh-*).
+   ========================================================================== */
+
+/* Palavra inteira em uma caixa: evita quebrar no meio e da o alvo do borrao. */
+.blur-highlight__word {
+    display: inline-block;
+    animation: blur-highlight-in var(--bh-duration, 800ms) var(--ease) both;
+    animation-delay: var(--bh-delay, 0ms);
+}
+
+@keyframes blur-highlight-in {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+/* Realce tipo bloco: uma caixa cheia, com cantos arredondados, cobrindo o trecho
+   inteiro. O espaco entre as palavras do trecho fica dentro do bloco, entao a
+   marcacao sai continua (nao picada por palavra). O elemento e `inline` de
+   proposito: num inline a area de fundo e a area de conteudo (metricas da
+   fonte), e nao a caixa da entrelinha, que e maior e tem um vazio logo abaixo da
+   letra. O padding em inline cresce para fora sem mexer no ritmo das linhas; a
+   margem negativa devolve parte do padding lateral ao espacamento do texto.
+   O preenchimento e a tinta do botao (--accent) com o texto em --text-on-accent. */
+.blur-highlight__mark {
+    display: inline;
+    padding: .1em .25em;
+    margin: 0 -.15em;
+    border-radius: .28em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 0% 100%;
+    color: var(--text-on-accent);
+    animation: blur-highlight-sweep var(--bh-sweep-duration, 520ms) var(--ease) both;
+    animation-delay: var(--bh-sweep-delay, 0ms);
+}
+
+@keyframes blur-highlight-sweep {
+    from {
+        background-size: 0% 100%;
+    }
+
+    to {
+        background-size: 100% 100%;
+    }
+}
+
+/* Movimento reduzido: o paragrafo aparece pronto, com os destaques ja visiveis. */
+@media (prefers-reduced-motion: reduce) {
+    .blur-highlight__word,
+    .blur-highlight__mark {
+        animation: none;
+    }
+
+    .blur-highlight__mark {
+        background-size: 100% 100%;
+    }
+}
