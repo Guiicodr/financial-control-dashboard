@@ -83,9 +83,8 @@
 
   --primary: var(--accent);
 
-  /* Veu sobre o fundo animado (Aurora): tela de login e telas internas do app */
+  /* Veu sobre o fundo animado (Aurora) das telas iniciais (login / criar conta) */
   --aurora-veil: rgba(8, 9, 12, .58);
-  --aurora-veil-app: rgba(8, 9, 12, .82);
 
   --income: #34D399;
   --income-soft: rgba(52, 211, 153, .14);
@@ -141,9 +140,8 @@
 
   --primary: var(--accent);
 
-  /* Veu sobre o fundo animado (Aurora): tela de login e telas internas do app */
+  /* Veu sobre o fundo animado (Aurora) das telas iniciais (login / criar conta) */
   --aurora-veil: rgba(246, 244, 240, .58);
-  --aurora-veil-app: rgba(244, 242, 238, .86);
 
   --income: #0E9F6E;
   --income-soft: rgba(14, 159, 110, .12);

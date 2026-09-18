@@ -1,6 +1,6 @@
 /**
- * Paleta do fundo animado (Aurora) da tela de login por tema. Espelha os tokens
- * de tokens.css, ja que o shader (WebGL/ogl) recebe hex e nao le CSS.
+ * Paleta do fundo animado (Aurora) das telas iniciais por tema. Espelha os
+ * tokens de tokens.css, ja que o shader (WebGL/ogl) recebe hex e nao le CSS.
  */
 
 const AURORA_TOKENS = {

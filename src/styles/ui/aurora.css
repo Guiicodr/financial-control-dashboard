@@ -1,4 +1,6 @@
 /* Fundo animado (Aurora do React Bits desenhada com ogl).
+   Fica somente nas telas iniciais (inicio, entrar e criar conta): depois do
+   login o app usa o fundo chapado de --bg-main.
    O componente controla o canvas; aqui ficam a camada fixa e o veu de contraste. */
 
 .aurora-container {
@@ -28,13 +30,8 @@
     inset: 0;
 }
 
-/* Login: atenua a coluna central (hero + formulario) e deixa a Aurora viva nas laterais. */
-.aurora-layer--auth::after {
+/* Telas iniciais: atenua a coluna central (hero + formulario/cards) e deixa a
+   Aurora viva nas laterais. */
+.aurora-layer--veil::after {
     background: radial-gradient(115% 90% at 50% 46%, var(--aurora-veil) 0%, transparent 72%);
-}
-
-/* Telas internas: fecha o miolo, onde ficam os cards, e preserva o fundo
-   animado nas margens e no rodape do conteudo. */
-.aurora-layer--app::after {
-    background: radial-gradient(130% 115% at 50% 42%, var(--aurora-veil-app) 24%, transparent 82%);
 }

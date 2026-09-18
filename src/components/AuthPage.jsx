@@ -128,7 +128,7 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
 
   return (
     <main className="auth-container">
-      <AuroraBackground theme={theme} variant="auth" />
+      <AuroraBackground theme={theme} />
       <AuthTopBar
         signingUp={modoCadastro}
         onSignIn={() => selecionarAcesso(false)}

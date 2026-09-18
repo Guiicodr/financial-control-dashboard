@@ -13,7 +13,7 @@ function HomePage({ theme = "dark", onToggleTheme, onAccess }) {
 
   return (
     <main className="home-container">
-      <AuroraBackground theme={theme} variant="auth" />
+      <AuroraBackground theme={theme} />
       <HomeHero theme={theme} onToggleTheme={onToggleTheme} onAccess={onAccess} />
       <footer className="home-footer">
         <p>© {new Date().getFullYear()} Finanly Inc. {t("auth.rights")}</p>
