@@ -5,9 +5,10 @@ import { FaWhatsapp, FaBriefcase, FaWallet, FaChartColumn } from "react-icons/fa
 import { Suspense, lazy, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 // As paginas entram por import dinamico: cada uma vira um chunk proprio em vez
-// de ir toda a aplicacao num bundle unico de ~1 MB. recharts (graficos), motion
-// (animacoes) e ogl (fundo Aurora) so sao baixados quando a tela que usa cada um
-// e aberta.
+// de ir toda a aplicacao num bundle unico. O recharts (graficos de Dashboard e
+// Relatorios) sai num chunk compartilhado que so e baixado quando uma dessas
+// telas abre; motion (Dock) e ogl (Aurora das telas iniciais) entram no bundle
+// inicial porque a casca e as telas publicas aparecem no primeiro paint.
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Income = lazy(() => import("./pages/Income"));
 const Goals = lazy(() => import("./pages/Goals"));
