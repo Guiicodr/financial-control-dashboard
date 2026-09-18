@@ -6,41 +6,67 @@
 const DEFAULT_LOCALE = "pt-BR";
 const CURRENCY = "BRL";
 
-export function formatCurrency(value, locale = DEFAULT_LOCALE) {
+/**
+ * Cache de formatadores Intl.
+ *
+ * Criar Intl.NumberFormat/DateTimeFormat e caro (compila o pattern ICU) e estas
+ * funcoes sao chamadas uma vez por linha de tabela e por ponto de grafico, ou
+ * seja, milhares de vezes num unico render. O resultado e imutavel por
+ * (locale + opcoes), entao basta memoizar.
+ */
+const numberFormatters = new Map();
+const dateFormatters = new Map();
+
+function getNumberFormat(locale, options) {
+  const key = locale + "|" + JSON.stringify(options);
+  let formatter = numberFormatters.get(key);
+  if (!formatter) {
+    formatter = new Intl.NumberFormat(locale, options);
+    numberFormatters.set(key, formatter);
+  }
+  return formatter;
+}
+
+function getDateFormat(locale, options) {
+  const key = locale + "|" + JSON.stringify(options);
+  let formatter = dateFormatters.get(key);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, options);
+    dateFormatters.set(key, formatter);
+  }
+  return formatter;
+}
+
+/** Number seguro: NaN/Infinity viram 0 antes de formatar. */
+function safeNumber(value) {
   const number = Number(value);
-  return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency: CURRENCY,
-  }).format(Number.isFinite(number) ? number : 0);
+  return Number.isFinite(number) ? number : 0;
+}
+
+export function formatCurrency(value, locale = DEFAULT_LOCALE) {
+  return getNumberFormat(locale, { style: "currency", currency: CURRENCY }).format(safeNumber(value));
 }
 
 /** R$ 24,9 mil - versao compacta para eixos e legendas */
 export function formatCompactCurrency(value, locale = DEFAULT_LOCALE) {
-  const number = Number(value);
-  return new Intl.NumberFormat(locale, {
+  return getNumberFormat(locale, {
     style: "currency",
     currency: CURRENCY,
     notation: "compact",
     maximumFractionDigits: 1,
-  }).format(Number.isFinite(number) ? number : 0);
+  }).format(safeNumber(value));
 }
 
 /** 1.250,00 (sem simbolo de moeda) */
 export function formatNumber(value, locale = DEFAULT_LOCALE, digits = 2) {
-  const number = Number(value);
-  return new Intl.NumberFormat(locale, {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits,
-  }).format(Number.isFinite(number) ? number : 0);
+  return getNumberFormat(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits })
+    .format(safeNumber(value));
 }
 
 /** 12,4% */
 export function formatPercent(value, locale = DEFAULT_LOCALE, digits = 1) {
-  const number = Number(value);
-  const formatted = new Intl.NumberFormat(locale, {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits,
-  }).format(Number.isFinite(number) ? number : 0);
+  const formatted = getNumberFormat(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits })
+    .format(safeNumber(value));
   return formatted + "%";
 }
 
@@ -62,23 +88,23 @@ export function formatSignedCurrency(value, locale = DEFAULT_LOCALE) {
 export function formatDayMonth(value, locale = DEFAULT_LOCALE) {
   const date = parseISODate(value);
   if (!date) return "-";
-  return new Intl.DateTimeFormat(locale, { day: "2-digit", month: "short" })
+  return getDateFormat(locale, { day: "2-digit", month: "short" })
     .format(date)
     .replace(".", "");
 }
 
-/** 02/04/2026 */
+/** 02/04/2026 - mesmas opcoes do toLocaleDateString para nao mudar a saida. */
 export function formatDate(value, locale = DEFAULT_LOCALE) {
   const date = parseISODate(value);
   if (!date) return "-";
-  return date.toLocaleDateString(locale);
+  return getDateFormat(locale, { year: "numeric", month: "numeric", day: "numeric" }).format(date);
 }
 
 /** Abril de 2026 */
 export function formatMonthYear(monthKey, locale = DEFAULT_LOCALE) {
   const date = parseMonthKey(monthKey);
   if (!date) return "-";
-  const label = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(date);
+  const label = getDateFormat(locale, { month: "long", year: "numeric" }).format(date);
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
@@ -86,7 +112,7 @@ export function formatMonthYear(monthKey, locale = DEFAULT_LOCALE) {
 export function formatMonthShort(monthKey, locale = DEFAULT_LOCALE) {
   const date = parseMonthKey(monthKey);
   if (!date) return "-";
-  return new Intl.DateTimeFormat(locale, { month: "short" })
+  return getDateFormat(locale, { month: "short" })
     .format(date)
     .replace(".", "")
     .toUpperCase();
@@ -96,7 +122,7 @@ export function formatMonthShort(monthKey, locale = DEFAULT_LOCALE) {
 export function formatMonthShortYear(monthKey, locale = DEFAULT_LOCALE) {
   const date = parseMonthKey(monthKey);
   if (!date) return "-";
-  const month = new Intl.DateTimeFormat(locale, { month: "short" }).format(date).replace(".", "");
+  const month = getDateFormat(locale, { month: "short" }).format(date).replace(".", "");
   return month.charAt(0).toUpperCase() + month.slice(1) + " " + date.getFullYear();
 }
 
