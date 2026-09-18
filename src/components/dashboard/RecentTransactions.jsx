@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { FaBurger, FaCar, FaGamepad, FaBook, FaBox, FaReceipt } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import Card from "../ui/Card";
@@ -15,10 +16,14 @@ const CATEGORY_ICONS = {
 
 function RecentTransactions({ transacoes, limit = 5, onSeeAll }) {
   const { t, i18n } = useTranslation();
-  const list = (transacoes || [])
-    .slice()
-    .sort((a, b) => String(b.data || "").localeCompare(String(a.data || "")))
-    .slice(0, limit);
+  const list = useMemo(
+    () =>
+      (transacoes || [])
+        .slice()
+        .sort((a, b) => String(b.data || "").localeCompare(String(a.data || "")))
+        .slice(0, limit),
+    [transacoes, limit],
+  );
 
   return (
     <Card className="recent-card">

@@ -1,5 +1,28 @@
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
+/**
+ * Toda chamada HTTP passa por aqui.
+ *
+ * Sem timeout, uma API lenta (container do Railway acordando, rede móvel ruim)
+ * deixava a tela em skeleton para sempre: a promise nunca resolvia nem
+ * rejeitava. 15s é folgado para qualquer endpoint deste app.
+ */
+const TEMPO_LIMITE_MS = 15000;
+
+function requisitar(url, options = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TEMPO_LIMITE_MS);
+
+  return fetch(url, { ...options, signal: controller.signal })
+    .catch((error) => {
+      if (error && error.name === "AbortError") {
+        throw new Error("Tempo de resposta excedido. Verifique sua conexão e tente novamente.");
+      }
+      throw error;
+    })
+    .finally(() => clearTimeout(timer));
+}
+
 async function handleResponse(response) {
   const text = await response.text();
   let data;
@@ -17,9 +40,53 @@ async function handleResponse(response) {
   return data;
 }
 
+/**
+ * Renovação de token compartilhada (single flight).
+ *
+ * O dashboard dispara várias chamadas em paralelo; quando o access token
+ * expirava, cada 401 abria um POST /auth/refresh próprio. Como o backend mantém
+ * UM refresh token por usuário (deleteByUsuario em cada login/refresh), a
+ * segunda renovação invalidava a primeira e a sessão caía sozinha. Aqui a
+ * primeira chamada renova e as demais reaproveitam a mesma promise.
+ */
+let renovacaoEmAndamento = null;
+
+function renovarAccessToken() {
+  if (renovacaoEmAndamento) {
+    return renovacaoEmAndamento;
+  }
+
+  renovacaoEmAndamento = requisitar(`${API_URL}/auth/refresh`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      refreshToken: localStorage.getItem("refreshToken"),
+    }),
+  })
+    .then((response) => (response.ok ? response.json() : null))
+    .catch(() => null)
+    .then((tokens) => {
+      if (!tokens || !tokens.accessToken) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        window.dispatchEvent(new Event("sessionExpired"));
+        return null;
+      }
+
+      localStorage.setItem("accessToken", tokens.accessToken);
+      localStorage.setItem("refreshToken", tokens.refreshToken || "");
+      return tokens.accessToken;
+    })
+    .finally(() => {
+      renovacaoEmAndamento = null;
+    });
+
+  return renovacaoEmAndamento;
+}
+
 function apiFetch(url, options = {}) {
   const request = (token) =>
-    fetch(`${API_URL}${url}`, {
+    requisitar(`${API_URL}${url}`, {
       ...options,
       headers: {
         ...(options.body instanceof FormData
@@ -37,31 +104,17 @@ function apiFetch(url, options = {}) {
       return response;
     }
 
-    const refreshResponse = await fetch(`${API_URL}/auth/refresh`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        refreshToken: localStorage.getItem("refreshToken"),
-      }),
-    });
-
-    if (!refreshResponse.ok) {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      window.dispatchEvent(new Event("sessionExpired"));
+    const novoToken = await renovarAccessToken();
+    if (!novoToken) {
       return response;
     }
 
-    const tokens = await refreshResponse.json();
-    localStorage.setItem("accessToken", tokens.accessToken);
-    localStorage.setItem("refreshToken", tokens.refreshToken);
-
-    return request(tokens.accessToken);
+    return request(novoToken);
   });
 }
 
 export function autenticar(email, senha) {
-  return fetch(`${API_URL}/auth/login`, {
+  return requisitar(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, senha }),
@@ -69,7 +122,7 @@ export function autenticar(email, senha) {
 }
 
 export function registrar(nome, email, senha) {
-  return fetch(`${API_URL}/auth/register`, {
+  return requisitar(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: nome, email, senha }),
@@ -178,13 +231,13 @@ export function vincularWhatsapp(telefone) {
 export function abrirChatWhatsapp(botNumero) {
   const numero = botNumero || import.meta.env.VITE_WHATSAPP_BOT_NUMBER || "";
   if (!numero) return;
-  window.open(`https://wa.me/${numero}?text=${encodeURIComponent("ajuda")}`, "_blank");
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent("ajuda")}`, "_blank", "noopener,noreferrer");
 }
 
 // ===== Recuperação de Senha =====
 
 export function solicitarResetSenha(email) {
-  return fetch(`${API_URL}/auth/forgot-password`, {
+  return requisitar(`${API_URL}/auth/forgot-password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email }),
@@ -192,7 +245,7 @@ export function solicitarResetSenha(email) {
 }
 
 export function resetarSenha(token, senha) {
-  return fetch(`${API_URL}/auth/reset-password`, {
+  return requisitar(`${API_URL}/auth/reset-password`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ token, senha }),

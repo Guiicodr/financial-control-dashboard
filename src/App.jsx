@@ -2,20 +2,25 @@ import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
 import { FaWhatsapp, FaBriefcase, FaWallet, FaChartColumn } from "react-icons/fa6"
-import { useEffect, useState } from "react"
+import { Suspense, lazy, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import Dashboard from "./pages/Dashboard";
-import Income from "./pages/Income";
-import Goals from "./pages/Goals";
-import Profile from "./pages/Profile";
-import Transactions from "./pages/Transactions";
-import Wallets from "./pages/Wallets";
-import Reports from "./pages/Reports";
+// As paginas entram por import dinamico: cada uma vira um chunk proprio em vez
+// de ir toda a aplicacao num bundle unico de ~1 MB. recharts (graficos), motion
+// (animacoes) e ogl (fundo Aurora) so sao baixados quando a tela que usa cada um
+// e aberta.
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Income = lazy(() => import("./pages/Income"));
+const Goals = lazy(() => import("./pages/Goals"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Transactions = lazy(() => import("./pages/Transactions"));
+const Wallets = lazy(() => import("./pages/Wallets"));
+const Reports = lazy(() => import("./pages/Reports"));
 import AuthPage from "./components/AuthPage";
 import HomePage from "./components/home/HomePage";
 import AppShell from "./components/layout/AppShell";
 import TransactionModal from "./components/transactions/TransactionModal";
 import ToastHost from "./components/ui/ToastHost";
+import Skeleton from "./components/ui/Skeleton";
 import { pushToast } from "./lib/toast";
 import { useTheme } from "./hooks/useTheme";
 
@@ -45,6 +50,19 @@ const NAV_ITEMS = [
   { id: "metas", labelKey: "nav.goals", icon: <FaBullseye /> },
 ];
 
+/**
+ * Fallback do Suspense: exibido apenas enquanto o chunk da pagina aberta esta
+ * sendo baixado (nas trocas seguintes fica em cache).
+ */
+function PaginaCarregando() {
+  return (
+    <div style={{ display: "grid", gap: "16px", padding: "24px 0" }} aria-busy="true">
+      <Skeleton height={112} />
+      <Skeleton height={240} />
+    </div>
+  );
+}
+
 function App() {
   const { t } = useTranslation()
   const { theme, toggleTheme } = useTheme()
@@ -66,17 +84,24 @@ function App() {
   function carregarDados() {
     buscarSaldo()
       .then((data) => setSaldo(data))
+      .catch(() => pushToast(t("common.loadError"), "danger"))
 
     listarTransacoes()
       .then((data) => {
         setTransacoes(data)
         setCarregando(false)
       })
+      .catch(() => {
+        // Sem o catch, uma falha de rede deixava a lista presa no skeleton.
+        setCarregando(false)
+        pushToast(t("common.loadError"), "danger")
+      })
   }
 
   function carregarObjetivos() {
     listarObjetivos()
       .then((data) => setObjetivos(data))
+      .catch(() => pushToast(t("common.loadError"), "danger"))
   }
 
   function carregarRendas() {
@@ -307,6 +332,7 @@ function App() {
         ) : null
       }
     >
+      <Suspense fallback={<PaginaCarregando />}>
       {telaAtual === "dashboard" && (
         <Dashboard
           saldo={saldo}
@@ -383,6 +409,7 @@ function App() {
           }}
         />
       )}
+      </Suspense>
     </AppShell>
 
       <TransactionModal
