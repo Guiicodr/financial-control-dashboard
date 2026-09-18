@@ -6,7 +6,10 @@ import AuroraBackground from "./ui/AuroraBackground";
 import AuthTopBar from "./auth/AuthTopBar";
 import "../styles/pages/auth.css";
 
-const DEV_MODE = import.meta.env.VITE_DEV_MODE === "true";
+// O botão de conta de teste só existe em build de desenvolvimento: com
+// `import.meta.env.DEV` a Vercel (build de produção) nunca o renderiza, mesmo
+// que VITE_DEV_MODE vaze para o ambiente de build.
+const DEV_MODE = import.meta.env.DEV && import.meta.env.VITE_DEV_MODE === "true";
 
 /** Nivel de forca (1 a 3) calculado no cliente; rotulo e cor vem do i18n e dos tokens. */
 function calcPasswordStrength(senha) {
@@ -39,6 +42,7 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
   const [resetToken, setResetToken] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [resetEnviado, setResetEnviado] = useState(false);
+  const [mostrarFormularioToken, setMostrarFormularioToken] = useState(false);
   const [showNovaSenha, setShowNovaSenha] = useState(false);
 
   const strength = calcPasswordStrength(senha);
@@ -54,9 +58,13 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
     event.preventDefault();
     setErro("");
     setEnviando(true);
+    // A API não devolve mais o token (isso permitia que qualquer pessoa
+    // trocasse a senha de outra só sabendo o e-mail). O código chega pelo
+    // e-mail do usuário; aqui só confirmamos o pedido.
     solicitarResetSenha(email)
-      .then((data) => {
-        setResetToken(data.token || "");
+      .then(() => {
+        setResetToken("");
+        setMostrarFormularioToken(false);
         setResetEnviado(true);
       })
       .catch((error) => setErro(error.message))
@@ -72,6 +80,7 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
         setResetToken("");
         setNovaSenha("");
         setResetEnviado(false);
+        setMostrarFormularioToken(false);
         setEsquecendo(false);
         setErro("");
       })
@@ -163,31 +172,41 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
                   </button>
                 </form>
               ) : (
-                <form onSubmit={enviarReset} className="auth-form">
+                <div className="auth-form">
                   <div className="auth-forgot-icon">
                     <FaCircleCheck />
                   </div>
-                  <p className="auth-forgot-success">
-                    {t("forgot.tokenMessage")}
-                  </p>
-                  <div className="input-group">
-                    <label htmlFor="reset-token">{t("forgot.tokenLabel")}</label>
-                    <input id="reset-token" type="text" value={resetToken} readOnly className="token-display" />
-                  </div>
-                  <div className="input-group">
-                    <label htmlFor="new-password">{t("forgot.newPassword")}</label>
-                    <div className="password-wrapper">
-                      <input id="new-password" type={showNovaSenha ? "text" : "password"} minLength="6" required placeholder={t("auth.passwordHint")} value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)} />
-                      <button type="button" className="password-toggle" onClick={() => setShowNovaSenha(!showNovaSenha)} tabIndex={-1}>
-                        {showNovaSenha ? <FaEyeSlash /> : <FaEye />}
+                  <p className="auth-forgot-success">{t("forgot.linkSent")}</p>
+                  {!mostrarFormularioToken && (
+                    <button type="button" className="auth-submit-btn" onClick={() => setMostrarFormularioToken(true)}>
+                      {t("forgot.haveCode")}
+                    </button>
+                  )}
+                  {mostrarFormularioToken && (
+                    <form onSubmit={enviarReset} className="auth-form">
+                      <div className="input-group">
+                        <label htmlFor="reset-token">{t("forgot.tokenLabel")}</label>
+                        <input id="reset-token" type="text" required value={resetToken} onChange={(e) => setResetToken(e.target.value)} className="token-display" />
+                      </div>
+                      <div className="input-group">
+                        <label htmlFor="new-password">{t("forgot.newPassword")}</label>
+                        <div className="password-wrapper">
+                          <input id="new-password" type={showNovaSenha ? "text" : "password"} minLength="6" required placeholder={t("auth.passwordHint")} value={novaSenha} onChange={(e) => setNovaSenha(e.target.value)} />
+                          <button type="button" className="password-toggle" onClick={() => setShowNovaSenha(!showNovaSenha)} tabIndex={-1}>
+                            {showNovaSenha ? <FaEyeSlash /> : <FaEye />}
+                          </button>
+                        </div>
+                      </div>
+                      {erro && <div className="auth-error-badge">{erro}</div>}
+                      <button type="submit" className="auth-submit-btn" disabled={enviando}>
+                        {enviando ? t("forgot.resetting") : t("forgot.reset")}
                       </button>
-                    </div>
-                  </div>
-                  {erro && <div className="auth-error-badge">{erro}</div>}
-                  <button type="submit" className="auth-submit-btn" disabled={enviando}>
-                    {enviando ? t("forgot.resetting") : t("forgot.reset")}
+                    </form>
+                  )}
+                  <button type="button" className="forgot-back-btn" onClick={() => { setEsquecendo(false); setErro(""); setMostrarFormularioToken(false); }}>
+                    <FaArrowLeft /> {t("forgot.backToLogin")}
                   </button>
-                </form>
+                </div>
               )}
             </>
           ) : (
