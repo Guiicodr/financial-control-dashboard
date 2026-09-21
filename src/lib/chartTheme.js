@@ -11,8 +11,8 @@ const CHART_TOKENS = {
     tooltipBorder: "#2B323C",
     text: "#F4F6F8",
     muted: "#98A1AF",
-    accent: "#7C5CFF",
-    accentSoft: "rgba(124, 92, 255, .18)",
+    accent: "#03FC73",
+    accentSoft: "rgba(3, 252, 115, .18)",
     income: "#34D399",
     expense: "#F26D6D",
     investment: "#E8B44A",
@@ -25,8 +25,11 @@ const CHART_TOKENS = {
     tooltipBorder: "#E7E3DB",
     text: "#14161A",
     muted: "#5B6270",
-    accent: "#6D4AFF",
-    accentSoft: "rgba(109, 74, 255, .14)",
+    /* No tema claro o accent dos graficos e o `--accent-ink` do tokens.css: a
+       linha e os pontos sao desenhados sobre o card branco, onde o verde claro
+       daria 1,4:1 e praticamente sumiria. */
+    accent: "#007A3D",
+    accentSoft: "rgba(0, 122, 61, .14)",
     income: "#0E9F6E",
     expense: "#DC4C4C",
     investment: "#C98A12",

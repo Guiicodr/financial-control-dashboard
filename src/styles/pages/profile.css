@@ -28,7 +28,7 @@
   flex: 0 0 auto;
   border-radius: var(--radius-pill);
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 26px;
 }
 
@@ -91,7 +91,7 @@
   flex: 0 0 auto;
   border-radius: var(--radius-sm);
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 15px;
 }
 
@@ -149,7 +149,7 @@
 
 .profile-field input:focus,
 .profile-field select:focus {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 

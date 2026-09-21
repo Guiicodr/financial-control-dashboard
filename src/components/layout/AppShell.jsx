@@ -51,7 +51,7 @@ function AppShell({
 
   const brand = (
     <div className="shell-brand">
-      <span className="shell-brand-logo" aria-hidden="true">F</span>
+      <img className="shell-brand-logo" src="/logo.png" alt="" width="36" height="36" />
       <span className="shell-brand-text">
         <strong>Finanly</strong>
         <span>{t("brand.tagline")}</span>

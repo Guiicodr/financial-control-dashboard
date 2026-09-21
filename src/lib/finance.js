@@ -227,10 +227,13 @@ export function buildAllocation(options) {
   const investment = goalsTotalByType(objetivos, GOAL_TYPES.INVESTIMENTO);
   const reserve = goalsTotalByType(objetivos, GOAL_TYPES.RESERVA);
 
+  // Cores espelham os tokens de tokens.css (o donut recebe hex, nao le CSS):
+  // income = --accent (verde da marca), expenses = --expense, investment =
+  // --investment, reserve = --reserve.
   const items = [
-    { id: "income", value: income, color: "#7C5CFF" },
+    { id: "income", value: income, color: "#03FC73" },
     { id: "investment", value: investment, color: "#E8B44A" },
-    { id: "expenses", value: expenses, color: "#34D399" },
+    { id: "expenses", value: expenses, color: "#F26D6D" },
     { id: "reserve", value: reserve, color: "#F472B6" },
   ].filter((item) => item.value > 0);
 

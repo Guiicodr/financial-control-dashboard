@@ -119,7 +119,7 @@
 .metric--expense .metric-icon { background: var(--expense-soft); color: var(--expense); }
 .metric--investment .metric-icon { background: var(--investment-soft); color: var(--investment); }
 .metric--reserve .metric-icon { background: var(--reserve-soft); color: var(--reserve); }
-.metric--accent .metric-icon { background: var(--accent-soft); color: var(--accent); }
+.metric--accent .metric-icon { background: var(--accent-soft); color: var(--accent-ink); }
 
 .metric--income .metric-value { color: var(--income); }
 .metric--expense .metric-value { color: var(--expense); }
@@ -195,7 +195,7 @@
 }
 
 .period-selector button:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-ink);
   outline-offset: 2px;
 }
 
@@ -263,7 +263,7 @@
   transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
-.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
 
 .btn--primary { background: var(--accent); color: var(--text-on-accent); }
 .btn--primary:hover { background: var(--accent-hover); }
@@ -271,7 +271,7 @@
 .btn--ghost { background: transparent; border-color: var(--border); color: var(--text-secondary); }
 .btn--ghost:hover { background: var(--surface-hover); color: var(--text-primary); border-color: var(--border-strong); }
 
-.btn--link { background: transparent; color: var(--accent); padding: 6px 8px; }
+.btn--link { background: transparent; color: var(--accent-ink); padding: 6px 8px; }
 .btn--link:hover { text-decoration: underline; }
 
 .btn--danger { background: var(--danger-soft); color: var(--danger); }

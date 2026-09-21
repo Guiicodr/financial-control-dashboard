@@ -60,7 +60,7 @@
 .dock-item.is-active {
     background: var(--accent-soft);
     border-color: transparent;
-    color: var(--accent);
+    color: var(--accent-ink);
 }
 
 .dock-item.is-active svg {
@@ -68,7 +68,7 @@
 }
 
 .dock-item:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-ink);
     outline-offset: 2px;
 }
 

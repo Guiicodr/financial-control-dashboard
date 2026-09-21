@@ -198,5 +198,26 @@ O app publica os documentos e faz valer os direitos do titular (Lei nº 13.709/2
 2. Mantenha `LEGAL_VERSION` (front) igual a `LEGAL_TERMS_VERSION` (API).
 3. Recomendado: revisão jurídica dos textos, que são documentos do produto e não apenas texto de interface.
 
+---
+
+## 🎨 Marca e paleta
+
+**Logo:** `public/logo.png` (144×144, fundo transparente) — usada na sidebar, na pílula pública e como favicon; `public/apple-touch-icon.png` (180×180, fundo `#08090C`) para "adicionar à tela de início" no iOS. A origem fica em `logo-original.png` na raiz do repo (não é servida).
+
+**Accent — verde da marca `#03FC73`.** Cada papel tem o seu token, porque verde claro resolve preenchimento e não resolve texto:
+
+| Papel | Dark | Light | Contraste medido |
+|---|---|---|---|
+| Preenchimento (botão primário, avatar, barra de meta, gráficos) | `--accent #03FC73` | `--accent #03FC73` | 14,3:1 com texto escuro |
+| Texto, ícone e outline de foco | `--accent-ink #03FC73` | `--accent-ink #007A3D` | 14,3:1 (dark) · 5,5:1 (light) |
+| Fundo suave (badges, ícones, tints) | `--accent-soft rgba(3,252,115,.14)` | `--accent-soft rgba(0,122,61,.10)` | — |
+| Controle nativo (`accent-color` do checkbox) | `--accent-control #0A8F4D` | `--accent-control #007A3D` | check branco legível |
+| Texto **sobre** o accent | `--text-on-accent #08090C` | `--text-on-accent #08090C` | 14,3:1 |
+
+Ao mexer na cor, a regra é: **texto/ícone/borda → `--accent-ink`**; **preenchimento → `--accent`**. Em superfície escura (ex.: tile "Patrimônio total" em Carteiras) o texto claro vem de `--hero-text`, nunca de `--text-on-accent` — que agora é escuro.
+
+Cores que não leem CSS ficam espelhadas à mão: `src/lib/chartTheme.js` (gráficos do recharts), `src/lib/finance.js` (fatias do donut de alocação) e `src/lib/auroraTheme.js` (stops do fundo animado das telas públicas).
+
+
 
 ---

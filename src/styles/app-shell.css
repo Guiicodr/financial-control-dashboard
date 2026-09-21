@@ -31,16 +31,14 @@
   gap: var(--space-3);
 }
 
+/* Marca Finanly. O asset (public/logo.png) ja vem recortado e com fundo
+   transparente, entao o tile com a letra "F" e a tinta de accent saem de cena:
+   o verde da propria marca e a cor daqui. */
 .shell-brand-logo {
+  display: block;
   width: 36px;
   height: 36px;
-  border-radius: 11px;
-  display: grid;
-  place-items: center;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-weight: var(--fw-black);
-  font-size: var(--fs-sm);
+  object-fit: contain;
 }
 
 .shell-brand-text strong {
@@ -106,14 +104,14 @@
 }
 
 .shell-nav-item.is-active svg {
-  color: var(--accent);
+  color: var(--accent-ink);
   opacity: 1;
 }
 
 .shell-nav-item:focus-visible,
 .shell-user:focus-visible,
 .shell-icon-btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-ink);
   outline-offset: 2px;
 }
 
@@ -365,7 +363,7 @@
   }
 
   .shell-mobile-nav button.is-active {
-    color: var(--accent);
+    color: var(--accent-ink);
   }
 
   .whatsapp-fab {

@@ -112,8 +112,8 @@
 }
 
 .input-group input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 1px var(--accent);
+    border-color: var(--accent-ink);
+    box-shadow: 0 0 0 1px var(--accent-ink);
 }
 
 /* Password toggle */
@@ -216,7 +216,7 @@
 .test-account-btn {
     background: none;
     border: none;
-    color: var(--accent);
+    color: var(--accent-ink);
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
@@ -248,7 +248,7 @@
 }
 
 .forgot-link:hover {
-    color: var(--accent);
+    color: var(--accent-ink);
 }
 
 /* Forgot password icons */
@@ -282,7 +282,7 @@
 }
 
 .forgot-back-btn:hover {
-    color: var(--accent);
+    color: var(--accent-ink);
 }
 
 .token-display {
@@ -290,7 +290,7 @@
     background-color: var(--surface) !important;
     border: 1px solid var(--border) !important;
     border-radius: 8px;
-    color: var(--accent) !important;
+    color: var(--accent-ink) !important;
     font-size: 0.8rem !important;
     font-family: monospace;
     cursor: text;
@@ -330,7 +330,7 @@
     width: 16px;
     height: 16px;
     margin-top: 2px;
-    accent-color: var(--accent);
+    accent-color: var(--accent-control);
     cursor: pointer;
 }
 
@@ -348,7 +348,7 @@
     padding: 0;
     border: none;
     background: none;
-    color: var(--accent);
+    color: var(--accent-ink);
     font-size: inherit;
     font-weight: 600;
     text-decoration: underline;
@@ -361,7 +361,7 @@
 }
 
 .auth-consent-link:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-ink);
     outline-offset: 2px;
     border-radius: 4px;
 }

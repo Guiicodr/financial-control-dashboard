@@ -43,7 +43,7 @@
   color: var(--text-muted);
 }
 
-.wallet-tile--accent .wallet-tile-value { color: var(--accent); }
+.wallet-tile--accent .wallet-tile-value { color: var(--accent-ink); }
 .wallet-tile--investment .wallet-tile-value { color: var(--investment); }
 .wallet-tile--reserve .wallet-tile-value { color: var(--reserve); }
 
@@ -53,7 +53,7 @@
 }
 
 .wallet-tile--total .wallet-tile-label { color: rgba(255, 255, 255, .6); }
-.wallet-tile--total .wallet-tile-value { color: var(--text-on-accent); }
+.wallet-tile--total .wallet-tile-value { color: var(--hero-text); }
 .wallet-tile--total .wallet-tile-share { color: rgba(255, 255, 255, .5); }
 
 .wallet-notice {
@@ -110,7 +110,7 @@
 }
 
 .wallet-form .field input:focus {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
@@ -164,7 +164,7 @@
   height: 34px;
   border-radius: var(--radius-xs);
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 14px;
 }
 

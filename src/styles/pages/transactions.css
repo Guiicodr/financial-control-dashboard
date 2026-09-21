@@ -100,7 +100,7 @@
 .tx-filters select:focus-visible,
 .tx-filters input:focus-visible,
 .tx-search:focus-within {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
@@ -273,7 +273,7 @@
 
 .field input:focus,
 .field select:focus {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 

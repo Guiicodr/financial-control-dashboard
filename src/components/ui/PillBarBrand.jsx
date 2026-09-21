@@ -8,7 +8,7 @@ import "../../styles/ui/pill-bar.css";
 function PillBarBrand({ onClick, label, nameOnly = false }) {
   const conteudo = (
     <>
-      {nameOnly ? null : <span className="pill-bar-logo" aria-hidden="true">F</span>}
+      {nameOnly ? null : <img className="pill-bar-logo" src="/logo.png" alt="" width="30" height="30" />}
       <span className="pill-bar-name">Finanly.</span>
     </>
   );

@@ -5,11 +5,11 @@
 
 const AURORA_TOKENS = {
   dark: {
-    stops: ["#7C5CFF", "#4338CA", "#22D3EE"],
+    stops: ["#03FC73", "#0B7A4B", "#22D3EE"],
     lightMode: false,
   },
   light: {
-    stops: ["#6D4AFF", "#A78BFA", "#7DD3FC"],
+    stops: ["#0AA85E", "#7CF0B0", "#7DD3FC"],
     lightMode: true,
   },
 };

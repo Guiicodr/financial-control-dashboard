@@ -113,7 +113,7 @@
   height: 34px;
   border-radius: var(--radius-sm);
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 15px;
 }
 

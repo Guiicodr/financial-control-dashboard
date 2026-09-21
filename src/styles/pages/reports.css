@@ -324,7 +324,7 @@
 }
 
 .reports-page .budget-form .field input:focus {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 

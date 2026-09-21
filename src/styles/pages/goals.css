@@ -87,7 +87,7 @@
   flex: 0 0 auto;
   border-radius: var(--radius-sm);
   background: var(--accent-soft);
-  color: var(--accent);
+  color: var(--accent-ink);
   font-size: 15px;
 }
 
@@ -116,7 +116,7 @@
   white-space: nowrap;
 }
 
-.goal-status--ongoing { background: var(--accent-soft); color: var(--accent); }
+.goal-status--ongoing { background: var(--accent-soft); color: var(--accent-ink); }
 .goal-status--near { background: var(--warning-soft); color: var(--warning); }
 .goal-status--late { background: var(--danger-soft); color: var(--danger); }
 .goal-status--done { background: var(--success-soft); color: var(--success); }
@@ -238,7 +238,7 @@
 
 .goal-form .field input:focus,
 .goal-form .field select:focus {
-  border-color: var(--accent);
+  border-color: var(--accent-ink);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
 

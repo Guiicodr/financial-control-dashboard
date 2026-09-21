@@ -52,7 +52,10 @@
 
   /* Tokens semanticos compartilhados */
   --scrim: rgba(0, 0, 0, .55);
-  --text-on-accent: #FFFFFF;
+  /* Texto/icone sobre o accent: o verde da marca e claro (luminancia ~.71), entao
+     o rotulo do botao primario precisa ser escuro — branco sobre #03FC73 da
+     1,4:1 de contraste. Para texto claro sobre superficie escura use --hero-text. */
+  --text-on-accent: #08090C;
   --hero-text: #F4F6F8;
 }
 
@@ -80,9 +83,18 @@
   --text-secondary: #98A1AF;
   --text-muted: #6A7381;
 
-  --accent: #7C5CFF;
-  --accent-hover: #8E73FF;
-  --accent-soft: rgba(124, 92, 255, .16);
+  /* Accent da marca: verde neon do logo. Verde claro nao tem "hover mais claro",
+     entao o hover desce um degrau em vez de subir. */
+  --accent: #03FC73;
+  --accent-hover: #0AE07A;
+  --accent-soft: rgba(3, 252, 115, .14);
+  /* Quando o accent e TEXTO/ICONE em vez de preenchimento: 14,3:1 sobre o fundo
+     escuro. No tema claro o mesmo verde cai para 1,4:1 sobre branco, e por isso
+     la o ink muda (ver bloco light). */
+  --accent-ink: #03FC73;
+  /* Controles nativos pintados com marca branca por cima (accent-color do
+     checkbox): o verde claro deixaria o check ilegivel. */
+  --accent-control: #0A8F4D;
 
   --primary: var(--accent);
 
@@ -137,9 +149,14 @@
   --text-secondary: #5B6270;
   --text-muted: #8A8F99;
 
-  --accent: #6D4AFF;
-  --accent-hover: #5C39F0;
-  --accent-soft: rgba(109, 74, 255, .12);
+  /* Mesmo verde da marca nos preenchimentos; a diferenca do tema claro fica no
+     ink (texto/icone) e no soft, porque verde claro sobre branco nao segura
+     contraste de leitura. */
+  --accent: #03FC73;
+  --accent-hover: #02C565;
+  --accent-soft: rgba(0, 122, 61, .10);
+  --accent-ink: #007A3D;
+  --accent-control: #007A3D;
 
   --primary: var(--accent);
 

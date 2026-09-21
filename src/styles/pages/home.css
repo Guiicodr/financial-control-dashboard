@@ -53,7 +53,7 @@
        cortada embaixo (ex.: "goes."). O padding devolve essa folga ao
        gradiente, e por ser simetrico nao muda o alinhamento. */
     padding: .15em 0;
-    background: linear-gradient(120deg, var(--text-primary) 25%, var(--accent) 100%);
+    background: linear-gradient(120deg, var(--text-primary) 25%, var(--accent-ink) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;

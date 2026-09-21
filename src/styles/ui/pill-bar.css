@@ -69,24 +69,20 @@ button.pill-bar-brand .pill-bar-name {
 }
 
 button.pill-bar-brand:hover .pill-bar-name {
-    color: var(--accent);
+    color: var(--accent-ink);
 }
 
 button.pill-bar-brand:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-ink);
     outline-offset: 3px;
 }
 
+/* Marca Finanly no tamanho da pilula publica (mesmo asset recortado do app). */
 .pill-bar-logo {
-    display: grid;
-    place-items: center;
+    display: block;
     width: 30px;
     height: 30px;
-    border-radius: 10px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-weight: var(--fw-black);
-    font-size: var(--fs-sm);
+    object-fit: contain;
 }
 
 .pill-bar-name {
@@ -125,11 +121,11 @@ button.pill-bar-brand:focus-visible {
 
 .pill-bar-option.is-active {
     background: var(--accent-soft);
-    color: var(--accent);
+    color: var(--accent-ink);
 }
 
 .pill-bar-option:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-ink);
     outline-offset: 2px;
 }
 
