@@ -16,6 +16,9 @@ const Profile = lazy(() => import("./pages/Profile"));
 const Transactions = lazy(() => import("./pages/Transactions"));
 const Wallets = lazy(() => import("./pages/Wallets"));
 const Reports = lazy(() => import("./pages/Reports"));
+// Documentos legais: chunk proprio, baixado so quando o titular abre os Termos
+// ou o Aviso de Privacidade (nao entram no primeiro paint).
+const Legal = lazy(() => import("./pages/Legal"));
 import AuthPage from "./components/AuthPage";
 import HomePage from "./components/home/HomePage";
 import AppShell from "./components/layout/AppShell";
@@ -52,6 +55,20 @@ const NAV_ITEMS = [
 ];
 
 /**
+ * Documento legal pedido na URL ("#/termos" ou "#/privacidade").
+ *
+ * O app nao usa roteador: a navegacao e por estado. Ler o hash na primeira
+ * pintura permite compartilhar o link do documento (util para publicar os
+ * Termos em bio, e-mail ou suporte) sem trazer uma dependencia nova.
+ */
+function documentoDoHash() {
+  const hash = String(window.location.hash || "").replace(/^#\/?/, "").toLowerCase();
+  if (hash === "termos") return "termos";
+  if (hash === "privacidade") return "privacidade";
+  return null;
+}
+
+/**
  * Fallback do Suspense: exibido apenas enquanto o chunk da pagina aberta esta
  * sendo baixado (nas trocas seguintes fica em cache).
  */
@@ -80,6 +97,23 @@ function App() {
   const [usuario, setUsuario] = useState(() => ({ nome: localStorage.getItem("userName") || localStorage.getItem("userEmail")?.split("@")[0] || "", email: localStorage.getItem("userEmail") || "" }))
   // Area publica: "inicio" (primeira tela) | "entrar" | "cadastro".
   const [vistaPublica, setVistaPublica] = useState("inicio")
+  // Documento legal aberto (LGPD: acesso ao texto dos Termos e do Aviso). Vale
+  // tanto para quem esta deslogado quanto para quem esta no app.
+  const [documentoLegal, setDocumentoLegal] = useState(() => documentoDoHash())
+
+  /** Abre um documento legal e reflete a escolha na URL (link compartilhavel). */
+  function abrirDocumento(documento) {
+    setDocumentoLegal(documento)
+    window.location.hash = documento ? "/" + documento : ""
+  }
+
+  /** Volta para a tela de onde o documento foi aberto e limpa o hash. */
+  function fecharDocumento() {
+    setDocumentoLegal(null)
+    if (documentoDoHash()) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search)
+    }
+  }
 
 
   function carregarDados() {
@@ -291,11 +325,34 @@ function App() {
     { label: t("categories.ALIMENTACAO"), value: "ALIMENTACAO", limite: 25 }, { label: t("categories.OUTROS"), value: "OUTROS", limite: 30 }, { label: t("categories.TRANSPORTE"), value: "TRANSPORTE", limite: 15 }, { label: t("categories.ESTUDOS"), value: "ESTUDOS", limite: 15 }, { label: t("categories.LAZER"), value: "LAZER", limite: 10 }
   ]
 
+  // Documentos legais tem precedencia sobre as demais telas: o titular precisa
+  // conseguir ler o texto que aceitou (ou que rege o uso) sem sair do contexto.
+  if (documentoLegal) {
+    return (
+      <Suspense fallback={<PaginaCarregando />}>
+        <Legal
+          documento={documentoLegal}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+          onOpen={abrirDocumento}
+          onBack={fecharDocumento}
+        />
+      </Suspense>
+    )
+  }
+
   // Area publica: a primeira tela e o hero; o formulario de acesso aparece
   // somente depois de escolher "Entrar" ou "Criar conta".
   if (!autenticado) {
     if (vistaPublica === "inicio") {
-      return <HomePage theme={theme} onToggleTheme={toggleTheme} onAccess={setVistaPublica} />
+      return (
+        <HomePage
+          theme={theme}
+          onToggleTheme={toggleTheme}
+          onAccess={setVistaPublica}
+          onOpenLegal={abrirDocumento}
+        />
+      )
     }
 
     return (
@@ -304,6 +361,7 @@ function App() {
         theme={theme}
         onToggleTheme={toggleTheme}
         onGoHome={() => setVistaPublica("inicio")}
+        onOpenLegal={abrirDocumento}
         onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }}
       />
     )
@@ -399,6 +457,7 @@ function App() {
         <Profile
           nome={usuario.nome}
           email={usuario.email}
+          onOpenLegal={abrirDocumento}
           voltar={() => setTelaAtual("dashboard")}
           sair={() => {
             localStorage.removeItem("accessToken")

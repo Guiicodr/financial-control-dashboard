@@ -182,3 +182,21 @@ O frontend é totalmente responsivo e adaptável a diferentes tamanhos de tela:
 - **Botão WhatsApp**: reposicionado e redimensionado em telas pequenas
 
 ---
+
+## 🔒 Privacidade e LGPD
+
+O app publica os documentos e faz valer os direitos do titular (Lei nº 13.709/2018):
+
+- **Termos de Uso** em `#/termos` e **Aviso de Privacidade** em `#/privacidade` — o link do hash permite compartilhar direto, e os dois aparecem no rodapé das telas públicas, no cadastro e no perfil.
+- **Aceite obrigatório no cadastro**: o checkbox envia a versão dos documentos para a API, que grava versão e data/hora (art. 8º, §1º). Declaração de 18+ junto.
+- **Perfil › Privacidade e seus dados**: baixar todos os dados em JSON (art. 18, II e V), desvincular o WhatsApp (art. 18, IX) e excluir a conta (art. 18, VI — com senha e confirmação por palavra).
+- **Sem cookies de rastreamento, sem publicidade**: o armazenamento local guarda apenas tokens de sessão, tema, idioma e o nome/e-mail usados na interface.
+
+### Antes de publicar
+
+1. Preencha `src/lib/legal.js` (controlador, CNPJ/CPF, endereço, encarregado e e-mail de contato) — os campos estão entre `[ ]`.
+2. Mantenha `LEGAL_VERSION` (front) igual a `LEGAL_TERMS_VERSION` (API).
+3. Recomendado: revisão jurídica dos textos, que são documentos do produto e não apenas texto de interface.
+
+
+---

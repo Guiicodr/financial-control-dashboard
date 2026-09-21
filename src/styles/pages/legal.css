@@ -1,0 +1,178 @@
+/* ==========================================================================
+   Finanly - Documentos legais (Termos de Uso e Aviso de Privacidade)
+   Texto longo pede medida de leitura confortavel: coluna estreita, entrelinha
+   folgada e hierarquia clara entre titulo, secao e paragrafo.
+   ========================================================================== */
+
+.legal-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  /* clip (e nao hidden) para o position: sticky da barra continuar valendo. */
+  overflow-x: clip;
+}
+
+.legal-page {
+  flex: 1;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5) var(--space-9);
+}
+
+.legal-title {
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-black);
+  letter-spacing: -.02em;
+  line-height: 1.15;
+}
+
+.legal-subtitle {
+  margin-top: var(--space-2);
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
+}
+
+/* Versao e data: e o que identifica QUAL texto o titular aceitou (LGPD art. 8). */
+.legal-version {
+  margin-top: var(--space-3);
+  font-size: var(--fs-xs);
+  letter-spacing: .02em;
+  color: var(--text-muted);
+}
+
+.legal-head {
+  margin-bottom: var(--space-6);
+}
+
+/* Controlador e encarregado sempre visiveis no topo do documento (art. 9, I). */
+.legal-identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--surface-inset);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-secondary);
+  /* CNPJ, e-mail e endereco nao tem espaco para quebrar: sem isto estouram a caixa. */
+  overflow-wrap: anywhere;
+}
+
+.legal-identity strong {
+  color: var(--text-primary);
+}
+
+.legal-hint {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.legal-section {
+  margin-bottom: var(--space-6);
+}
+
+.legal-section-title {
+  margin-bottom: var(--space-3);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.legal-section p {
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.legal-section p + p {
+  margin-top: var(--space-3);
+}
+
+.legal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0 var(--space-5);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ------------------------- Links dos documentos ------------------------- */
+
+.legal-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.legal-links-sep {
+  color: var(--text-muted);
+}
+
+.legal-link {
+  padding: 2px 4px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.legal-link:hover {
+  color: var(--accent);
+}
+
+.legal-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+.legal-footer-links {
+  margin-top: var(--space-7);
+}
+
+/* ------------------------------ Responsivo ------------------------------ */
+
+@media (max-width: 720px) {
+  .legal-page {
+    padding: var(--space-5) var(--space-4) var(--space-9);
+  }
+
+  .legal-title {
+    font-size: var(--fs-h2);
+  }
+
+  .legal-identity {
+    padding: var(--space-4);
+  }
+
+  .legal-section p {
+    line-height: 1.65;
+  }
+}
+
+@media (max-width: 480px) {
+  .legal-section-title {
+    font-size: var(--fs-body);
+  }
+
+  .legal-list {
+    margin-left: var(--space-4);
+  }
+}

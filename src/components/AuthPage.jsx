@@ -4,6 +4,8 @@ import { autenticar, registrar, solicitarResetSenha, resetarSenha } from "../ser
 import { FaEye, FaEyeSlash, FaArrowLeft, FaCircleCheck, FaEnvelope } from "react-icons/fa6";
 import AuroraBackground from "./ui/AuroraBackground";
 import AuthTopBar from "./auth/AuthTopBar";
+import LegalLinks from "./legal/LegalLinks";
+import { LEGAL_VERSION } from "../lib/legal";
 import "../styles/pages/auth.css";
 
 // O botão de conta de teste só existe em build de desenvolvimento: com
@@ -29,7 +31,7 @@ function calcPasswordStrength(senha) {
  * Tela de acesso (entrar / criar conta): formulario centralizado na viewport,
  * sobre o fundo Aurora. initialMode define o modo que abre por padrao.
  */
-function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode = "entrar", onGoHome }) {
+function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode = "entrar", onGoHome, onOpenLegal = () => {} }) {
   const { t } = useTranslation();
   const [modoCadastro, setModoCadastro] = useState(initialMode === "cadastro");
   const [nome, setNome] = useState("");
@@ -44,6 +46,8 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
   const [resetEnviado, setResetEnviado] = useState(false);
   const [mostrarFormularioToken, setMostrarFormularioToken] = useState(false);
   const [showNovaSenha, setShowNovaSenha] = useState(false);
+  // Aceite dos documentos legais: obrigatorio no cadastro (LGPD art. 8, §1º).
+  const [aceite, setAceite] = useState(false);
 
   const strength = calcPasswordStrength(senha);
   const strengthLabels = [
@@ -105,10 +109,19 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
   function enviar(event) {
     event.preventDefault();
     setErro("");
+
+    // O cadastro exige o aceite dos documentos legais. A API valida de novo
+    // (defesa em profundidade); aqui a checagem evita a ida a rede e explica o
+    // motivo na hora para o titular.
+    if (modoCadastro && !aceite) {
+      setErro(t("auth.consentRequired"));
+      return;
+    }
+
     setEnviando(true);
 
     const request = modoCadastro
-      ? registrar(nome, email, senha).then(() => autenticar(email, senha))
+      ? registrar(nome, email, senha, LEGAL_VERSION).then(() => autenticar(email, senha))
       : autenticar(email, senha);
 
     request
@@ -247,6 +260,27 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
                   </button>
                 </div>
               )}
+              {modoCadastro && (
+                <div className="auth-consent">
+                  <input
+                    id="aceite-documentos"
+                    type="checkbox"
+                    checked={aceite}
+                    onChange={(event) => setAceite(event.target.checked)}
+                  />
+                  <span className="auth-consent-text">
+                    <label htmlFor="aceite-documentos">{t("auth.consentPrefix")}</label>{" "}
+                    <button type="button" className="auth-consent-link" onClick={() => onOpenLegal("termos")}>
+                      {t("legal.terms.title")}
+                    </button>{" "}
+                    <label htmlFor="aceite-documentos">{t("auth.consentAnd")}</label>{" "}
+                    <button type="button" className="auth-consent-link" onClick={() => onOpenLegal("privacidade")}>
+                      {t("legal.privacy.title")}
+                    </button>
+                    . <label htmlFor="aceite-documentos">{t("auth.consentAge")}</label>
+                  </span>
+                </div>
+              )}
               {erro && <div className="auth-error-badge">{erro}</div>}
               {!modoCadastro && !esquecendo && (
                 <div className="auth-forgot-password">
@@ -263,7 +297,8 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
         </div>
       </section>
       <footer className="auth-footer">
-        <p>© {new Date().getFullYear()} Finanly Inc. {t("auth.rights")}</p>
+        <p>© {new Date().getFullYear()} Finanly. {t("auth.rights")}</p>
+        <LegalLinks onOpen={onOpenLegal} />
       </footer>
     </main>
   );

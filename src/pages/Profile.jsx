@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
-import { FaRightFromBracket, FaUser, FaWhatsapp } from "react-icons/fa6";
+import { FaDownload, FaRightFromBracket, FaShieldHalved, FaTrash, FaUser, FaWhatsapp } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
-import { abrirChatWhatsapp, consultarWhatsapp, vincularWhatsapp } from "../services/api";
+import {
+  abrirChatWhatsapp,
+  consultarWhatsapp,
+  desvincularWhatsapp,
+  excluirConta,
+  exportarMeusDados,
+  vincularWhatsapp,
+} from "../services/api";
+import DeleteAccountModal from "../components/profile/DeleteAccountModal";
+import LegalLinks from "../components/legal/LegalLinks";
+import { LEGAL_UPDATED_AT, LEGAL_VERSION } from "../lib/legal";
 import { pushToast } from "../lib/toast";
 import "../styles/pages/profile.css";
 
@@ -10,13 +20,17 @@ import "../styles/pages/profile.css";
  * (o idioma e trocado aqui e fica salvo em localStorage) e as cores vem dos
  * tokens, entao a tela acompanha o tema claro e escuro.
  */
-function Profile({ nome, email, voltar, sair }) {
+function Profile({ nome, email, voltar, sair, onOpenLegal = () => {} }) {
   const { t, i18n } = useTranslation();
   const [waTelefone, setWaTelefone] = useState("");
   const [waVinculado, setWaVinculado] = useState(false);
   const [waBotNumero, setWaBotNumero] = useState("");
   const [waSalvando, setWaSalvando] = useState(false);
   const [waErro, setWaErro] = useState("");
+  // Estado das acoes de privacidade (LGPD art. 18): exportar, desvincular e excluir.
+  const [baixando, setBaixando] = useState(false);
+  const [desvinculando, setDesvinculando] = useState(false);
+  const [excluirAberto, setExcluirAberto] = useState(false);
 
   useEffect(() => {
     consultarWhatsapp()
@@ -55,6 +69,53 @@ function Profile({ nome, email, voltar, sair }) {
         pushToast(t("profile.whatsappError"), "error");
       })
       .finally(() => setWaSalvando(false));
+  }
+
+  /**
+   * Acesso e portabilidade (LGPD art. 18, II e V).
+   * O arquivo e montado no proprio navegador: os dados saem da API e vao direto
+   * para o disco do titular, sem passar por servico de terceiro.
+   */
+  function baixarDados() {
+    setBaixando(true);
+    exportarMeusDados()
+      .then((dados) => {
+        const blob = new Blob([JSON.stringify(dados, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "finanly-meus-dados-" + new Date().toISOString().slice(0, 10) + ".json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        pushToast(t("profile.privacyDownloadDone"));
+      })
+      .catch((error) =>
+        pushToast(error && error.message ? error.message : t("profile.privacyDownloadError"), "danger"),
+      )
+      .finally(() => setBaixando(false));
+  }
+
+  /** Revogacao do vinculo de WhatsApp (art. 18, IX): o bot para de responder. */
+  function removerVinculo() {
+    setDesvinculando(true);
+    desvincularWhatsapp()
+      .then(() => {
+        setWaVinculado(false);
+        setWaTelefone("");
+        pushToast(t("profile.privacyUnlinkDone"));
+      })
+      .catch(() => pushToast(t("profile.privacyUnlinkError"), "danger"))
+      .finally(() => setDesvinculando(false));
+  }
+
+  /** Eliminacao da conta (art. 18, VI). O modal ja confirmou senha e palavra. */
+  function excluirMinhaConta(senha) {
+    return excluirConta(senha).then(() => {
+      pushToast(t("profile.privacyDeleteDone"));
+      sair(); // encerra a sessao local: a conta nao existe mais na API
+    });
   }
 
   return (
@@ -148,6 +209,49 @@ function Profile({ nome, email, voltar, sair }) {
           )}
         </section>
       </div>
+
+      <section className="card card--pad-lg profile-card profile-privacy">
+        <div className="profile-card-head">
+          <span className="profile-card-icon">
+            <FaShieldHalved />
+          </span>
+          <h3 className="card-title">{t("profile.privacyTitle")}</h3>
+        </div>
+
+        <p className="profile-card-text">{t("profile.privacyDescription")}</p>
+        <p className="profile-hint">
+          {t("profile.privacyVersion", { version: LEGAL_VERSION, updatedAt: LEGAL_UPDATED_AT })}
+        </p>
+
+        <div className="profile-privacy-docs">
+          <span className="profile-label">{t("profile.privacyDocs")}</span>
+          <LegalLinks onOpen={onOpenLegal} />
+        </div>
+
+        <div className="profile-privacy-actions">
+          <button type="button" className="btn btn--ghost" onClick={baixarDados} disabled={baixando}>
+            <FaDownload /> {baixando ? t("profile.privacyDownloading") : t("profile.privacyDownload")}
+          </button>
+          {waVinculado ? (
+            <button type="button" className="btn btn--ghost" onClick={removerVinculo} disabled={desvinculando}>
+              <FaWhatsapp /> {t("profile.privacyUnlink")}
+            </button>
+          ) : null}
+          <button type="button" className="btn btn--danger" onClick={() => setExcluirAberto(true)}>
+            <FaTrash /> {t("profile.privacyDelete")}
+          </button>
+        </div>
+
+        <p className="profile-hint">{t("profile.privacyDownloadHint")}</p>
+        <p className="profile-hint">{t("profile.privacyDeleteHint")}</p>
+      </section>
+
+      {excluirAberto ? (
+        <DeleteAccountModal
+          onClose={() => setExcluirAberto(false)}
+          onConfirm={excluirMinhaConta}
+        />
+      ) : null}
 
       <button className="btn btn--danger profile-logout" type="button" onClick={sair}>
         <FaRightFromBracket /> {t("profile.logout")}

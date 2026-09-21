@@ -311,3 +311,73 @@
 .strength-label--1 { color: var(--danger); }
 .strength-label--2 { color: var(--warning); }
 .strength-label--3 { color: var(--success); }
+
+/* ---------------- Aceite dos documentos legais (LGPD art. 8, §1º) ---------------- */
+/* Bloco obrigatorio do cadastro: sem ele a API recusa a criacao da conta (400).
+   Os nomes dos documentos sao botoes que abrem o texto antes do aceite. */
+.auth-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--surface-inset);
+}
+
+.auth-consent input[type="checkbox"] {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.auth-consent-text {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.auth-consent-text label {
+    cursor: pointer;
+}
+
+.auth-consent-link {
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--accent);
+    font-size: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+
+.auth-consent-link:hover {
+    color: var(--accent-hover);
+}
+
+.auth-consent-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Telas pequenas: alvo de toque maior no checkbox e texto um pouco maior. */
+@media (max-width: 560px) {
+    .auth-consent {
+        padding: 0.75rem;
+    }
+
+    .auth-consent input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
+
+    .auth-consent-text {
+        font-size: 0.85rem;
+    }
+}

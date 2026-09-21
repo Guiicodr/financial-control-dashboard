@@ -121,11 +121,13 @@ export function autenticar(email, senha) {
   }).then(handleResponse);
 }
 
-export function registrar(nome, email, senha) {
+export function registrar(nome, email, senha, aceiteVersao) {
   return requisitar(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: nome, email, senha }),
+    // A versao dos documentos aceitos vai junto: e o que permite provar depois
+    // QUAL texto o titular aceitou e QUANDO (LGPD art. 8, §1º).
+    body: JSON.stringify({ name: nome, email, senha, aceiteVersao }),
   }).then(handleResponse);
 }
 
@@ -291,4 +293,30 @@ export function criarOrcamento(orcamento) {
     method: "POST",
     body: JSON.stringify(orcamento),
   }).then(handleResponse);
+}
+
+// ===== Direitos do titular (LGPD art. 18) =====
+
+/**
+ * Acesso e portabilidade (art. 18, II e V): devolve, em JSON, tudo o que a API
+ * guarda sobre quem chamou. O download do arquivo e montado na tela de perfil.
+ */
+export function exportarMeusDados() {
+  return apiFetch("/usuario/dados").then(handleResponse);
+}
+
+/**
+ * Eliminacao da conta e do historico (art. 18, VI). Exige a senha porque a
+ * acao e irreversivel e o token de sessao pode estar em um navegador alheio.
+ */
+export function excluirConta(senha) {
+  return apiFetch("/usuario", {
+    method: "DELETE",
+    body: JSON.stringify({ senha }),
+  }).then(handleResponse);
+}
+
+/** Revogacao do vinculo de WhatsApp, sem excluir a conta (art. 18, IX). */
+export function desvincularWhatsapp() {
+  return apiFetch("/usuario/whatsapp", { method: "DELETE" }).then(handleResponse);
 }
