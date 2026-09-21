@@ -116,3 +116,15 @@
         font-size: var(--fs-sm);
     }
 }
+
+/* 320-400px: a chamada cai para 2rem (o minimo do clamp ocupava metade da tela
+   de um aparelho estreito) e o respiro entre as linhas acompanha. */
+@media (max-width: 400px) {
+    .home-title {
+        font-size: clamp(2rem, 10vw, 2.5rem);
+    }
+
+    .home-subtitle {
+        font-size: 1rem;
+    }
+}

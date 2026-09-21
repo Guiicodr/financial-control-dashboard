@@ -45,11 +45,18 @@
   padding: var(--space-4);
   background: var(--scrim);
   animation: fadeIn .18s var(--ease);
+  /* O veu rola junto com a caixa: em janelas baixas (telefone na paisagem, ou
+     com o teclado aberto) o formulario fica acessivel em vez de cortado. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .dialog {
   width: 100%;
   max-width: 420px;
+  max-height: calc(100vh - var(--space-4) * 2);
+  max-height: calc(100dvh - var(--space-4) * 2);
+  overflow-y: auto;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -83,5 +90,21 @@
     right: var(--space-4);
     bottom: calc(var(--mobile-nav-h) + var(--space-4));
     max-width: none;
+  }
+
+  /* Caixa de dialogo no celular: menos padding para o texto respirar na
+     largura e acoes empilhadas (alvo de toque maior, com o botao principal
+     embaixo, ao alcance do polegar). */
+  .dialog {
+    padding: var(--space-5);
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .dialog-actions .btn {
+    width: 100%;
   }
 }

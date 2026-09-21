@@ -210,4 +210,29 @@
 @media (max-width: 720px) {
   .wallet-card { padding: var(--space-4); }
   .wallet-form .field-row { flex-direction: column; }
+  /* Fonte de 16px nos campos: abaixo disso o iOS da zoom sozinho no foco. */
+  .wallet-form .field input { font-size: var(--fs-input-touch); }
+}
+
+/* 320-480px: composicao do patrimonio e cartoes em uma coluna, com as acoes do
+   formulario empilhadas (largura cheia = alvo de toque maior). */
+@media (max-width: 480px) {
+  .wallet-summary,
+  .cc-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wallet-tile {
+    min-height: 108px;
+    padding: var(--space-4);
+  }
+
+  .wallet-form .dialog-actions {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .wallet-form .dialog-actions .btn {
+    width: 100%;
+  }
 }

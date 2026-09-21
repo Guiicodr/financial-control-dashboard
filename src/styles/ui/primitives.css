@@ -347,3 +347,26 @@
   .page-head,
   .dashboard-header { align-items: flex-start; }
 }
+
+/* ---------------------------- Telas estreitas ---------------------------- */
+
+/* O botao de acao do cabecalho ocupa a linha inteira: em telas pequenas ele
+   ficava espremido ao lado do titulo (ou herdava a sobra da linha). */
+@media (max-width: 560px) {
+  .page-head > .btn {
+    width: 100%;
+  }
+}
+
+/* Aparelhos de ate 480px: os cards perdem o padding grande (a largura interna
+   e o insumo mais escasso) e o seletor de periodo encolhe para caber na linha. */
+@media (max-width: 480px) {
+  .card,
+  .card--pad-lg {
+    padding: var(--space-5);
+  }
+
+  .period-selector button {
+    padding: 7px 12px;
+  }
+}

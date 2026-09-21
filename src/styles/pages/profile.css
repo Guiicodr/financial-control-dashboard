@@ -208,4 +208,44 @@
   .whatsapp-form .btn {
     width: 100%;
   }
+
+  /* Fonte de 16px nos campos: abaixo disso o iOS da zoom sozinho no foco. */
+  .profile-field input,
+  .profile-field select {
+    font-size: var(--fs-input-touch);
+  }
+}
+
+/* 320-480px: os cards de preferencias/WhatsApp e o hero entram em coluna, sem
+   os 320px de largura minima da grade e sem os 200px minimos dos campos. */
+@media (max-width: 480px) {
+  .profile-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .profile-hero {
+    padding: var(--space-5);
+  }
+
+  .profile-field {
+    min-width: 0;
+  }
+
+  .profile-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+
+  /* E-mail e nome longos deixam de ser cortados na elipse: quebram na linha. */
+  .profile-name {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .profile-account,
+  .profile-example {
+    overflow-wrap: anywhere;
+  }
 }

@@ -508,3 +508,33 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Aparelhos de ate 480px: os paineis e as metricas perdiam 320px de largura
+   minima (minmax do auto-fit) que nao cabiam na coluna e cortavam o card pela
+   direita. Aqui as grades passam a uma coluna de verdade, o botao de lancamento
+   ganha a linha toda e os valores grandes sobem um degrau na escala. */
+@media (max-width: 480px) {
+  .dashboard-panels,
+  .dashboard-panels--split,
+  .metric-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .dashboard-toolbar-action {
+    width: 100%;
+  }
+
+  .dashboard-toolbar-action .btn {
+    width: 100%;
+  }
+
+  .balance-hero-head {
+    flex-wrap: wrap;
+  }
+
+  .balance-hero-value,
+  .invested-value {
+    font-size: var(--fs-h2);
+  }
+}

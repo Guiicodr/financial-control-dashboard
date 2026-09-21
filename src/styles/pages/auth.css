@@ -61,6 +61,11 @@
     .auth-page {
         padding: var(--space-3) var(--space-4) var(--space-7);
     }
+
+    /* Fonte de 16px nos campos: abaixo disso o iOS da zoom sozinho no foco. */
+    .input-group input {
+        font-size: var(--fs-input-touch);
+    }
 }
 
 /* As opcoes de acesso (Entrar / Criar conta) vivem na pilula: veja .pill-bar-option. */

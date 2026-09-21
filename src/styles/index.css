@@ -6,6 +6,9 @@
 
 html {
     scroll-behavior: smooth;
+    /* iOS: sem inflar a tipografia quando o aparelho gira para paisagem. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {

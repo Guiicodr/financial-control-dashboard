@@ -322,6 +322,14 @@
     padding: var(--space-5) var(--space-4) calc(var(--mobile-nav-h) + var(--space-7));
   }
 
+  /* Notch / cantos arredondados: barras fixas e conteudo respeitam a area
+     segura do aparelho (insets zerados quando nao existem). */
+  .shell-topbar,
+  .shell-content {
+    padding-left: calc(var(--space-4) + env(safe-area-inset-left));
+    padding-right: calc(var(--space-4) + env(safe-area-inset-right));
+  }
+
   .shell-mobile-nav {
     position: fixed;
     bottom: 0;
@@ -335,6 +343,8 @@
     background: var(--bg-sidebar);
     border-top: 1px solid var(--border);
     padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   .shell-mobile-nav button {
@@ -360,6 +370,16 @@
 
   .whatsapp-fab {
     bottom: calc(var(--mobile-nav-h) + var(--space-4));
+    right: calc(var(--space-5) + env(safe-area-inset-right));
+  }
+}
+
+/* Aparelhos muito estreitos (320-400px): o conteudo ganha a largura que as
+   laterais do padding tomavam. */
+@media (max-width: 400px) {
+  .shell-content {
+    padding-left: calc(var(--space-3) + env(safe-area-inset-left));
+    padding-right: calc(var(--space-3) + env(safe-area-inset-right));
   }
 }
 

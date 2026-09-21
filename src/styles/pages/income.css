@@ -253,4 +253,31 @@
   .income-amount {
     font-size: var(--fs-body);
   }
+
+  /* Os campos empilham: sem a largura minima de 180px que sobrava na coluna.
+     Fonte de 16px evita o zoom automatico do iOS no foco. */
+  .income-page .field {
+    min-width: 0;
+  }
+
+  .income-page .field input {
+    font-size: var(--fs-input-touch);
+  }
+}
+
+/* 320-560px: card e itens com menos padding para a descricao nao encostar. */
+@media (max-width: 560px) {
+  .income-card {
+    padding: var(--space-4);
+  }
+
+  .income-item {
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .income-icon {
+    width: 32px;
+    height: 32px;
+  }
 }

@@ -167,3 +167,25 @@ button.pill-bar-brand:focus-visible {
         font-size: var(--fs-xs);
     }
 }
+
+/* Telas de 320-400px: a barra do inicio (marca + tema + entrar + criar conta)
+   nao cabia numa linha e estourava a pilula. Em vez de esconder um dos
+   acessos, a pilula quebra em duas linhas centradas e troca o raio de pilula
+   pelo raio de card (que combina com mais de uma linha). */
+@media (max-width: 400px) {
+    .pill-bar-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: var(--space-2);
+        border-radius: var(--radius-lg);
+    }
+
+    .pill-bar-inner--spread {
+        justify-content: center;
+    }
+
+    .pill-bar-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

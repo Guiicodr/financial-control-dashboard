@@ -314,4 +314,22 @@
   .tx-filters > * { flex: 1 1 100%; }
   .tx-item { flex-wrap: wrap; gap: var(--space-3); }
   .tx-value { margin-left: auto; }
+  /* Fonte de 16px nos campos: abaixo disso o iOS da zoom sozinho no foco. */
+  .field input,
+  .field select,
+  .tx-search input,
+  .tx-filters select,
+  .tx-filters input[type="month"] { font-size: var(--fs-input-touch); }
+}
+
+/* -------------------------------- Estreito ------------------------------- */
+
+/* 320-560px: o campo de busca nao mantem mais 220px de largura minima (que
+   estourava a linha) e os valores caem um degrau para o lancamento caber. */
+@media (max-width: 560px) {
+  .tx-search { min-width: 0; }
+  .tx-summary { gap: var(--space-3); }
+  .tx-summary-item { padding: var(--space-4); }
+  .tx-value { font-size: var(--fs-body); }
+  .field-row { gap: var(--space-3); }
 }

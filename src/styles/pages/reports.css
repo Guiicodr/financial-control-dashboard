@@ -343,4 +343,30 @@
 @media (max-width: 720px) {
   .reports-grid { grid-template-columns: 1fr; }
   .reports-page .budget-form { flex-direction: column; align-items: stretch; }
+  /* Fonte de 16px nos campos: abaixo disso o iOS da zoom sozinho no foco. */
+  .reports-page .budget-form .field input { font-size: var(--fs-input-touch); }
+}
+
+/* 320-480px: os limites de orcamento entram um por linha (sem os 140px de
+   largura minima do campo) e os totais do comparativo ficam em coluna. */
+@media (max-width: 480px) {
+  .reports-summary {
+    gap: var(--space-3);
+  }
+
+  .reports-chip {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .reports-page .report-totals {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .reports-page .budget-form .field {
+    min-width: 0;
+  }
+
+  .reports-page .report-chart {
+    min-height: 200px;
+  }
 }

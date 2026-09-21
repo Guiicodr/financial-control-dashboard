@@ -299,4 +299,28 @@
   .goals-grid { grid-template-columns: 1fr; }
   .goals-form-card { padding: var(--space-4); }
   .goal-form .field-row { flex-direction: column; }
+  /* Fonte de 16px nos campos: abaixo disso o iOS da zoom sozinho no foco. */
+  .goal-form .field input,
+  .goal-form .field select { font-size: var(--fs-input-touch); }
+}
+
+/* 320-480px: a previa do movimento (atual x resultante) passa a uma coluna e os
+   chips do resumo perdem a largura minima de 180px. */
+@media (max-width: 480px) {
+  .goals-summary {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .goals-chip {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .movement-preview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .goal-card {
+    padding: var(--space-4);
+  }
 }
