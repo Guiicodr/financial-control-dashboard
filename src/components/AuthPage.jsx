@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { autenticar, registrar, solicitarResetSenha, resetarSenha } from "../services/api";
 import { FaEye, FaEyeSlash, FaArrowLeft, FaCircleCheck, FaEnvelope } from "react-icons/fa6";
-import AuroraBackground from "./ui/AuroraBackground";
 import AuthTopBar from "./auth/AuthTopBar";
 import LegalLinks from "./legal/LegalLinks";
 import { LEGAL_VERSION } from "../lib/legal";
@@ -140,8 +139,7 @@ function AuthPage({ theme = "dark", onToggleTheme, onAuthenticated, initialMode 
   }
 
   return (
-    <main className="auth-container">
-      <AuroraBackground theme={theme} />
+    <main className="auth-container view-enter">
       <AuthTopBar
         signingUp={modoCadastro}
         onSignIn={() => selecionarAcesso(false)}

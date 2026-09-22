@@ -50,7 +50,7 @@ function Legal({ documento = "termos", theme = "dark", onToggleTheme, onBack, on
   const secoes = Array.isArray(doc.sections) ? doc.sections : [];
 
   return (
-    <main className="legal-container">
+    <main className="legal-container view-enter">
       <PillBar
         wide
         brand={<PillBarBrand onClick={onBack} label={t("legal.back")} />}

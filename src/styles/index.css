@@ -63,3 +63,46 @@ select {
     background: var(--primary);
 
 }
+
+/* ----------------------- Troca de tela (area publica) ----------------------- */
+/* Entrada leve das telas publicas.
+   Esta animacao e o PLANO B: vale apenas quando o navegador nao tem a View
+   Transitions API (o data-view-transition é marcado em lib/viewTransition.js).
+   Com a API, quem anima a troca e o cross-fade dos retratos — manter as duas
+   causaria fade duplo e um flash do fundo, porque a tela nova seria capturada
+   quando ainda estivesse em opacity 0. */
+html:not([data-view-transition="on"]) .view-enter {
+    animation: viewEnter .26s var(--ease) both;
+}
+
+@keyframes viewEnter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Cross-fade do retrato da tela quando a View Transitions API esta disponivel
+   (o tempo acompanha o da entrada das telas para as duas nao competirem). */
+::view-transition-group(root) {
+    animation-duration: .26s;
+    animation-timing-function: cubic-bezier(.2, .8, .2, 1);
+}
+
+/* Movimento reduzido: nenhuma animacao de troca roda. O seletor repete a
+   especificidade da regra acima (senao a media query perderia por peso) e o
+   alvo do cross-fade sao os retratos (old/new), nao o grupo — desligar o grupo
+   nao impediria o fade do navegador. Na pratica o JS ja nem usa a API nesse
+   caso (lib/viewTransition.js), isto e a rede de seguranca do CSS. */
+@media (prefers-reduced-motion: reduce) {
+    html:not([data-view-transition="on"]) .view-enter,
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none;
+    }
+}

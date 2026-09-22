@@ -9,7 +9,10 @@
     min-height: 100vh;
     min-height: 100svh;
     width: 100%;
-    background-color: var(--bg-app);
+    /* Transparente de proposito: a Aurora agora e uma camada unica do App
+       (area publica) e precisa aparecer por tras do conteudo. O fundo chapado
+       continua no body (--bg-main). */
+    background-color: transparent;
     color: var(--text-primary);
     /* clip (e nao hidden) para nao cortar o blur/sombra da barra e ainda
        evitar rolagem horizontal quando o canvas da Aurora cresce. */
@@ -39,6 +42,23 @@
     position: static;
     padding: 0;
     width: 100%;
+    /* A barra entra um passo depois da chamada: como ela agora vive entre o
+       titulo e o subtitulo, a entrada em cascata (titulo -> barra -> subtitulo)
+       mantem a leitura na ordem em que o texto aparece. */
+    animation: homeTopBarIn .5s var(--ease) both;
+    animation-delay: .12s;
+}
+
+@keyframes homeTopBarIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .home-title {
@@ -76,7 +96,8 @@
 
 /* Com movimento reduzido a chamada aparece estatica (mesma regra da Aurora). */
 @media (prefers-reduced-motion: reduce) {
-    .home-title {
+    .home-title,
+    .home-hero .pill-bar {
         animation: none;
     }
 }

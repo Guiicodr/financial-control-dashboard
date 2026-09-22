@@ -23,9 +23,11 @@ import AuthPage from "./components/AuthPage";
 import HomePage from "./components/home/HomePage";
 import AppShell from "./components/layout/AppShell";
 import TransactionModal from "./components/transactions/TransactionModal";
+import AuroraBackground from "./components/ui/AuroraBackground";
 import ToastHost from "./components/ui/ToastHost";
 import Skeleton from "./components/ui/Skeleton";
 import { pushToast } from "./lib/toast";
+import { trocarTela } from "./lib/viewTransition";
 import { useTheme } from "./hooks/useTheme";
 
 import {
@@ -103,16 +105,25 @@ function App() {
 
   /** Abre um documento legal e reflete a escolha na URL (link compartilhavel). */
   function abrirDocumento(documento) {
-    setDocumentoLegal(documento)
-    window.location.hash = documento ? "/" + documento : ""
+    trocarTela(() => {
+      setDocumentoLegal(documento)
+      window.location.hash = documento ? "/" + documento : ""
+    })
   }
 
   /** Volta para a tela de onde o documento foi aberto e limpa o hash. */
   function fecharDocumento() {
-    setDocumentoLegal(null)
-    if (documentoDoHash()) {
-      window.history.replaceState(null, "", window.location.pathname + window.location.search)
-    }
+    trocarTela(() => {
+      setDocumentoLegal(null)
+      if (documentoDoHash()) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search)
+      }
+    })
+  }
+
+  /** Navegacao entre as telas publicas (inicio / entrar / criar conta). */
+  function irParaVistaPublica(vista) {
+    trocarTela(() => setVistaPublica(vista))
   }
 
 
@@ -344,26 +355,32 @@ function App() {
   // Area publica: a primeira tela e o hero; o formulario de acesso aparece
   // somente depois de escolher "Entrar" ou "Criar conta".
   if (!autenticado) {
-    if (vistaPublica === "inicio") {
-      return (
-        <HomePage
-          theme={theme}
-          onToggleTheme={toggleTheme}
-          onAccess={setVistaPublica}
-          onOpenLegal={abrirDocumento}
-        />
-      )
-    }
-
     return (
-      <AuthPage
-        initialMode={vistaPublica}
-        theme={theme}
-        onToggleTheme={toggleTheme}
-        onGoHome={() => setVistaPublica("inicio")}
-        onOpenLegal={abrirDocumento}
-        onAuthenticated={(dados) => { setUsuario(dados); setAutenticado(true) }}
-      />
+      <>
+        {/* A Aurora vive UMA vez aqui. Antes cada tela montava a sua, entao
+            entrar/sair do formulario recriava o contexto WebGL e o app dava uma
+            engasgada visivel (mais obvia na build). Com a instancia unica a
+            animacao continua de onde estava e a troca so mexe no conteudo. */}
+        <AuroraBackground theme={theme} />
+
+        {vistaPublica === "inicio" ? (
+          <HomePage
+            theme={theme}
+            onToggleTheme={toggleTheme}
+            onAccess={irParaVistaPublica}
+            onOpenLegal={abrirDocumento}
+          />
+        ) : (
+          <AuthPage
+            initialMode={vistaPublica}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+            onGoHome={() => irParaVistaPublica("inicio")}
+            onOpenLegal={abrirDocumento}
+            onAuthenticated={(dados) => trocarTela(() => { setUsuario(dados); setAutenticado(true) })}
+          />
+        )}
+      </>
     )
   }
 
@@ -459,14 +476,14 @@ function App() {
           email={usuario.email}
           onOpenLegal={abrirDocumento}
           voltar={() => setTelaAtual("dashboard")}
-          sair={() => {
+          sair={() => trocarTela(() => {
             localStorage.removeItem("accessToken")
             localStorage.removeItem("refreshToken")
             localStorage.removeItem("userName")
             localStorage.removeItem("userEmail")
             setVistaPublica("inicio")
             setAutenticado(false)
-          }}
+          })}
         />
       )}
       </Suspense>
