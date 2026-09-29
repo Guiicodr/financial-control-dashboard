@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { EXPENSE_CATEGORIES } from "../../lib/finance";
+import { EXPENSE_CATEGORIES, NATUREZAS_DO_GASTO } from "../../lib/finance";
 import "../../styles/pages/transactions.css";
 
 function todayISO() {
@@ -11,7 +11,14 @@ function todayISO() {
 }
 
 function emptyForm() {
-  return { tipo: "DESPESA", descricao: "", valor: "", data: todayISO(), categoria: EXPENSE_CATEGORIES[0] };
+  return {
+    tipo: "DESPESA",
+    descricao: "",
+    valor: "",
+    data: todayISO(),
+    categoria: EXPENSE_CATEGORIES[0],
+    natureza: "",
+  };
 }
 
 function formFromInitial(initial) {
@@ -21,6 +28,7 @@ function formFromInitial(initial) {
     valor: initial.valor === undefined || initial.valor === null ? "" : String(initial.valor),
     data: String(initial.data || todayISO()).slice(0, 10),
     categoria: initial.categoria || EXPENSE_CATEGORIES[0],
+    natureza: initial.natureza || "",
   };
 }
 
@@ -76,6 +84,8 @@ function TransactionModal({ open, initial, onClose, onSubmit }) {
         valor: valor,
         data: form.data,
         categoria: isExpense ? form.categoria : null,
+        // Natureza so faz sentido em despesa; vazia vira null (o campo e opcional).
+        natureza: isExpense && form.natureza ? form.natureza : null,
         id: initial ? initial.id : null,
       }),
     )
@@ -156,14 +166,30 @@ function TransactionModal({ open, initial, onClose, onSubmit }) {
           </div>
 
           {isExpense ? (
-            <label className="field">
-              <span>{t("tx.category")}</span>
-              <select value={form.categoria} onChange={(event) => update("categoria", event.target.value)}>
-                {EXPENSE_CATEGORIES.map((category) => (
-                  <option key={category} value={category}>{t("categories." + category)}</option>
-                ))}
-              </select>
-            </label>
+            <>
+              <label className="field">
+                <span>{t("tx.category")}</span>
+                <select value={form.categoria} onChange={(event) => update("categoria", event.target.value)}>
+                  {EXPENSE_CATEGORIES.map((category) => (
+                    <option key={category} value={category}>{t("categories." + category)}</option>
+                  ))}
+                </select>
+              </label>
+
+              {/* Modo Consciente: a reflexao e opcional de proposito. Exigir a
+                  marcacao faria o usuario desistir de registrar; quem marca ganha
+                  XP extra e da a mentoria o dado que o extrato bancario nao tem. */}
+              <label className="field">
+                <span>{t("tx.natureza")}</span>
+                <select value={form.natureza} onChange={(event) => update("natureza", event.target.value)}>
+                  <option value="">{t("tx.naturezaNone")}</option>
+                  {NATUREZAS_DO_GASTO.map((natureza) => (
+                    <option key={natureza} value={natureza}>{t("tx.natureza" + natureza)}</option>
+                  ))}
+                </select>
+                <em className="field-hint">{t("tx.naturezaHint")}</em>
+              </label>
+            </>
           ) : (
             <p className="field-hint">{t("tx.incomeHint")}</p>
           )}

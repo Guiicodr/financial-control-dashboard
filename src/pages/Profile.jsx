@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaDownload, FaRightFromBracket, FaShieldHalved, FaTrash, FaUser, FaWhatsapp } from "react-icons/fa6";
+import { FaDownload, FaRightFromBracket, FaShieldHalved, FaTrash, FaTrophy, FaUser, FaWhatsapp } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import {
   abrirChatWhatsapp,
@@ -8,8 +8,11 @@ import {
   excluirConta,
   exportarMeusDados,
   vincularWhatsapp,
+  listarConquistas,
 } from "../services/api";
 import DeleteAccountModal from "../components/profile/DeleteAccountModal";
+import LevelBadge from "../components/gamification/LevelBadge";
+import XpBar from "../components/gamification/XpBar";
 import LegalLinks from "../components/legal/LegalLinks";
 import { LEGAL_UPDATED_AT, LEGAL_VERSION } from "../lib/legal";
 import { pushToast } from "../lib/toast";
@@ -20,7 +23,7 @@ import "../styles/pages/profile.css";
  * (o idioma e trocado aqui e fica salvo em localStorage) e as cores vem dos
  * tokens, entao a tela acompanha o tema claro e escuro.
  */
-function Profile({ nome, email, voltar, sair, onOpenLegal = () => {} }) {
+function Profile({ nome, email, perfil, voltar, sair, onOpenLegal = () => {}, onNavigate }) {
   const { t, i18n } = useTranslation();
   const [waTelefone, setWaTelefone] = useState("");
   const [waVinculado, setWaVinculado] = useState(false);
@@ -31,6 +34,10 @@ function Profile({ nome, email, voltar, sair, onOpenLegal = () => {} }) {
   const [baixando, setBaixando] = useState(false);
   const [desvinculando, setDesvinculando] = useState(false);
   const [excluirAberto, setExcluirAberto] = useState(false);
+  // Conquistas do Modo Consciente: carregadas ao abrir o perfil (uma chamada, so
+  // quando esta tela e aberta). O nivel/XP vem por prop, do estado do App — a mesma
+  // fonte do chip do cabecalho, para os dois nunca discordarem.
+  const [conquistas, setConquistas] = useState(null);
 
   useEffect(() => {
     consultarWhatsapp()
@@ -41,6 +48,23 @@ function Profile({ nome, email, voltar, sair, onOpenLegal = () => {} }) {
       })
       .catch(() => {});
   }, []);
+
+  // Conquistas do perfil. Falha aqui nao derruba a secao: o nivel e o XP continuam
+  // aparecendo (vem do estado do App); so a faixa de badges fica escondida.
+  useEffect(() => {
+    let ativo = true;
+    listarConquistas()
+      .then((dados) => {
+        if (ativo) setConquistas(dados);
+      })
+      .catch(() => {
+        if (ativo) setConquistas(null);
+      });
+    return () => {
+      ativo = false;
+    };
+  }, []);
+
 
   function trocarIdioma(event) {
     const idioma = event.target.value;
@@ -141,6 +165,66 @@ function Profile({ nome, email, voltar, sair, onOpenLegal = () => {} }) {
           <p className="profile-account">{email}</p>
         </div>
       </section>
+
+      {/* Modo Consciente: onde o titular esta (nivel, XP, ofensiva) e o que ja
+          conquistou. Vem antes da grade de configuracoes de proposito — progresso e
+          a primeira coisa que a pessoa quer ver no proprio perfil.
+          Secao de largura total: o anel de nivel e a faixa de badges precisam de
+          espaco, e nao de uma coluna estreita da grade. */}
+      <section className="card card--pad-lg profile-gamification">
+        <div className="profile-card-head">
+          <span className="profile-card-icon profile-card-icon--level">
+            <FaTrophy />
+          </span>
+          <h3 className="card-title">{t("gamification.title")}</h3>
+          {onNavigate ? (
+            <button type="button" className="btn btn--ghost btn--sm" onClick={() => onNavigate("jornada")}>
+              {t("gamification.actions.jornada")}
+            </button>
+          ) : null}
+        </div>
+
+        <div className="profile-gamification-body">
+          <LevelBadge perfil={perfil} />
+          <div className="profile-gamification-side">
+            <XpBar perfil={perfil} />
+            {conquistas ? (
+              <p className="profile-gamification-summary">
+                {t("gamification.achievements.summary", {
+                  done: conquistas.desbloqueadas,
+                  total: conquistas.total,
+                })}
+              </p>
+            ) : null}
+          </div>
+        </div>
+
+        {conquistas && conquistas.desbloqueadas > 0 ? (
+          <ul className="achievement-strip">
+            {conquistas.conquistas
+              .filter((item) => item.desbloqueada)
+              .slice(0, 3)
+              .map((item) => (
+                <li key={item.codigo} className="achievement is-unlocked">
+                  <span className="achievement-icon" aria-hidden="true">
+                    <FaTrophy />
+                  </span>
+                  <div className="achievement-text">
+                    <span className="achievement-name">
+                      {t("gamification.achievements." + item.codigo)}
+                    </span>
+                    <span className="achievement-hint">
+                      {t("gamification.achievements." + item.codigo + "Hint")}
+                    </span>
+                  </div>
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <p className="profile-hint">{t("gamification.achievements.none")}</p>
+        )}
+      </section>
+
 
       <div className="profile-grid">
         <section className="card card--pad-lg profile-card">

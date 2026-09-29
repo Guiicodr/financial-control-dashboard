@@ -1,0 +1,671 @@
+/* ==========================================================================
+   Finanly - Modo Consciente (UI)
+   Selo de nivel, barra de XP, cartao de missao, badges, jornada, mentora e os
+   modais de check-in/recompensa. Tudo sobre os tokens de tokens.css, entao
+   acompanha tema claro e escuro sem regra propria.
+   ========================================================================== */
+
+/* ------------------------------- Nivel (selo) ------------------------------- */
+
+.level-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.level-ring-wrap {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  flex-shrink: 0;
+}
+
+.level-ring {
+  display: block;
+}
+
+.level-ring-track {
+  stroke: var(--track);
+}
+
+.level-ring-value {
+  stroke: var(--accent);
+  transition: stroke-dashoffset .6s var(--ease);
+}
+
+.level-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.level-number {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.level-label {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.level-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.level-title {
+  margin: 0;
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.level-xp,
+.level-next,
+.level-streak {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.level-streak {
+  color: var(--accent-ink);
+  font-weight: var(--fw-semibold);
+}
+
+/* Chip compacto do cabecalho (sidebar / topbar) */
+.level-compact {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-inset);
+}
+
+.level-compact-number {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--accent-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------- Missao -------------------------------- */
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.mission-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  /* A barra lateral colorida e o tom da missao: no ritmo, atencao ou limite. */
+  border-left: 3px solid var(--border-strong);
+}
+
+.mission-card--positive { border-left-color: var(--success); }
+.mission-card--warning { border-left-color: var(--warning); }
+.mission-card--danger { border-left-color: var(--danger); }
+.mission-card--neutral { border-left-color: var(--investment); }
+
+.mission-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.mission-kind {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.mission-title {
+  margin: 2px 0 0;
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.mission-status {
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+}
+
+.mission-status--positive { background: var(--success-soft); color: var(--success); }
+.mission-status--warning { background: var(--warning-soft); color: var(--warning); }
+.mission-status--danger { background: var(--danger-soft); color: var(--danger); }
+.mission-status--neutral { background: var(--surface-inset); color: var(--text-secondary); }
+
+.mission-values {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.mission-values strong {
+  font-size: var(--fs-h3);
+  color: var(--text-primary);
+}
+
+.mission-values span {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.mission-track {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--track);
+  overflow: hidden;
+}
+
+.mission-track-value {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  transition: width .5s var(--ease);
+}
+
+.mission-card--danger .mission-track-value { background: var(--danger); }
+.mission-card--warning .mission-track-value { background: var(--warning); }
+.mission-card--neutral .mission-track-value { background: var(--investment); }
+
+.mission-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.mission-flag {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+}
+
+.mission-flag.is-ok { background: var(--success-soft); color: var(--success); }
+.mission-flag.is-warn { background: var(--warning-soft); color: var(--warning); }
+
+.mission-days::before { content: "· "; }
+.mission-xp {
+  margin-left: auto;
+  color: var(--accent-ink);
+  font-weight: var(--fw-semibold);
+}
+
+
+/* -------------------------------- Barra de XP -------------------------------- */
+
+.xp-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.xp-bar-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--fs-sm);
+}
+
+.xp-bar-label {
+  color: var(--text-primary);
+  font-weight: var(--fw-semibold);
+}
+
+.xp-bar-hint {
+  color: var(--text-secondary);
+}
+
+.xp-bar-track {
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--track);
+  overflow: hidden;
+}
+
+.xp-bar-value {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  transition: width .6s var(--ease);
+}
+
+/* ------------------------------ Conquistas ------------------------------ */
+
+.achievement-grid {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.achievement {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.achievement.is-locked {
+  opacity: .55;
+}
+
+.achievement.is-unlocked {
+  border-color: var(--border-strong);
+  background: var(--accent-soft);
+}
+
+.achievement-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--surface-inset);
+  color: var(--text-muted);
+}
+
+.achievement.is-unlocked .achievement-icon {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.achievement-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.achievement-name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+}
+
+.achievement-hint {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+.achievement-xp {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--accent-ink);
+  white-space: nowrap;
+}
+
+/* -------------------------------- Jornada -------------------------------- */
+
+.journey-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journey-step {
+  position: relative;
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-4) 0 var(--space-4) 0;
+}
+
+/* Linha de ligacao entre as etapas: o "caminho" da jornada. */
+.journey-step::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 40px;
+  bottom: -4px;
+  width: 1px;
+  background: var(--border);
+}
+
+.journey-step:last-of-type::before {
+  display: none;
+}
+
+.journey-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-inset);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  z-index: 1;
+}
+
+.journey-step--positive .journey-marker {
+  background: var(--success-soft);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.journey-step--accent .journey-marker {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.journey-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.journey-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.journey-title {
+  margin: 0;
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.journey-step--muted .journey-title {
+  color: var(--text-secondary);
+}
+
+.journey-xp {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--accent-ink);
+  white-space: nowrap;
+}
+
+.journey-hint {
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.journey-date {
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.journey-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.journey-track {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--track);
+  overflow: hidden;
+}
+
+.journey-track-value {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  transition: width .5s var(--ease);
+}
+
+.journey-percent {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-foot {
+  margin-top: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+/* -------------------------------- Mentora -------------------------------- */
+
+.mentor-card .card-subtitle {
+  margin-bottom: 0;
+}
+
+.mentor-empty {
+  margin: var(--space-4) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.mentor-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mentor-tip {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2) var(--space-3);
+  align-items: start;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-strong);
+  background: var(--surface-2);
+}
+
+.mentor-tip--positive { border-left-color: var(--success); }
+.mentor-tip--warning { border-left-color: var(--warning); }
+.mentor-tip--danger { border-left-color: var(--danger); }
+.mentor-tip--neutral { border-left-color: var(--accent); }
+
+.mentor-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 2px;
+  color: var(--text-secondary);
+}
+
+.mentor-tip--danger .mentor-icon { color: var(--danger); }
+.mentor-tip--warning .mentor-icon { color: var(--warning); }
+.mentor-tip--positive .mentor-icon { color: var(--success); }
+
+.mentor-text {
+  font-size: var(--fs-sm);
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.mentor-action {
+  grid-column: 2;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--accent-ink);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+}
+
+.mentor-action:hover {
+  text-decoration: underline;
+}
+
+/* -------------------------------- Check-in -------------------------------- */
+
+.review-options,
+.review-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.review-option {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.review-option.is-done {
+  opacity: .7;
+}
+
+.review-option-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-option-text strong {
+  color: var(--text-primary);
+  font-size: var(--fs-body);
+}
+
+.review-option-hint {
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+.review-option-competencia {
+  grid-column: 1;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-situation {
+  margin: 0;
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.review-competencia {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+/* ------------------------------- Recompensa ------------------------------- */
+
+.reward-dialog {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.reward-burst {
+  display: inline-block;
+  font-size: var(--fs-display);
+  font-weight: var(--fw-black);
+  color: var(--accent-ink);
+  font-variant-numeric: tabular-nums;
+  animation: reward-pop .5s var(--ease) both;
+}
+
+.reward-kicker {
+  margin: var(--space-2) 0 0;
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+}
+
+.reward-xp {
+  margin: var(--space-2) 0 0;
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.reward-level {
+  margin: var(--space-3) 0 0;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  color: var(--accent-ink);
+}
+
+.reward-hint {
+  margin: var(--space-3) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+@keyframes reward-pop {
+  from { transform: scale(.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  to { transform: scale(1); }
+}
+
+/* Com movimento reduzido, nada se mexe: o numero aparece pronto. */
+@media (prefers-reduced-motion: reduce) {
+  .reward-burst { animation: none; }
+  .xp-bar-value,
+  .mission-track-value,
+  .journey-track-value,
+  .level-ring-value { transition: none; }
+}
+
+

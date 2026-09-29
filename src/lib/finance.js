@@ -32,6 +32,16 @@ export const EXPENSE_CATEGORIES = [
   "OUTROS",
 ];
 
+/**
+ * Modo Consciente: por que o gasto aconteceu.
+ *
+ * A ordem vai do mais previsivel ao mais impulsivo de proposito: a lista conta
+ * uma historia (necessidade -> desejo -> impulso) e deixa claro, sem julgamento,
+ * onde mora a economia possivel. Os rotulos vem do i18n (`tx.natureza*`) e a
+ * marcacao e sempre opcional — quem marca ganha XP extra.
+ */
+export const NATUREZAS_DO_GASTO = ["NECESSIDADE", "DESEJO", "IMPULSO"];
+
 export const CATEGORY_COLORS = {
   ALIMENTACAO: "#F97316",
   TRANSPORTE: "#38BDF8",

@@ -1,7 +1,7 @@
 import { MdDashboard } from "react-icons/md"
 import { FaMoneyBillWave } from "react-icons/fa"
 import { FaBullseye } from "react-icons/fa"
-import { FaWhatsapp, FaBriefcase, FaWallet, FaChartColumn } from "react-icons/fa6"
+import { FaWhatsapp, FaBriefcase, FaWallet, FaChartColumn, FaTrophy } from "react-icons/fa6"
 import { Suspense, lazy, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 // As paginas entram por import dinamico: cada uma vira um chunk proprio em vez
@@ -19,10 +19,14 @@ const Reports = lazy(() => import("./pages/Reports"));
 // Documentos legais: chunk proprio, baixado so quando o titular abre os Termos
 // ou o Aviso de Privacidade (nao entram no primeiro paint).
 const Legal = lazy(() => import("./pages/Legal"));
+// Jornada: chunk proprio — a tela do Modo Consciente (XP, missoes, badges, mentora).
+const Jornada = lazy(() => import("./pages/Jornada"));
+
 import AuthPage from "./components/AuthPage";
 import HomePage from "./components/home/HomePage";
 import AppShell from "./components/layout/AppShell";
 import TransactionModal from "./components/transactions/TransactionModal";
+import RewardModal from "./components/gamification/RewardModal";
 import AuroraBackground from "./components/ui/AuroraBackground";
 import ToastHost from "./components/ui/ToastHost";
 import Skeleton from "./components/ui/Skeleton";
@@ -42,7 +46,9 @@ import {
   listarRendas,
   criarRenda,
   atualizarRenda,
-  deletarRendaPorId
+  deletarRendaPorId,
+  buscarPerfilGamificacao,
+  autenticar
 } from "./services/api"
 import { registrarMovimentoMeta as salvarMovimentoMeta } from "./services/api"
 import { consultarWhatsapp, abrirChatWhatsapp } from "./services/api"
@@ -54,6 +60,7 @@ const NAV_ITEMS = [
   { id: "relatorios", labelKey: "nav.reports", icon: <FaChartColumn /> },
   { id: "rendas", labelKey: "nav.income", icon: <FaBriefcase /> },
   { id: "metas", labelKey: "nav.goals", icon: <FaBullseye /> },
+  { id: "jornada", labelKey: "nav.journey", icon: <FaTrophy /> },
 ];
 
 /**
@@ -95,6 +102,12 @@ function App() {
   const [objetivos, setObjetivos] = useState([])
   const [rendas, setRendas] = useState([])
   const [waBotNumero, setWaBotNumero] = useState("")
+  // Modo Consciente: o perfil de gamificacao fica aqui porque o nivel aparece na
+  // casca do app (chip do cabecalho) e na tela Jornada — uma fonte so para os dois.
+  const [perfilGamificacao, setPerfilGamificacao] = useState(null)
+  // Perfil da leitura ANTERIOR: e o que permite detectar o XP ganho e comemorar.
+  const [gamificacaoAnterior, setGamificacaoAnterior] = useState(null)
+  const [recompensa, setRecompensa] = useState(null)
   const [autenticado, setAutenticado] = useState(() => Boolean(localStorage.getItem("accessToken")))
   const [usuario, setUsuario] = useState(() => ({ nome: localStorage.getItem("userName") || localStorage.getItem("userEmail")?.split("@")[0] || "", email: localStorage.getItem("userEmail") || "" }))
   // Area publica: "inicio" (primeira tela) | "entrar" | "cadastro".
@@ -142,12 +155,20 @@ function App() {
         setCarregando(false)
         pushToast(t("common.loadError"), "danger")
       })
+
+    // Todo lancamento registrado pode pontuar: reler o perfil aqui e o que faz o
+    // "+XP" aparecer na hora, sem o usuario precisar abrir a tela Jornada.
+    carregarGamificacao()
   }
 
   function carregarObjetivos() {
     listarObjetivos()
       .then((data) => setObjetivos(data))
       .catch(() => pushToast(t("common.loadError"), "danger"))
+
+    // Aporte em meta paga XP e move marcos: reler o perfil mantem o chip do nivel e a
+    // comemoracao coerentes com o que acabou de acontecer.
+    carregarGamificacao()
   }
 
   function carregarRendas() {
@@ -159,12 +180,79 @@ function App() {
       .then(setSaldo)
   }
 
+  /**
+   * Le o perfil de gamificacao (XP, nivel, ofensiva, check-ins pendentes).
+   *
+   * A comparacao com a leitura ANTERIOR acontece aqui, e nao em um efeito: efeito que
+   * chama setState dispara renderizacao em cascata (o ESLint do projeto reprova, com
+   * razao). Como a funcao e recriada a cada render, o closure enxerga o valor anterior
+   * de verdade — e nas acoes do usuario (que sao quem chama isto depois do primeiro
+   * carregamento) ele esta atualizado.
+   *
+   * Nao trata erro com toast: o Modo Consciente e uma camada de engajamento, e falhar
+   * nele nao pode poluir a tela de quem so quer ver o saldo. A tela Jornada mostra o
+   * proprio aviso quando ela mesma nao consegue carregar.
+   */
+  function carregarGamificacao() {
+    return buscarPerfilGamificacao()
+      .then((perfil) => {
+        const xpAnterior = gamificacaoAnterior ? Number(gamificacaoAnterior.xpTotal || 0) : null
+        const xpAtual = Number(perfil.xpTotal || 0)
+
+        // Primeira leitura nao comemora (abrir o app nao pode virar premio); depois
+        // disso, qualquer XP ganho aparece com o valor exato que o servidor creditou.
+        if (xpAnterior !== null && xpAtual > xpAnterior) {
+          setRecompensa({
+            xp: xpAtual - xpAnterior,
+            nivel: perfil.nivel,
+            nivelAnterior: gamificacaoAnterior.nivel,
+            tituloNivel: perfil.tituloNivel,
+          })
+        }
+
+        setGamificacaoAnterior(perfil)
+        setPerfilGamificacao(perfil)
+        return perfil
+      })
+      .catch(() => null)
+  }
+
+
+  /**
+   * Atalho de DESENVOLVIMENTO: entra direto com o usuario de teste da API.
+   *
+   * Existe para inspecionar a interface sem passar pela tela de login. Todo o bloco
+   * vive dentro de `import.meta.env.DEV`, que o Vite substitui por `false` no build de
+   * producao — o minificador remove o codigo, entao isto nao existe em producao. Fica
+   * ligado/desligado por VITE_DEV_AUTOLOGIN no .env: remover a variavel (ou por
+   * false) devolve a tela de login normal.
+   *
+   * As credenciais sao as do usuario semeado pelo profile dev da API — as mesmas que o
+   * botao "Dev (conta de teste)" preenche, e que ja estao publicas no repositorio.
+   */
+  useEffect(() => {
+    if (!import.meta.env.DEV || import.meta.env.VITE_DEV_AUTOLOGIN !== "true") return
+    if (localStorage.getItem("accessToken")) return
+
+    autenticar("teste@teste.com", "teste123")
+      .then((dados) => {
+        localStorage.setItem("accessToken", dados.accessToken || "")
+        localStorage.setItem("refreshToken", dados.refreshToken || "")
+        localStorage.setItem("userName", dados.name || "")
+        localStorage.setItem("userEmail", "teste@teste.com")
+        setUsuario({ nome: dados.name, email: "teste@teste.com" })
+        setAutenticado(true)
+      })
+      // API fora do ar? Cai na tela de login normalmente, sem barulho.
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (!autenticado) return
     carregarDados()
     carregarObjetivos()
     carregarRendas()
+    carregarGamificacao()
     consultarWhatsapp().then((dados) => setWaBotNumero(dados.botNumero || "")).catch(() => {})
 
     const abrirGoals = () => {
@@ -234,6 +322,7 @@ function App() {
       tipo: "SAIDA",
       data: dados.data,
       categoria: dados.categoria,
+      natureza: dados.natureza,
     }).then(() => {
       carregarDados()
       pushToast(t("tx.savedExpense"))
@@ -247,6 +336,7 @@ function App() {
       tipo: "SAIDA",
       data: dados.data,
       categoria: dados.categoria,
+      natureza: dados.natureza,
     }).then(() => {
       carregarDados()
       pushToast(t("tx.savedEdit"))
@@ -391,6 +481,7 @@ function App() {
       activeId={telaAtual}
       onNavigate={setTelaAtual}
       user={usuario}
+      perfil={perfilGamificacao}
       onOpenProfile={() => setTelaAtual("perfil")}
       theme={theme}
       onToggleTheme={toggleTheme}
@@ -429,6 +520,7 @@ function App() {
           onNewTransaction={() => setModal({ mode: "create" })}
           onOpenTransactions={() => setTelaAtual("transacoes")}
           onOpenReports={() => setTelaAtual("relatorios")}
+          onNavigate={setTelaAtual}
         />
       )}
 
@@ -460,6 +552,14 @@ function App() {
         />
       )}
 
+      {telaAtual === "jornada" && (
+        <Jornada
+          perfil={perfilGamificacao}
+          onRefreshPerfil={carregarGamificacao}
+          onNavigate={setTelaAtual}
+        />
+      )}
+
       {telaAtual === "rendas" && (
         <Income
           rendas={rendas}
@@ -474,6 +574,8 @@ function App() {
         <Profile
           nome={usuario.nome}
           email={usuario.email}
+          perfil={perfilGamificacao}
+          onNavigate={setTelaAtual}
           onOpenLegal={abrirDocumento}
           voltar={() => setTelaAtual("dashboard")}
           sair={() => trocarTela(() => {
@@ -495,6 +597,7 @@ function App() {
         onClose={() => setModal(null)}
         onSubmit={modal && modal.mode === "edit" ? editarLancamento : criarLancamento}
       />
+      <RewardModal recompensa={recompensa} onClose={() => setRecompensa(null)} />
       <ToastHost />
     </>
   )

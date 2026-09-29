@@ -9,10 +9,11 @@ import AllocationDonut from "../components/dashboard/AllocationDonut";
 import RecentTransactions from "../components/dashboard/RecentTransactions";
 import MonthlyReportCard from "../components/dashboard/MonthlyReportCard";
 import InsightsPanel from "../components/dashboard/InsightsPanel";
+import MentorCard from "../components/gamification/MentorCard";
 import PeriodSelector from "../components/ui/PeriodSelector";
 import Card from "../components/ui/Card";
 import EmptyState from "../components/ui/EmptyState";
-import { listarAlertasOrcamento, listarNotificacoes } from "../services/api";
+import { listarAlertasOrcamento, listarDicasMentora, listarNotificacoes } from "../services/api";
 import {
   GOAL_TYPES,
   balanceAt,
@@ -33,11 +34,13 @@ const PERIOD_OPTIONS = [3, 6, 12];
  * regras do servidor (lib/finance). Nada e inventado; sem base de comparacao
  * o indicador correspondente simplesmente nao aparece.
  */
-function Dashboard({ saldo, transacoes, rendas, objetivos, nomeUsuario, theme, onNewTransaction, onOpenTransactions, onOpenReports }) {
+function Dashboard({ saldo, transacoes, rendas, objetivos, nomeUsuario, theme, onNewTransaction, onOpenTransactions, onOpenReports, onNavigate }) {
   const { t, i18n } = useTranslation();
   const [period, setPeriod] = useState(6);
   const [budgets, setBudgets] = useState([]);
   const [notificacoes, setNotificacoes] = useState([]);
+  // Dicas da mentora: quem decide o que dizer e o servidor (ver MentorService na API).
+  const [dicas, setDicas] = useState([]);
   const [hour, setHour] = useState(() => new Date().getHours());
 
   useEffect(() => {
@@ -47,11 +50,14 @@ function Dashboard({ saldo, transacoes, rendas, objetivos, nomeUsuario, theme, o
 
   useEffect(() => {
     let ativo = true;
-    Promise.allSettled([listarAlertasOrcamento(), listarNotificacoes()]).then((resultados) => {
+    // As tres leem em paralelo e falham de forma independente: perder as dicas nao pode
+    // esconder alertas e avisos (e vice-versa).
+    Promise.allSettled([listarAlertasOrcamento(), listarNotificacoes(), listarDicasMentora()]).then((resultados) => {
       if (!ativo) return;
-      const [orcamentos, avisos] = resultados;
+      const [orcamentos, avisos, mentoria] = resultados;
       if (orcamentos.status === "fulfilled") setBudgets(orcamentos.value || []);
       if (avisos.status === "fulfilled") setNotificacoes(avisos.value || []);
+      if (mentoria.status === "fulfilled") setDicas(mentoria.value || []);
     });
     return () => {
       ativo = false;
@@ -183,6 +189,10 @@ function Dashboard({ saldo, transacoes, rendas, objetivos, nomeUsuario, theme, o
       <div className="dashboard-panels dashboard-panels--split">
         <RecentTransactions transacoes={transacoes} onSeeAll={onOpenTransactions} />
         <div className="dashboard-side">
+          {/* Mentora primeiro: ela diz o que FAZER agora; os paineis abaixo mostram o
+              que esta acontecendo (relatorio do mes, tendencia, concentracao). */}
+          <MentorCard dicas={dicas} onNavigate={onNavigate} />
+
           <MonthlyReportCard
             current={{ income: mesIncome, expenses: mesExpenses }}
             previous={{ income: prevIncome, expenses: prevExpenses }}

@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Finanly - Jornada (Modo Consciente)
+   Layout da tela: nivel no topo, colunas (missoes/jornada | mentora/conquistas).
+   ========================================================================== */
+
+.jornada-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.jornada-level-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.jornada-level-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+  min-width: 260px;
+}
+
+.jornada-checkins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jornada-checkins li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+}
+
+.jornada-checkins li span {
+  font-weight: var(--fw-medium);
+  color: var(--text-secondary);
+}
+
+.jornada-checkins li.is-pending {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.jornada-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.jornada-main,
+.jornada-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+.jornada-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.jornada-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.jornada-section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.jornada-section-note {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+.achievements-card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Uma coluna no tablet/telefone: a mentora e os badges vao para o fim da pagina
+   em vez de espremer duas colunas em telas estreitas. */
+@media (max-width: 1080px) {
+  .jornada-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .jornada-level-card {
+    gap: var(--space-5);
+  }
+
+  .level-badge {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+}

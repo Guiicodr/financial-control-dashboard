@@ -49,6 +49,36 @@ Allows users to:
 - Track progress with a visual progress bar
 - Delete goals
 
+## Modo Consciente (gamificação)
+
+A tela **Jornada** é o diferencial do produto: transforma o app de "onde eu vejo
+números" em um caminho de consciência financeira com XP, missões, conquistas e uma
+mentora que comenta os próprios dados do usuário.
+
+O que aparece lá:
+
+- **Nível e XP** (anel de progresso, título do nível, ofensiva de semanas revisadas) —
+  staff vem pronto do servidor, inclusive a curva de níveis;
+- **Check-in semanal/mensal** — o botão que vale XP, com a situação real devolvida pela
+  API (`PONTUADA`, `JA_REVISADA`, `SEM_PENDENCIA`);
+- **Missões do mês** — cada categoria orçada vira um compromisso com progresso, ritmo e
+  dias restantes; as metas aparecem como missões de longo prazo com próximo marco;
+- **Jornada de evolução** — oito etapas, uma ativa por vez (as seguintes ficam
+  bloqueadas porque o XP delas só é pago na ordem);
+- **Conquistas** — catálogo completo, com as bloqueadas em silhueta;
+- **Mentoria** — dicas priorizadas, cada uma com um botão que leva à tela da ação.
+
+O XP ganho em qualquer ação aparece em um modal ("+XP" e, quando for o caso, "subiu para
+o nível N"), calculado pelo delta do perfil antes/depois — nunca estimado no front.
+
+**Toda a regra vive na API.** O front não recalcula nível, critério de conquista nem
+"está no ritmo?": ele exibe, traduz os códigos no i18n (pt-BR e en-US) e anima. Ver
+`src/lib/gamification.js` e `src/pages/Jornada.jsx`.
+
+> Nota: a barra de navegação inferior (mobile) mostra os cinco primeiros itens do menu,
+> então **Jornada** entra pela lista lateral / dock no desktop. Ajustar essa ordem é uma
+> decisão de produto, não técnica.
+
 ## Technologies
 
 - React

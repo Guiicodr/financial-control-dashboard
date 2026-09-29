@@ -320,3 +320,48 @@ export function excluirConta(senha) {
 export function desvincularWhatsapp() {
   return apiFetch("/usuario/whatsapp", { method: "DELETE" }).then(handleResponse);
 }
+
+// ===== Modo Consciente (gamificacao) =====
+//
+// O backend concentra TODA a regra (XP, niveis, missoes, badges, jornada, dicas) e
+// devolve tudo pronto, inclusive os codigos que o app traduz. Nada aqui recalcula
+// curva de nivel nem criterio de conquista: o front so exibe e traduz.
+
+/** XP, nivel, ofensiva, trilha de niveis, extrato recente e o que esta pendente. */
+export function buscarPerfilGamificacao() {
+  return apiFetch("/gamificacao/perfil").then(handleResponse);
+}
+
+/** Missoes do mes (contencao por categoria) + metas projetadas como missao. */
+export function listarMissoes() {
+  return apiFetch("/gamificacao/missoes").then(handleResponse);
+}
+
+/** Catalogo de conquistas com o status do titular. */
+export function listarConquistas() {
+  return apiFetch("/gamificacao/conquistas").then(handleResponse);
+}
+
+/** Jornada de evolucao: etapa atual, progresso e caminho completo. */
+export function listarJornada() {
+  return apiFetch("/gamificacao/jornada").then(handleResponse);
+}
+
+/** Dicas da mentora, da mais urgente para a menos. */
+export function listarDicasMentora() {
+  return apiFetch("/gamificacao/dicas").then(handleResponse);
+}
+
+/**
+ * Registra o check-in (SEMANAL ou MENSAL).
+ *
+ * A resposta traz o XP ganho naquela chamada, a situacao
+ * (PONTUADA | JA_REVISADA | SEM_PENDENCIA) e o perfil atualizado — e o payload que
+ * anima o "+XP" na tela.
+ */
+export function registrarRevisao(tipo) {
+  return apiFetch("/gamificacao/revisoes", {
+    method: "POST",
+    body: JSON.stringify({ tipo }),
+  }).then(handleResponse);
+}

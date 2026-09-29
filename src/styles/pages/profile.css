@@ -287,3 +287,59 @@
     width: 100%;
   }
 }
+
+/* ========================== Modo Consciente no perfil ==========================
+   Secao de largura total: anel de nivel + barra de XP + faixa de conquistas.
+   Fica acima da grade de configuracoes porque progresso e a primeira coisa que a
+   pessoa quer ver no proprio perfil. */
+
+.profile-gamification {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin: var(--space-6) 0;
+}
+
+.profile-card-icon--level {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+.profile-gamification-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+.profile-gamification-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 240px;
+}
+
+/* O CTA vai para a ponta direita do cabecalho: o icone e o titulo continuam juntos,
+   e o botao nao fica colado no texto. */
+.profile-gamification .profile-card-head .btn {
+  margin-left: auto;
+}
+
+.profile-gamification-summary {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+/* Uma linha no desktop; empilha no mobile sem precisar de media query extra. */
+.achievement-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+

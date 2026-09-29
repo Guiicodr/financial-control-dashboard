@@ -3,6 +3,7 @@ import { FaBars, FaXmark } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import ThemeToggle from "../ui/ThemeToggle";
 import Dock from "../ui/Dock";
+import LevelBadge from "../gamification/LevelBadge";
 import { initialsOf } from "../../lib/format";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import "../../styles/app-shell.css";
@@ -32,6 +33,7 @@ function AppShell({
   activeId,
   onNavigate,
   user,
+  perfil,
   onOpenProfile,
   theme,
   onToggleTheme,
@@ -118,6 +120,7 @@ function AppShell({
               <strong>{user && (user.nome || user.email)}</strong>
               <span>{t("nav.profile")}</span>
             </span>
+            {perfil ? <LevelBadge perfil={perfil} compacto /> : null}
           </button>
         </div>
       </aside>
